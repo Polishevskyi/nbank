@@ -1,5 +1,5 @@
 ### Get auth token
-### Admin Token: Authorization: Basic YWRtaW46YWRtaW4=
+### Admin Token: Authorization: Basic YWRtaW46YWRtaW4= test
 POST http://localhost:4111/api/v1/auth/login
 Content-Type: application/json
 
