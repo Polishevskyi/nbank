@@ -1,0 +1,276 @@
+### Positive test: Deposit of money by the User
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 100
+}
+
+### Negative Test: Amount is zero
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "accountId": 1,
+  "amount": 0
+}
+
+### Negative Test: Amount is negative
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "accountId": 1,
+  "amount": -50
+}
+
+### Negative Test: Amount is not a number (string)
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "accountId": 1,
+  "amount": "abc"
+}
+
+### Negative Test: Amount is too large
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "accountId": 1,
+  "amount": 9999999999999
+}
+
+### Negative Test: Amount is a decimal
+POST http://localhost:4111/api/v1/accounts/deposit
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "accountId": 1,
+  "amount": 50.50
+}
+
+### Positive Test: Successful transfer
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 50
+}
+
+### Negative Test: Amount is zero
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 0
+}
+
+### Negative Test: Amount is negativ
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": -50
+}
+
+### Negative Test: Amount is not a number
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": "abc"
+}
+
+### Negative Test: Amount exceeds available balance
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 999999
+}
+
+### Negative Test: senderAccountId does not exist
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 999,
+  "receiverAccountId": 2,
+  "amount": 50
+}
+
+### Negative Test: receiverAccountId does not exist
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 999,
+  "amount": 50
+}
+
+### Negative Test: senderAccountId is not a number
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": "abc",
+  "receiverAccountId": 2,
+  "amount": 50
+}
+
+### Negative Test: Missing senderAccountId
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "receiverAccountId": 2,
+  "amount": 50
+}
+
+### Negative Test: Missing receiverAccountId
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": "abc",
+  "amount": 50
+}
+
+### Negative Test: Missing amount
+POST http://localhost:4111/api/v1/accounts/transfer
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "senderAccountId": "abc",
+  "receiverAccountId": 2
+}
+
+### Negative Test: Attempt to transfer to the same account
+ POST http://localhost:4111/api/v1/accounts/transfer
+    accept: */*
+    Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+    Content-Type: application/json
+
+ {
+   "senderAccountId": 1,
+   "receiverAccountId": 1,
+   "amount": 50
+ }
+
+### Positive Test: Successful name update
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": "New Name"
+}
+
+### Negative Test: Name is too short (2 characters)
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": "AB"
+}
+
+### Negative Test: Name is too long (51 characters)
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": "This is a very long name that exceeds fifty characters"
+}
+
+### Negative Test: Name contains invalid characters (special symbols)
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": "Invalid Name!@#$"
+}
+
+### Negative Test: Name contains invalid characters (cyrillic with latin)
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": "Иван abc"
+}
+
+### Negative Test: Name is not a string (number)
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": 12345
+}
+
+### Negative Test: Name is empty string
+PUT http://localhost:4111/api/v1/customer/profile
+accept: */*
+Authorization: Basic c2VyaGlpc3BoterOlRlc3QxMjNA
+Content-Type: application/json
+
+{
+  "name": ""
+}
