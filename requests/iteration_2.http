@@ -1,4 +1,4 @@
-### Positive test: Deposit of money by the user
+### Positive test: Deposit of money by the User
 POST http://localhost:4111/api/v1/accounts/deposit
 accept: */*
 Authorization: Basic c2VyaGlpc3Bvd2VyOlRlc3QxMjNA

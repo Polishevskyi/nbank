@@ -19,7 +19,7 @@ Authorization: Basic YWRtaW46YWRtaW4=
   "role": "USER"
 }
 
-### Negative test: Admin cannot create new user with blank username
+### Negative test: Admin cannot create new User with blank username
 POST http://localhost:4111/api/v1/admin/users
 Content-Type: application/json
 Authorization: Basic YWRtaW46YWRtaW4=
