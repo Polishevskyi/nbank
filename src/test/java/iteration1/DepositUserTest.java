@@ -2,16 +2,16 @@ package iteration1;
 
 import generators.RandomData;
 import models.AccountUserResponse;
-import models.DepositRequest;
 import models.CreateUserRequest;
+import models.DepositRequest;
 import models.UserRole;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import requests.DepositRequester;
 import requests.AdminCreateUserRequester;
 import requests.CreateAccountRequester;
+import requests.DepositRequester;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class DepositUserTest extends BaseTest {
 
     @ParameterizedTest
-    @ValueSource(floats = {4999, 5000})
+    @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     public void userCanAddDepositWithCorrectData(float balance) {
         CreateUserRequest userRequest = CreateUserRequest.builder()
                 .username(RandomData.getUsername())
@@ -49,9 +49,10 @@ public class DepositUserTest extends BaseTest {
     }
 
     public static Stream<Arguments> userIncorrectData() {
-        return Stream.of(Arguments.of(-1, "Invalid account or amount"),
-                Arguments.of(0, "Invalid account or amount"),
-                Arguments.of(5001, "Deposit amount exceeds the 5000 limit"));
+        return Stream.of(Arguments.of(-1.0f, "Invalid account or amount"),
+                Arguments.of(0.0f, "Invalid account or amount"),
+                Arguments.of(5001.0f, "Deposit amount exceeds the 5000 limit"),
+                Arguments.of(9999999999999.0f, "Deposit amount exceeds the 5000 limit"));
     }
 
     @ParameterizedTest
