@@ -38,7 +38,7 @@ public class RequestSpecs {
                 .build();
     }
 
-    public static RequestSpecification authAsUser(String username, String password) {
+    public static RequestSpecification authAsUserSpec(String username, String password) {
         String userAuthHeader;
 
         if (!authHeaders.containsKey(username)) {

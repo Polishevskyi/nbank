@@ -14,7 +14,7 @@ public class CreateAccountTest extends BaseTest {
     public void userCanCreateAccountTest() {
         CreateUserRequest userRequest = AdminSteps.createUser();
 
-        new CrudRequester(RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+        new CrudRequester(RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
