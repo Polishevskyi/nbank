@@ -29,6 +29,12 @@ public enum Endpoint {
             "/accounts/deposit",
             DepositRequest.class,
             DepositResponse.class
+    ),
+
+    TRANSFER(
+            "/accounts/transfer",
+            TransferMoneyRequest.class,
+            TransferMoneyResponse.class
     );
 
     private final String url;

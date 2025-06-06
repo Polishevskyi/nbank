@@ -1,10 +1,7 @@
 package requests.steps;
 
-import generators.RandomData;
 import io.restassured.specification.ResponseSpecification;
-import models.CreateUserRequest;
-import models.DepositRequest;
-import models.DepositResponse;
+import models.*;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.ValidatedCrudRequester;
 import specs.RequestSpecs;
@@ -23,7 +20,7 @@ public class UserSteps {
         return depositResponse;
     }
 
-    public static DepositRequest generateDeposit(DepositResponse account){
+    public static DepositRequest generateDeposit(DepositResponse account) {
         return DepositRequest.builder()
                 .id(account.getId())
                 .balance(Math.min(ThreadLocalRandom.current().nextFloat() * (Math.nextUp(5000.0f) - 1.0f) + 1.0f, 5000.0f))
@@ -36,5 +33,13 @@ public class UserSteps {
                 Endpoint.DEPOSIT,
                 responseSpecs)
                 .post(depositRequest);
+    }
+
+    public static TransferMoneyResponse transferMoneyToAccount(TransferMoneyRequest transferMoneyRequest, CreateUserRequest userRequest, ResponseSpecification responseSpecs) {
+        return new ValidatedCrudRequester<TransferMoneyResponse>(
+                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
+                Endpoint.TRANSFER,
+                responseSpecs)
+                .post(transferMoneyRequest);
     }
 }
