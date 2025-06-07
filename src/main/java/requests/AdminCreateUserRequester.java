@@ -22,4 +22,13 @@ public class AdminCreateUserRequester extends Request<CreateUserRequest> {
                 .assertThat()
                 .spec(responseSpecification);
     }
+
+    public ValidatableResponse get() {
+        return given()
+                .spec(requestSpecification)
+                .get("/api/v1/admin/users")
+                .then()
+                .assertThat()
+                .spec(responseSpecification);
+    }
 }

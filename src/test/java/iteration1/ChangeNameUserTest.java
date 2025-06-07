@@ -9,11 +9,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import requests.AdminCreateUserRequester;
+import requests.CustomerProfileRequester;
 import requests.UpdateCustomerProfileRequester;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
+
+import static org.hamcrest.Matchers.equalTo;
 
 public class ChangeNameUserTest extends BaseTest {
 
@@ -29,13 +32,19 @@ public class ChangeNameUserTest extends BaseTest {
                 .post(userRequest);
 
         UpdateCustomerProfileRequest updateRequest = UpdateCustomerProfileRequest.builder()
-                .name("New Name")
+                .name(RandomData.getUsername() + " " + RandomData.getUsername())
                 .build();
 
         new UpdateCustomerProfileRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.requestReturnsOK())
                 .put(updateRequest);
+
+        new CustomerProfileRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get()
+                .body("name", equalTo(updateRequest.getName()));
     }
 
     public static Stream<Arguments> invalidNameData() {
@@ -60,6 +69,13 @@ public class ChangeNameUserTest extends BaseTest {
         new AdminCreateUserRequester(RequestSpecs.adminSpec(), ResponseSpecs.entityWasCreated())
                 .post(userRequest);
 
+        String initialName = new CustomerProfileRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get()
+                .extract()
+                .path("name");
+
         UpdateCustomerProfileRequest updateRequest = UpdateCustomerProfileRequest.builder()
                 .name(name)
                 .build();
@@ -68,5 +84,11 @@ public class ChangeNameUserTest extends BaseTest {
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.requestReturnsBadRequest(expectedErrorMessage))
                 .put(updateRequest);
+
+        new CustomerProfileRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get()
+                .body("name", equalTo(initialName));
     }
 }

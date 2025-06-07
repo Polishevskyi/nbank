@@ -1,7 +1,7 @@
 package iteration1;
 
 import generators.RandomData;
-import models.AccountUserResponse;
+import models.AccountsResponse;
 import models.CreateUserRequest;
 import models.DepositRequest;
 import models.UserRole;
@@ -32,7 +32,7 @@ public class DepositUserTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(userRequest);
 
-        AccountUserResponse account = new CreateAccountRequester(
+        AccountsResponse account = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);
@@ -68,7 +68,7 @@ public class DepositUserTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(userRequest);
 
-        AccountUserResponse account = new CreateAccountRequester(
+        AccountsResponse account = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);

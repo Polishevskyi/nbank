@@ -3,7 +3,7 @@ package requests;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.AccountUserResponse;
+import models.AccountsResponse;
 import models.BaseModel;
 
 import static io.restassured.RestAssured.given;
@@ -23,13 +23,13 @@ public class CreateAccountRequester extends Request {
                 .spec(responseSpecification);
     }
 
-    public AccountUserResponse postWithAccountExtractData(BaseModel model) {
+    public AccountsResponse postWithAccountExtractData(BaseModel model) {
         return given()
                 .spec(requestSpecification)
                 .post("/api/v1/accounts")
                 .then()
                 .spec(responseSpecification)
                 .extract()
-                .as(AccountUserResponse.class);
+                .as(AccountsResponse.class);
     }
 }

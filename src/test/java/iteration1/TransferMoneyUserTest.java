@@ -30,12 +30,12 @@ public class TransferMoneyUserTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(userRequest);
 
-        AccountUserResponse sourceAccount = new CreateAccountRequester(
+        AccountsResponse sourceAccount = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);
 
-        AccountUserResponse targetAccount = new CreateAccountRequester(
+        AccountsResponse targetAccount = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);
@@ -84,12 +84,12 @@ public class TransferMoneyUserTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(userRequest);
 
-        AccountUserResponse sourceAccount = new CreateAccountRequester(
+        AccountsResponse sourceAccount = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);
 
-        AccountUserResponse targetAccount = new CreateAccountRequester(
+        AccountsResponse targetAccount = new CreateAccountRequester(
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.entityWasCreated())
                 .postWithAccountExtractData(null);
