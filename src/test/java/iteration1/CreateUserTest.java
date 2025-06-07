@@ -27,20 +27,18 @@ public class CreateUserTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(createUserRequest).extract().as(CreateUserResponse.class);
 
-        softly.assertThat(createUserRequest.getUsername()).isEqualTo(createUserResponse.getUsername());
+        softly.assertThat(createUserResponse)
+                .usingRecursiveComparison()
+                .ignoringFields("password", "id", "name", "accounts")
+                .isEqualTo(createUserRequest);
         softly.assertThat(createUserRequest.getPassword()).isNotEqualTo(createUserResponse.getPassword());
-        softly.assertThat(createUserRequest.getRole()).isEqualTo(createUserResponse.getRole());
     }
 
     public static Stream<Arguments> userInvalidData() {
-        return Stream.of(
-                // username field validation
-                Arguments.of("   ", "Password33$", "USER", "username", "Username cannot be blank"),
+        return Stream.of(Arguments.of("   ", "Password33$", "USER", "username", "Username cannot be blank"),
                 Arguments.of("ab", "Password33$", "USER", "username", "Username must be between 3 and 15 characters"),
                 Arguments.of("abc$", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"),
-                Arguments.of("abc%", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots")
-        );
-
+                Arguments.of("abc%", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"));
     }
 
     @MethodSource("userInvalidData")
