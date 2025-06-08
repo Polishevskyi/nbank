@@ -35,7 +35,12 @@ public enum Endpoint {
     TRANSACTIONS(
             "/accounts/{accountId}/transactions",
             BaseModel.class,
-            TransactionsResponse.class);
+            TransactionsResponse.class),
+
+    PROFILE(
+            "/customer/profile",
+            UpdateCustomerProfileRequest.class,
+            BaseModel.class);
 
     private final String url;
     private final Class<? extends BaseModel> requestModel;

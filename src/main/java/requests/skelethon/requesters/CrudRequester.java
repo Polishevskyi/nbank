@@ -51,6 +51,17 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface 
         return null;
     }
 
+    public Object update(BaseModel model) {
+        return given()
+                .spec(requestSpecification)
+                .body(model)
+                .log().body()
+                .put("/customer/profile")
+                .then()
+                .assertThat()
+                .spec(responseSpecification);
+    }
+
     @Override
     public Object delete(long id) {
         return null;
