@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.AdminCreateUserRequester;
-import requests.CreateAccountRequester;
-import requests.DepositRequester;
-import requests.TransferMoneyRequester;
+import requests.*;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 
 public class TransferMoneyUserTest extends BaseTest {
     private static final float INITIAL_DEPOSIT = 1000.0f;
@@ -60,6 +60,13 @@ public class TransferMoneyUserTest extends BaseTest {
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.requestReturnsOK())
                 .post(transferRequest);
+
+        new AccountTransactionsRequester(RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get(null, depositRequest.getId())
+                .body("$", hasSize(2))
+                .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()))
+                .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferRequest.getAmount()));
     }
 
     private static Stream<Arguments> invalidTransferData() {
