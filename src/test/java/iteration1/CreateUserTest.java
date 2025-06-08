@@ -24,7 +24,7 @@ public class CreateUserTest extends BaseTest {
 
         CreateUserResponse createUserResponse = new ValidatedCrudRequester<CreateUserResponse>
                 (RequestSpecs.adminSpec(),
-                        Endpoint.ADMIN_USER,
+                        Endpoint.ADMIN_USERS,
                         ResponseSpecs.entityWasCreated())
                 .post(createUserRequest);
 
@@ -52,7 +52,7 @@ public class CreateUserTest extends BaseTest {
                 .build();
 
         new CrudRequester(RequestSpecs.adminSpec(),
-                Endpoint.ADMIN_USER,
+                Endpoint.ADMIN_USERS,
                 ResponseSpecs.requestReturnsBadRequest(errorKey, errorValue))
                 .post(createUserRequest);
     }

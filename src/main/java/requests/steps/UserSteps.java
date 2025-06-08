@@ -20,10 +20,10 @@ public class UserSteps {
         return depositResponse;
     }
 
-    public static DepositRequest generateDeposit(DepositResponse account) {
+    public static DepositRequest generateDeposit(DepositResponse account, float balance) {
         return DepositRequest.builder()
                 .id(account.getId())
-                .balance(Math.min(ThreadLocalRandom.current().nextFloat() * (Math.nextUp(5000.0f) - 1.0f) + 1.0f, 5000.0f))
+                .balance(balance)
                 .build();
     }
 
