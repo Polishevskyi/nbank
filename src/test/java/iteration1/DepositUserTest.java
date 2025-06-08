@@ -9,13 +9,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import requests.AccountTransactionsRequester;
 import requests.AdminCreateUserRequester;
 import requests.CreateAccountRequester;
 import requests.DepositRequester;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
+
+import static org.hamcrest.Matchers.equalTo;
 
 public class DepositUserTest extends BaseTest {
 
@@ -82,5 +86,11 @@ public class DepositUserTest extends BaseTest {
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.requestReturnsBadRequest(errorMessage))
                 .post(depositRequest);
+
+        new AccountTransactionsRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get(null, account.getId())
+                .body("amount", equalTo(new ArrayList<>()));
     }
 }
