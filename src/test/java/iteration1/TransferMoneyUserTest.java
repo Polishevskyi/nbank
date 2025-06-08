@@ -70,17 +70,14 @@ public class TransferMoneyUserTest extends BaseTest {
     }
 
     private static Stream<Arguments> invalidTransferData() {
-        return Stream.of(Arguments.of(1L, 2L, 0.0f, "Invalid transfer: insufficient funds or invalid accounts"),
-                Arguments.of(1L, 2L, -50.0f, "Invalid transfer: insufficient funds or invalid accounts"),
-                Arguments.of(1L, 2L, 999999.0f, "Transfer amount cannot exceed 10000"),
-                Arguments.of(999L, 2L, 50.0f, "Unauthorized access to account"),
-                Arguments.of(1L, 999L, 50.0f, "Unauthorized access to account"),
-                Arguments.of(1L, 1L, 50.0f, "Invalid transfer: insufficient funds or invalid accounts"));
+        return Stream.of(Arguments.of(0.0f, "Invalid transfer: insufficient funds or invalid accounts"),
+                Arguments.of(-50.0f, "Invalid transfer: insufficient funds or invalid accounts"),
+                Arguments.of(999999.0f, "Transfer amount cannot exceed 10000"));
     }
 
     @ParameterizedTest
     @MethodSource("invalidTransferData")
-    public void userCannotTransferMoneyWithInvalidData(Long senderAccountId, Long receiverAccountId, Float amount, String expectedErrorMessage) {
+    public void userCannotTransferMoneyWithInvalidData(Float amount, String errorMessage) {
         CreateUserRequest userRequest = CreateUserRequest.builder()
                 .username(RandomData.getUsername())
                 .password(RandomData.getPassword())
@@ -110,5 +107,23 @@ public class TransferMoneyUserTest extends BaseTest {
                 RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
+
+        TransferMoneyRequest transferRequest = TransferMoneyRequest.builder()
+                .senderAccountId(sourceAccount.getId())
+                .receiverAccountId(targetAccount.getId())
+                .amount(amount)
+                .build();
+
+        new TransferMoneyRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsBadRequest(errorMessage))
+                .post(transferRequest);
+
+        new AccountTransactionsRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.requestReturnsOK())
+                .get(null, sourceAccount.getId())
+                .body("$", hasSize(1))
+                .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()));
     }
 }
