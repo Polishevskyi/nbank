@@ -1,16 +1,16 @@
 package iteration1;
 
+import models.AccountsResponse;
 import models.CreateUserRequest;
 import models.DepositRequest;
-import models.DepositResponse;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
+import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -25,9 +25,23 @@ public class DepositUserTest extends BaseTest {
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     public void userCanAddDepositWithCorrectData(float balance) {
         CreateUserRequest userRequest = AdminSteps.createUser();
-        DepositResponse depositResponse = UserSteps.createAccount(userRequest);
-        DepositRequest depositRequest = UserSteps.generateDeposit(depositResponse, balance);
-        UserSteps.depositMoneyToAccount(depositRequest, userRequest, ResponseSpecs.requestReturnsOK());
+
+        AccountsResponse accountsResponse = new ValidatedCrudRequester<AccountsResponse>(
+                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
+                .post(null);
+
+        DepositRequest depositRequest = DepositRequest.builder()
+                .id(accountsResponse.getId())
+                .balance(balance)
+                .build();
+
+        new CrudRequester(
+                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
+                Endpoint.DEPOSIT,
+                ResponseSpecs.requestReturnsOK())
+                .post(depositRequest);
     }
 
     public static Stream<Arguments> userIncorrectData() {
@@ -41,10 +55,15 @@ public class DepositUserTest extends BaseTest {
     @MethodSource("userIncorrectData")
     public void userCanNotAddDepositWithIncorrectData(float balance, String errorMessage) {
         CreateUserRequest userRequest = AdminSteps.createUser();
-        DepositResponse depositResponse = UserSteps.createAccount(userRequest);
+
+        AccountsResponse accountsResponse = new ValidatedCrudRequester<AccountsResponse>(
+                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
+                Endpoint.ACCOUNTS,
+                ResponseSpecs.entityWasCreated())
+                .post(null);
 
         DepositRequest depositRequest = DepositRequest.builder()
-                .id(depositResponse.getId())
+                .id(accountsResponse.getId())
                 .balance(balance)
                 .build();
 
