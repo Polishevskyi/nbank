@@ -8,6 +8,8 @@ import requests.steps.AdminSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
+import static org.hamcrest.Matchers.hasItem;
+
 public class CreateAccountTest extends BaseTest {
 
     @Test
@@ -19,6 +21,10 @@ public class CreateAccountTest extends BaseTest {
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        // запросить все аккаунты пользователя и проверить, что наш аккаунт там
+        new CrudRequester(RequestSpecs.adminSpec(),
+                Endpoint.ADMIN_USERS,
+                ResponseSpecs.requestReturnsOK())
+                .get()
+                .body("username", hasItem(userRequest.getUsername()));
     }
 }

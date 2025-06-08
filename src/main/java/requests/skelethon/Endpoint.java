@@ -20,7 +20,7 @@ public enum Endpoint {
     ACCOUNTS(
             "/accounts",
             BaseModel.class,
-            DepositResponse.class),
+            AccountsResponse.class),
 
     DEPOSIT(
             "/accounts/deposit",
