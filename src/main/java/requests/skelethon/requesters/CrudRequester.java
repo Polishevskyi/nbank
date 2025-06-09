@@ -47,11 +47,11 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface 
     }
 
     @Override
-    public Object update(long id, BaseModel model) {
+    public Object put(long id, BaseModel model) {
         return null;
     }
 
-    public Object update(BaseModel model) {
+    public Object put(BaseModel model) {
         return given()
                 .spec(requestSpecification)
                 .body(model)

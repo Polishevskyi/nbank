@@ -30,7 +30,7 @@ public class ChangeNameUserTest extends BaseTest {
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
                 ResponseSpecs.requestReturnsOK())
-                .update(updateRequest);
+                .put(updateRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
@@ -69,7 +69,7 @@ public class ChangeNameUserTest extends BaseTest {
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
                 ResponseSpecs.requestReturnsBadRequest(expectedErrorMessage))
-                .update(updateRequest);
+                .put(updateRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
