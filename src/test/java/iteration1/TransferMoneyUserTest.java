@@ -4,6 +4,7 @@ import models.AccountsResponseModel;
 import models.CreateUserRequestModel;
 import models.DepositRequestModel;
 import models.TransferMoneyRequestModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,7 +26,8 @@ public class TransferMoneyUserTest extends BaseTest {
     private static final float TRANSFER_AMOUNT = 500.0f;
 
     @Test
-    public void userCanTransferMoneyWithCorrectData() {
+    @DisplayName("User can transfer money with correct data")
+    public void userCanTransferMoneyWithCorrectDataTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
@@ -80,7 +82,8 @@ public class TransferMoneyUserTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("invalidTransferData")
-    public void userCannotTransferMoneyWithInvalidData(Float amount, String errorMessage) {
+    @DisplayName("User can not transfer money with invalid data")
+    public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(

@@ -3,6 +3,7 @@ package iteration1;
 import models.AccountsResponseModel;
 import models.CreateUserRequestModel;
 import models.DepositRequestModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,7 +24,8 @@ public class DepositUserTest extends BaseTest {
 
     @ParameterizedTest
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
-    public void userCanAddDepositWithCorrectData(float balance) {
+    @DisplayName("User can add deposit with correct data")
+    public void userCanAddDepositWithCorrectDataTest(float balance) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
@@ -53,7 +55,8 @@ public class DepositUserTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("userIncorrectData")
-    public void userCanNotAddDepositWithIncorrectData(float balance, String errorMessage) {
+    @DisplayName("User can not add deposit with incorrect data")
+    public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(

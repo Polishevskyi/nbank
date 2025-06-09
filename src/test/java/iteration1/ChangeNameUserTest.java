@@ -3,6 +3,7 @@ package iteration1;
 import generators.RandomData;
 import models.CreateUserRequestModel;
 import models.UpdateCustomerProfileRequestModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,8 +19,10 @@ import java.util.stream.Stream;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ChangeNameUserTest extends BaseTest {
+
     @Test
-    public void userCanChangeNameWithValidData() {
+    @DisplayName("User can change name with valid data")
+    public void userCanChangeNameWithValidDataTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
@@ -50,7 +53,8 @@ public class ChangeNameUserTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("invalidNameData")
-    public void userCannotChangeNameWithInvalidData(String name, String expectedErrorMessage) {
+    @DisplayName("User can not change name with invalid data")
+    public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         String initialName = new CrudRequester(

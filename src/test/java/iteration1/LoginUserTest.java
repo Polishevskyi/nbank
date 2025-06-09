@@ -4,6 +4,7 @@ import models.CreateUserRequestModel;
 import models.CreateUserResponseModel;
 import models.LoginUserRequestModel;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
@@ -15,6 +16,7 @@ import specs.ResponseSpecs;
 public class LoginUserTest extends BaseTest {
 
     @Test
+    @DisplayName("Admin can generate auth token")
     public void adminCanGenerateAuthTokenTest() {
         LoginUserRequestModel userRequest = LoginUserRequestModel.builder()
                 .username("admin")
@@ -28,6 +30,7 @@ public class LoginUserTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("User can generate auth token")
     public void userCanGenerateAuthTokenTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 

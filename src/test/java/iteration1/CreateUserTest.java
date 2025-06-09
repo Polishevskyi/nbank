@@ -4,6 +4,7 @@ import generators.RandomModelGenerator;
 import models.CreateUserRequestModel;
 import models.CreateUserResponseModel;
 import models.comparison.ModelAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,8 +18,10 @@ import specs.ResponseSpecs;
 import java.util.stream.Stream;
 
 public class CreateUserTest extends BaseTest {
+
     @Test
-    public void adminCanCreateUserWithCorrectData() {
+    @DisplayName("Admin can create user with correct data")
+    public void adminCanCreateUserWithCorrectDataTest() {
         CreateUserRequestModel createUserRequest =
                 RandomModelGenerator.generate(CreateUserRequestModel.class);
 
@@ -28,7 +31,7 @@ public class CreateUserTest extends BaseTest {
                         ResponseSpecs.entityWasCreatedSpec())
                 .post(createUserRequest);
 
-        ModelAssertions.assertThatModels(createUserRequest,createUserResponse).match();
+        ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
     }
 
     public static Stream<Arguments> userInvalidData() {
@@ -44,7 +47,8 @@ public class CreateUserTest extends BaseTest {
 
     @MethodSource("userInvalidData")
     @ParameterizedTest
-    public void adminCanNotCreateUserWithInvalidData(String username, String password, String role, String errorKey, String errorValue) {
+    @DisplayName("Admin can not create user with invalid data")
+    public void adminCanNotCreateUserWithInvalidDataTest(String username, String password, String role, String errorKey, String errorValue) {
         CreateUserRequestModel createUserRequest = CreateUserRequestModel.builder()
                 .username(username)
                 .password(password)
