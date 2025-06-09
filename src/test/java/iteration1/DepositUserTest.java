@@ -1,8 +1,7 @@
 package iteration1;
 
-import models.AccountsResponseModel;
-import models.CreateUserRequestModel;
-import models.DepositRequestModel;
+import models.*;
+import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -39,11 +38,13 @@ public class DepositUserTest extends BaseTest {
                 .balance(balance)
                 .build();
 
-        new CrudRequester(
+        DepositResponseModel depositResponse = new ValidatedCrudRequester<DepositResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.DEPOSIT,
                 ResponseSpecs.requestReturnsOKSpec())
                 .post(depositRequest);
+
+        ModelAssertions.assertThatModels(depositRequest, depositResponse).match();
     }
 
     public static Stream<Arguments> userIncorrectData() {

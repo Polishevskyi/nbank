@@ -3,11 +3,11 @@ package iteration1;
 import models.CreateUserRequestModel;
 import models.CreateUserResponseModel;
 import models.LoginUserRequestModel;
-import org.hamcrest.Matchers;
+import models.LoginUserResponseModel;
+import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import requests.skelethon.Endpoint;
-import requests.skelethon.requesters.CrudRequester;
 import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
 import specs.RequestSpecs;
@@ -34,10 +34,11 @@ public class LoginUserTest extends BaseTest {
     public void userCanGenerateAuthTokenTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        new CrudRequester(RequestSpecs.unAuthSpec(),
+        LoginUserResponseModel userResponse = new ValidatedCrudRequester<LoginUserResponseModel>(RequestSpecs.unAuthSpec(),
                 Endpoint.LOGIN,
                 ResponseSpecs.requestReturnsOKSpec())
-                .post(LoginUserRequestModel.builder().username(userRequest.getUsername()).password(userRequest.getPassword()).build())
-                .header("Authorization", Matchers.notNullValue());
+                .post(LoginUserRequestModel.builder().username(userRequest.getUsername()).password(userRequest.getPassword()).build());
+
+        ModelAssertions.assertThatModels(userRequest, userResponse).match();
     }
 }

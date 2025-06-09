@@ -1,9 +1,7 @@
 package iteration1;
 
-import models.AccountsResponseModel;
-import models.CreateUserRequestModel;
-import models.DepositRequestModel;
-import models.TransferMoneyRequestModel;
+import models.*;
+import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -59,7 +57,7 @@ public class TransferMoneyUserTest extends BaseTest {
                 .amount(TRANSFER_AMOUNT)
                 .build();
 
-        new CrudRequester(
+        TransferMoneyResponseModel transferResponse = new ValidatedCrudRequester<TransferMoneyResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSFER,
                 ResponseSpecs.requestReturnsOKSpec())
@@ -72,6 +70,8 @@ public class TransferMoneyUserTest extends BaseTest {
                 .body("$", hasSize(2))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()))
                 .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferRequest.getAmount()));
+
+        ModelAssertions.assertThatModels(transferRequest, transferResponse).match();
     }
 
     private static Stream<Arguments> invalidTransferData() {
