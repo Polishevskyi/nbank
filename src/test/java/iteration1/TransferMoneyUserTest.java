@@ -31,13 +31,13 @@ public class TransferMoneyUserTest extends BaseTest {
         AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         AccountsResponseModel targetAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -48,7 +48,7 @@ public class TransferMoneyUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(depositRequest);
 
         TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
@@ -60,12 +60,12 @@ public class TransferMoneyUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSFER,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(transferRequest);
 
         new CrudRequester(RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get(depositRequest.getId())
                 .body("$", hasSize(2))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()))
@@ -86,7 +86,7 @@ public class TransferMoneyUserTest extends BaseTest {
         AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -97,7 +97,7 @@ public class TransferMoneyUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(depositRequest);
 
         TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
@@ -109,13 +109,13 @@ public class TransferMoneyUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSFER,
-                ResponseSpecs.requestReturnsBadRequest(errorMessage))
+                ResponseSpecs.requestReturnsBadRequestSpec(errorMessage))
                 .post(transferRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get(sourceAccount.getId())
                 .body("$", hasSize(1))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()));

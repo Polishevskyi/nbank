@@ -23,7 +23,7 @@ public class LoginUserTest extends BaseTest {
 
         new ValidatedCrudRequester<CreateUserResponseModel>(RequestSpecs.unAuthSpec(),
                 Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(userRequest);
     }
 
@@ -33,7 +33,7 @@ public class LoginUserTest extends BaseTest {
 
         new CrudRequester(RequestSpecs.unAuthSpec(),
                 Endpoint.LOGIN,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(LoginUserRequestModel.builder().username(userRequest.getUsername()).password(userRequest.getPassword()).build())
                 .header("Authorization", Matchers.notNullValue());
     }

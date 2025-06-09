@@ -25,7 +25,7 @@ public class CreateUserTest extends BaseTest {
         CreateUserResponseModel createUserResponse = new ValidatedCrudRequester<CreateUserResponseModel>
                 (RequestSpecs.adminSpec(),
                         Endpoint.ADMIN_USERS,
-                        ResponseSpecs.entityWasCreated())
+                        ResponseSpecs.entityWasCreatedSpec())
                 .post(createUserRequest);
 
         ModelAssertions.assertThatModels(createUserRequest,createUserResponse).match();
@@ -53,7 +53,7 @@ public class CreateUserTest extends BaseTest {
 
         new CrudRequester(RequestSpecs.adminSpec(),
                 Endpoint.ADMIN_USERS,
-                ResponseSpecs.requestReturnsBadRequest(errorKey, errorValue))
+                ResponseSpecs.requestReturnsBadRequestSpec(errorKey, errorValue))
                 .post(createUserRequest);
     }
 }

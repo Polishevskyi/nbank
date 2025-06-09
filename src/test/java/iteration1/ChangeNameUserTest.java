@@ -29,13 +29,13 @@ public class ChangeNameUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .put(updateRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("name", equalTo(updateRequest.getName()));
     }
@@ -56,7 +56,7 @@ public class ChangeNameUserTest extends BaseTest {
         String initialName = new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .extract()
                 .path("name");
@@ -68,13 +68,13 @@ public class ChangeNameUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsBadRequest(expectedErrorMessage))
+                ResponseSpecs.requestReturnsBadRequestSpec(expectedErrorMessage))
                 .put(updateRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("name", equalTo(initialName));
     }

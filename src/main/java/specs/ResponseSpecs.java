@@ -12,26 +12,26 @@ public class ResponseSpecs {
         return new ResponseSpecBuilder();
     }
 
-    public static ResponseSpecification entityWasCreated() {
+    public static ResponseSpecification entityWasCreatedSpec() {
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_CREATED)
                 .build();
     }
 
-    public static ResponseSpecification requestReturnsOK() {
+    public static ResponseSpecification requestReturnsOKSpec() {
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_OK)
                 .build();
     }
 
-    public static ResponseSpecification requestReturnsBadRequest(String errorKey, String errorValue) {
+    public static ResponseSpecification requestReturnsBadRequestSpec(String errorKey, String errorValue) {
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
                 .expectBody(errorKey, Matchers.equalTo(errorValue))
                 .build();
     }
 
-    public static ResponseSpecification requestReturnsBadRequest(String errorValue) {
+    public static ResponseSpecification requestReturnsBadRequestSpec(String errorValue) {
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
                 .expectBody(Matchers.equalTo(errorValue))

@@ -29,7 +29,7 @@ public class DepositUserTest extends BaseTest {
         AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -40,7 +40,7 @@ public class DepositUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .post(depositRequest);
     }
 
@@ -59,7 +59,7 @@ public class DepositUserTest extends BaseTest {
         AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -70,13 +70,13 @@ public class DepositUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsBadRequest(errorMessage))
+                ResponseSpecs.requestReturnsBadRequestSpec(errorMessage))
                 .post(depositRequest);
 
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get(depositRequest.getId())
                 .body("amount", equalTo(new ArrayList<>()));
     }

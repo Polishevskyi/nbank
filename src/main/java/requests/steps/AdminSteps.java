@@ -16,7 +16,7 @@ public class AdminSteps {
         new ValidatedCrudRequester<CreateUserResponseModel>(
                 RequestSpecs.adminSpec(),
                 Endpoint.ADMIN_USERS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(userRequest);
 
         return userRequest;

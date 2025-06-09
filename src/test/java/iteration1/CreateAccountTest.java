@@ -18,12 +18,12 @@ public class CreateAccountTest extends BaseTest {
 
         new CrudRequester(RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreated())
+                ResponseSpecs.entityWasCreatedSpec())
                 .post(null);
 
         new CrudRequester(RequestSpecs.adminSpec(),
                 Endpoint.ADMIN_USERS,
-                ResponseSpecs.requestReturnsOK())
+                ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("username", hasItem(userRequest.getUsername()));
     }
