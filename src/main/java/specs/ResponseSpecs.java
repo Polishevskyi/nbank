@@ -6,7 +6,11 @@ import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 
 public class ResponseSpecs {
-    private ResponseSpecs() {}
+    private ResponseSpecs() {
+    }
+
+    public static final String USER_NOT_FOUND_MESSAGE = "Error: User with ID %d not found.";
+    public static final String USER_DELETED_MESSAGE = "User with ID %d deleted successfully.";
 
     private static ResponseSpecBuilder defaultResponseBuilder() {
         return new ResponseSpecBuilder();
@@ -34,6 +38,13 @@ public class ResponseSpecs {
     public static ResponseSpecification requestReturnsBadRequestSpec(String errorValue) {
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
+                .expectBody(Matchers.equalTo(errorValue))
+                .build();
+    }
+
+    public static ResponseSpecification requestReturnsNotFoundSpec(String errorValue) {
+        return defaultResponseBuilder()
+                .expectStatusCode(HttpStatus.SC_NOT_FOUND)
                 .expectBody(Matchers.equalTo(errorValue))
                 .build();
     }
