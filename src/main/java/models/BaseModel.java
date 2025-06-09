@@ -1,4 +1,3 @@
 package models;
 
-public class BaseModel {
-}
+public class BaseModel {}
