@@ -28,7 +28,7 @@ public class RequestSpecs {
                 .setBaseUri(Config.getProperty("server") +Config.getProperty("apiVersion"));
     }
 
-    public static RequestSpecification unauthSpec() {
+    public static RequestSpecification unAuthSpec() {
         return defaultRequestBuilder().build();
     }
 
@@ -43,7 +43,7 @@ public class RequestSpecs {
 
         if (!authHeaders.containsKey(username)) {
             userAuthHeader = new CrudRequester(
-                    RequestSpecs.unauthSpec(),
+                    RequestSpecs.unAuthSpec(),
                     Endpoint.LOGIN,
                     ResponseSpecs.requestReturnsOK())
                     .post(LoginUserRequest.builder().username(username).password(password).build())

@@ -21,7 +21,7 @@ public class LoginUserTest extends BaseTest {
                 .password("admin")
                 .build();
 
-        new ValidatedCrudRequester<CreateUserResponse>(RequestSpecs.unauthSpec(),
+        new ValidatedCrudRequester<CreateUserResponse>(RequestSpecs.unAuthSpec(),
                 Endpoint.LOGIN,
                 ResponseSpecs.requestReturnsOK())
                 .post(userRequest);
@@ -31,7 +31,7 @@ public class LoginUserTest extends BaseTest {
     public void userCanGenerateAuthTokenTest() {
         CreateUserRequest userRequest = AdminSteps.createUser();
 
-        new CrudRequester(RequestSpecs.unauthSpec(),
+        new CrudRequester(RequestSpecs.unAuthSpec(),
                 Endpoint.LOGIN,
                 ResponseSpecs.requestReturnsOK())
                 .post(LoginUserRequest.builder().username(userRequest.getUsername()).password(userRequest.getPassword()).build())
