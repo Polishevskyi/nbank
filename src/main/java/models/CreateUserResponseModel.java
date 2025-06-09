@@ -17,5 +17,5 @@ public class CreateUserResponseModel extends BaseModel {
     private String password;
     private String name;
     private String role;
-    private List<String> accounts;
+    private List<CustomerResponseModel> accounts;
 }

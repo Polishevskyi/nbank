@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateCustomerProfileRequestModel extends BaseModel {
     private String name;
+    private String password;
 }

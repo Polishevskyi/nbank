@@ -40,7 +40,7 @@ public enum Endpoint {
     PROFILE(
             "/customer/profile",
             UpdateCustomerProfileRequestModel.class,
-            BaseModel.class);
+            UpdateCustomerProfileResponseModel.class);
 
     private final String url;
     private final Class<? extends BaseModel> requestModel;
