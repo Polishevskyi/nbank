@@ -1,8 +1,8 @@
 package iteration1;
 
-import models.AccountsResponse;
-import models.CreateUserRequest;
-import models.DepositRequest;
+import models.AccountsResponseModel;
+import models.CreateUserRequestModel;
+import models.DepositRequestModel;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -24,15 +24,15 @@ public class DepositUserTest extends BaseTest {
     @ParameterizedTest
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     public void userCanAddDepositWithCorrectData(float balance) {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponse accountsResponse = new ValidatedCrudRequester<AccountsResponse>(
+        AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        DepositRequest depositRequest = DepositRequest.builder()
+        DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(accountsResponse.getId())
                 .balance(balance)
                 .build();
@@ -54,15 +54,15 @@ public class DepositUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userIncorrectData")
     public void userCanNotAddDepositWithIncorrectData(float balance, String errorMessage) {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponse accountsResponse = new ValidatedCrudRequester<AccountsResponse>(
+        AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        DepositRequest depositRequest = DepositRequest.builder()
+        DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(accountsResponse.getId())
                 .balance(balance)
                 .build();

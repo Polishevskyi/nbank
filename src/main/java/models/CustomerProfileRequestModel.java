@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerProfileResponse extends BaseModel {
-    private List<CustomerResponse> customer;
-    private String message;
+public class CustomerProfileRequestModel extends BaseModel {
+    private String username;
+    private String password;
 }

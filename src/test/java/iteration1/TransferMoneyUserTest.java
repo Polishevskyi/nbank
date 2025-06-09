@@ -1,9 +1,9 @@
 package iteration1;
 
-import models.AccountsResponse;
-import models.CreateUserRequest;
-import models.DepositRequest;
-import models.TransferMoneyRequest;
+import models.AccountsResponseModel;
+import models.CreateUserRequestModel;
+import models.DepositRequestModel;
+import models.TransferMoneyRequestModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -26,21 +26,21 @@ public class TransferMoneyUserTest extends BaseTest {
 
     @Test
     public void userCanTransferMoneyWithCorrectData() {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponse sourceAccount = new ValidatedCrudRequester<AccountsResponse>(
+        AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        AccountsResponse targetAccount = new ValidatedCrudRequester<AccountsResponse>(
+        AccountsResponseModel targetAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        DepositRequest depositRequest = DepositRequest.builder()
+        DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
                 .balance(INITIAL_DEPOSIT)
                 .build();
@@ -51,7 +51,7 @@ public class TransferMoneyUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
 
-        TransferMoneyRequest transferRequest = TransferMoneyRequest.builder()
+        TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
                 .senderAccountId(sourceAccount.getId())
                 .receiverAccountId(targetAccount.getId())
                 .amount(TRANSFER_AMOUNT)
@@ -81,15 +81,15 @@ public class TransferMoneyUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidTransferData")
     public void userCannotTransferMoneyWithInvalidData(Float amount, String errorMessage) {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponse sourceAccount = new ValidatedCrudRequester<AccountsResponse>(
+        AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,
                 ResponseSpecs.entityWasCreated())
                 .post(null);
 
-        DepositRequest depositRequest = DepositRequest.builder()
+        DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
                 .balance(INITIAL_DEPOSIT)
                 .build();
@@ -100,7 +100,7 @@ public class TransferMoneyUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOK())
                 .post(depositRequest);
 
-        TransferMoneyRequest transferRequest = TransferMoneyRequest.builder()
+        TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
                 .senderAccountId(sourceAccount.getId())
                 .receiverAccountId(sourceAccount.getId())
                 .amount(amount)

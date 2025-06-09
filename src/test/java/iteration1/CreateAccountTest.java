@@ -1,6 +1,6 @@
 package iteration1;
 
-import models.CreateUserRequest;
+import models.CreateUserRequestModel;
 import org.junit.jupiter.api.Test;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
@@ -14,7 +14,7 @@ public class CreateAccountTest extends BaseTest {
 
     @Test
     public void userCanCreateAccountTest() {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         new CrudRequester(RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.ACCOUNTS,

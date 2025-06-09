@@ -1,8 +1,8 @@
 package iteration1;
 
 import generators.RandomData;
-import models.CreateUserRequest;
-import models.UpdateCustomerProfileRequest;
+import models.CreateUserRequestModel;
+import models.UpdateCustomerProfileRequestModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,9 +20,9 @@ import static org.hamcrest.Matchers.equalTo;
 public class ChangeNameUserTest extends BaseTest {
     @Test
     public void userCanChangeNameWithValidData() {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        UpdateCustomerProfileRequest updateRequest = UpdateCustomerProfileRequest.builder()
+        UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(RandomData.getUsername() + " " + RandomData.getUsername())
                 .build();
 
@@ -51,7 +51,7 @@ public class ChangeNameUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidNameData")
     public void userCannotChangeNameWithInvalidData(String name, String expectedErrorMessage) {
-        CreateUserRequest userRequest = AdminSteps.createUser();
+        CreateUserRequestModel userRequest = AdminSteps.createUser();
 
         String initialName = new CrudRequester(
                 RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
@@ -61,7 +61,7 @@ public class ChangeNameUserTest extends BaseTest {
                 .extract()
                 .path("name");
 
-        UpdateCustomerProfileRequest updateRequest = UpdateCustomerProfileRequest.builder()
+        UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(name)
                 .build();
 

@@ -11,11 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerResponse extends BaseModel {
+public class AccountsResponseModel extends BaseModel {
     private Long id;
-    private String username;
-    private String password;
-    private String name;
-    private String role;
-    private List<AccountsResponse> customer;
+    private String accountNumber;
+    private Float balance;
+    private List<TransactionsResponseModel> transactions;
 }

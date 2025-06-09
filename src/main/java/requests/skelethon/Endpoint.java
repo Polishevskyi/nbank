@@ -9,37 +9,37 @@ import models.*;
 public enum Endpoint {
     ADMIN_USERS(
             "/admin/users",
-            CreateUserRequest.class,
-            CreateUserResponse.class),
+            CreateUserRequestModel.class,
+            CreateUserResponseModel.class),
 
     LOGIN(
             "/auth/login",
-            LoginUserRequest.class,
-            LoginUserResponse.class),
+            LoginUserRequestModel.class,
+            LoginUserResponseModel.class),
 
     ACCOUNTS(
             "/accounts",
             BaseModel.class,
-            AccountsResponse.class),
+            AccountsResponseModel.class),
 
     DEPOSIT(
             "/accounts/deposit",
-            DepositRequest.class,
-            DepositResponse.class),
+            DepositRequestModel.class,
+            DepositResponseModel.class),
 
     TRANSFER(
             "/accounts/transfer",
-            TransferMoneyRequest.class,
-            TransferMoneyResponse.class),
+            TransferMoneyRequestModel.class,
+            TransferMoneyResponseModel.class),
 
     TRANSACTIONS(
             "/accounts/{accountId}/transactions",
             BaseModel.class,
-            TransactionsResponse.class),
+            TransactionsResponseModel.class),
 
     PROFILE(
             "/customer/profile",
-            UpdateCustomerProfileRequest.class,
+            UpdateCustomerProfileRequestModel.class,
             BaseModel.class);
 
     private final String url;

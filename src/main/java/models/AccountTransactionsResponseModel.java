@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionsResponse extends BaseModel {
-    private String id;
-    private Float amount;
+public class AccountTransactionsResponseModel extends BaseModel {
+    private Long id;
+    private Double amount;
     private String type;
     private String timestamp;
-    private Integer relatedAccountId;
+    private Long relatedAccountId;
 }
