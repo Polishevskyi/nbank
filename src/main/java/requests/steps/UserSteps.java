@@ -24,8 +24,7 @@ public class UserSteps {
                 .asString();
     }
 
-    public static void updateProfile(String username, String password,
-                                     UpdateCustomerProfileRequestModel updateRequest) {
+    public static void updateProfile(String username, String password, UpdateCustomerProfileRequestModel updateRequest) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.PROFILE,
@@ -33,8 +32,7 @@ public class UserSteps {
                 .put(updateRequest);
     }
 
-    public static void updateProfileWithError(String username, String password,
-                                              UpdateCustomerProfileRequestModel updateRequest, String expectedErrorMessage) {
+    public static void updateProfileWithError(String username, String password, UpdateCustomerProfileRequestModel updateRequest, String expectedErrorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.PROFILE,
@@ -76,8 +74,7 @@ public class UserSteps {
                 .post(depositRequest);
     }
 
-    public static void depositWithError(String username, String password, DepositRequestModel depositRequest,
-                                        String errorMessage) {
+    public static void depositWithError(String username, String password, DepositRequestModel depositRequest, String errorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.DEPOSIT,
@@ -104,9 +101,7 @@ public class UserSteps {
     }
 
     public static void login(String username, String password) {
-        new ValidatedCrudRequester<LoginUserResponseModel>(
-                RequestSpecs.unAuthSpec(),
-                Endpoint.LOGIN,
+        new ValidatedCrudRequester<LoginUserResponseModel>( RequestSpecs.unAuthSpec(), Endpoint.LOGIN,
                 ResponseSpecs.requestReturnsOKSpec())
                 .post(LoginUserRequestModel.builder()
                         .username(username)
@@ -125,8 +120,7 @@ public class UserSteps {
                         .build());
     }
 
-    public static TransferMoneyResponseModel transfer(String username, String password,
-                                                      TransferMoneyRequestModel transferRequest) {
+    public static TransferMoneyResponseModel transfer(String username, String password, TransferMoneyRequestModel transferRequest) {
         return new ValidatedCrudRequester<TransferMoneyResponseModel>(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSFER,
@@ -134,8 +128,7 @@ public class UserSteps {
                 .post(transferRequest);
     }
 
-    public static void transferWithError(String username, String password, TransferMoneyRequestModel transferRequest,
-                                         String errorMessage) {
+    public static void transferWithError(String username, String password, TransferMoneyRequestModel transferRequest, String errorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSFER,
@@ -143,8 +136,7 @@ public class UserSteps {
                 .post(transferRequest);
     }
 
-    public static void verifyTransferTransactions(String username, String password, Long accountId, float depositAmount,
-                                                  float transferAmount) {
+    public static void verifyTransferTransactions(String username, String password, Long accountId, float depositAmount, float transferAmount) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSACTIONS,
