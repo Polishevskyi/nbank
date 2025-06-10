@@ -8,16 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skelethon.Endpoint;
-import requests.skelethon.requesters.CrudRequester;
 import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChangeNameUserTest extends BaseTest {
 
@@ -30,18 +26,10 @@ public class ChangeNameUserTest extends BaseTest {
                 .name(RandomData.getUsername() + " " + RandomData.getUsername())
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOKSpec())
-                .put(updateRequest);
+        UserSteps.updateProfile(userRequest.getUsername(), userRequest.getPassword(), updateRequest);
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get()
-                .body("name", equalTo(updateRequest.getName()));
+        String actualName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
+        assertEquals(updateRequest.getName(), actualName);
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
@@ -60,30 +48,17 @@ public class ChangeNameUserTest extends BaseTest {
     public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        String initialName = new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get()
-                .extract()
-                .path("name");
+        String initialName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
 
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(name)
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsBadRequestSpec(expectedErrorMessage))
-                .put(updateRequest);
+        UserSteps.updateProfileWithError(userRequest.getUsername(), userRequest.getPassword(), updateRequest,
+                expectedErrorMessage);
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.PROFILE,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get()
-                .body("name", equalTo(initialName));
+        String actualName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
+        assertEquals(initialName, actualName);
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
