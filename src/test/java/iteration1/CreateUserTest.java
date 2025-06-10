@@ -1,9 +1,6 @@
 package iteration1;
 
-import generators.RandomModelGenerator;
 import models.CreateUserRequestModel;
-import models.CreateUserResponseModel;
-import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
-import requests.skelethon.requesters.ValidatedCrudRequester;
+import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
@@ -23,18 +20,9 @@ public class CreateUserTest extends BaseTest {
     @Test
     @DisplayName("Admin can create user with correct data")
     public void adminCanCreateUserWithCorrectDataTest() {
-        CreateUserRequestModel createUserRequest =
-                RandomModelGenerator.generate(CreateUserRequestModel.class);
-
-        CreateUserResponseModel createUserResponse = new ValidatedCrudRequester<CreateUserResponseModel>
-                (RequestSpecs.adminSpec(),
-                        Endpoint.ADMIN_USERS,
-                        ResponseSpecs.entityWasCreatedSpec())
-                .post(createUserRequest);
-
-        ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
-
-        UserSteps.deleteUser(createUserResponse.getId());
+        CreateUserRequestModel createUserRequest = AdminSteps.createUser();
+        UserSteps.verifyUserExists(createUserRequest.getUsername());
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> userInvalidData() {
@@ -44,7 +32,6 @@ public class CreateUserTest extends BaseTest {
                 Arguments.of("abc$", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"),
                 Arguments.of("abc%", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots")
         );
-
     }
 
     @MethodSource("userInvalidData")
