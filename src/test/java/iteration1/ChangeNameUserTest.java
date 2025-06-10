@@ -28,8 +28,7 @@ public class ChangeNameUserTest extends BaseTest {
 
         UserSteps.updateProfile(userRequest.getUsername(), userRequest.getPassword(), updateRequest);
 
-        String actualName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
-        assertEquals(updateRequest.getName(), actualName);
+        assertEquals(updateRequest.getName(), UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword()));
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
@@ -48,17 +47,14 @@ public class ChangeNameUserTest extends BaseTest {
     public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        String initialName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
-
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(name)
                 .build();
 
-        UserSteps.updateProfileWithError(userRequest.getUsername(), userRequest.getPassword(), updateRequest,
-                expectedErrorMessage);
+        UserSteps.updateProfileWithError(userRequest.getUsername(), userRequest.getPassword(), updateRequest, expectedErrorMessage);
 
         String actualName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
-        assertEquals(initialName, actualName);
+        assertEquals(UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword()), actualName);
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
