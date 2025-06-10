@@ -1,24 +1,19 @@
 package iteration1;
 
-import models.*;
+import models.AccountsResponseModel;
+import models.CreateUserRequestModel;
+import models.DepositRequestModel;
+import models.DepositResponseModel;
 import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import requests.skelethon.Endpoint;
-import requests.skelethon.requesters.CrudRequester;
-import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
-import java.util.ArrayList;
 import java.util.stream.Stream;
-
-import static org.hamcrest.Matchers.equalTo;
 
 public class DepositUserTest extends BaseTest {
 
@@ -28,22 +23,14 @@ public class DepositUserTest extends BaseTest {
     public void userCanAddDepositWithCorrectDataTest(float balance) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(null);
+        AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(accountsResponse.getId())
                 .balance(balance)
                 .build();
 
-        DepositResponseModel depositResponse = new ValidatedCrudRequester<DepositResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOKSpec())
-                .post(depositRequest);
+        DepositResponseModel depositResponse = UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
 
         ModelAssertions.assertThatModels(depositRequest, depositResponse).match();
 
@@ -63,29 +50,16 @@ public class DepositUserTest extends BaseTest {
     public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponseModel accountsResponse = new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(null);
+        AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(accountsResponse.getId())
                 .balance(balance)
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsBadRequestSpec(errorMessage))
-                .post(depositRequest);
+        UserSteps.depositWithError(userRequest.getUsername(), userRequest.getPassword(), depositRequest, errorMessage);
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get(depositRequest.getId())
-                .body("amount", equalTo(new ArrayList<>()));
+        UserSteps.verifyTransactions(userRequest.getUsername(), userRequest.getPassword(), depositRequest.getId());
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }

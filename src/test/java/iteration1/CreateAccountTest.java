@@ -12,7 +12,9 @@ public class CreateAccountTest extends BaseTest {
     @DisplayName("User can create account")
     public void userCanCreateAccountTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
+
         UserSteps.createAccount(userRequest.getUsername(), userRequest.getPassword());
+
         UserSteps.verifyUserExists(userRequest.getUsername());
     }
 }

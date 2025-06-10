@@ -6,12 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skelethon.Endpoint;
-import requests.skelethon.requesters.CrudRequester;
 import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
@@ -21,13 +17,14 @@ public class CreateUserTest extends BaseTest {
     @DisplayName("Admin can create user with correct data")
     public void adminCanCreateUserWithCorrectDataTest() {
         CreateUserRequestModel createUserRequest = AdminSteps.createUser();
+
         UserSteps.verifyUserExists(createUserRequest.getUsername());
+
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> userInvalidData() {
-        return Stream.of(
-                Arguments.of("   ", "Password33$", "USER", "username", "Username cannot be blank"),
+        return Stream.of(Arguments.of("   ", "Password33$", "USER", "username", "Username cannot be blank"),
                 Arguments.of("ab", "Password33$", "USER", "username", "Username must be between 3 and 15 characters"),
                 Arguments.of("abc$", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"),
                 Arguments.of("abc%", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots")
@@ -44,9 +41,6 @@ public class CreateUserTest extends BaseTest {
                 .role(role)
                 .build();
 
-        new CrudRequester(RequestSpecs.adminSpec(),
-                Endpoint.ADMIN_USERS,
-                ResponseSpecs.requestReturnsBadRequestSpec(errorKey, errorValue))
-                .post(createUserRequest);
+        AdminSteps.createUserWithError(createUserRequest, errorKey, errorValue);
     }
 }

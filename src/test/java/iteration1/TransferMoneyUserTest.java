@@ -7,18 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.skelethon.Endpoint;
-import requests.skelethon.requesters.CrudRequester;
-import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 
 public class TransferMoneyUserTest extends BaseTest {
     private static final float INITIAL_DEPOSIT = 1000.0f;
@@ -29,28 +21,16 @@ public class TransferMoneyUserTest extends BaseTest {
     public void userCanTransferMoneyWithCorrectDataTest() {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(null);
+        AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
-        AccountsResponseModel targetAccount = new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(null);
+        AccountsResponseModel targetAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
                 .balance(INITIAL_DEPOSIT)
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOKSpec())
-                .post(depositRequest);
+        UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
 
         TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
                 .senderAccountId(sourceAccount.getId())
@@ -58,19 +38,10 @@ public class TransferMoneyUserTest extends BaseTest {
                 .amount(TRANSFER_AMOUNT)
                 .build();
 
-        TransferMoneyResponseModel transferResponse = new ValidatedCrudRequester<TransferMoneyResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.TRANSFER,
-                ResponseSpecs.requestReturnsOKSpec())
-                .post(transferRequest);
+        TransferMoneyResponseModel transferResponse = UserSteps.transfer(userRequest.getUsername(), userRequest.getPassword(), transferRequest);
 
-        new CrudRequester(RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get(depositRequest.getId())
-                .body("$", hasSize(2))
-                .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()))
-                .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferRequest.getAmount()));
+        UserSteps.verifyTransferTransactions(userRequest.getUsername(), userRequest.getPassword(),
+                depositRequest.getId(), INITIAL_DEPOSIT, TRANSFER_AMOUNT);
 
         ModelAssertions.assertThatModels(transferRequest, transferResponse).match();
 
@@ -89,22 +60,14 @@ public class TransferMoneyUserTest extends BaseTest {
     public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage) {
         CreateUserRequestModel userRequest = AdminSteps.createUser();
 
-        AccountsResponseModel sourceAccount = new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.ACCOUNTS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(null);
+        AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
                 .balance(INITIAL_DEPOSIT)
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.DEPOSIT,
-                ResponseSpecs.requestReturnsOKSpec())
-                .post(depositRequest);
+        UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
 
         TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
                 .senderAccountId(sourceAccount.getId())
@@ -112,19 +75,9 @@ public class TransferMoneyUserTest extends BaseTest {
                 .amount(amount)
                 .build();
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.TRANSFER,
-                ResponseSpecs.requestReturnsBadRequestSpec(errorMessage))
-                .post(transferRequest);
+        UserSteps.transferWithError(userRequest.getUsername(), userRequest.getPassword(), transferRequest, errorMessage);
 
-        new CrudRequester(
-                RequestSpecs.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
-                Endpoint.TRANSACTIONS,
-                ResponseSpecs.requestReturnsOKSpec())
-                .get(sourceAccount.getId())
-                .body("$", hasSize(1))
-                .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()));
+        UserSteps.verifyDepositTransaction(userRequest.getUsername(), userRequest.getPassword(), sourceAccount.getId(), INITIAL_DEPOSIT);
 
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
