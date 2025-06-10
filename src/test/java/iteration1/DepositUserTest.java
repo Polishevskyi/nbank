@@ -11,6 +11,7 @@ import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
 import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -45,6 +46,8 @@ public class DepositUserTest extends BaseTest {
                 .post(depositRequest);
 
         ModelAssertions.assertThatModels(depositRequest, depositResponse).match();
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> userIncorrectData() {
@@ -83,5 +86,7 @@ public class DepositUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOKSpec())
                 .get(depositRequest.getId())
                 .body("amount", equalTo(new ArrayList<>()));
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

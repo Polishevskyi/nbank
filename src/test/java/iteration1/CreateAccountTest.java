@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
 import requests.steps.AdminSteps;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -28,5 +29,7 @@ public class CreateAccountTest extends BaseTest {
                 ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("username", hasItem(userRequest.getUsername()));
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

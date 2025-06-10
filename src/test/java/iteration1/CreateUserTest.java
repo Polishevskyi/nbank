@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
 import requests.skelethon.requesters.ValidatedCrudRequester;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -32,11 +33,12 @@ public class CreateUserTest extends BaseTest {
                 .post(createUserRequest);
 
         ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
+
+        UserSteps.deleteUser(createUserResponse.getId());
     }
 
     public static Stream<Arguments> userInvalidData() {
         return Stream.of(
-                // username field validation
                 Arguments.of("   ", "Password33$", "USER", "username", "Username cannot be blank"),
                 Arguments.of("ab", "Password33$", "USER", "username", "Username must be between 3 and 15 characters"),
                 Arguments.of("abc$", "Password33$", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"),

@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
 import requests.steps.AdminSteps;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -41,6 +42,8 @@ public class ChangeNameUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("name", equalTo(updateRequest.getName()));
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> invalidNameData() {
@@ -81,5 +84,7 @@ public class ChangeNameUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOKSpec())
                 .get()
                 .body("name", equalTo(initialName));
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

@@ -11,6 +11,7 @@ import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.CrudRequester;
 import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -72,6 +73,8 @@ public class TransferMoneyUserTest extends BaseTest {
                 .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferRequest.getAmount()));
 
         ModelAssertions.assertThatModels(transferRequest, transferResponse).match();
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     private static Stream<Arguments> invalidTransferData() {
@@ -122,5 +125,7 @@ public class TransferMoneyUserTest extends BaseTest {
                 .get(sourceAccount.getId())
                 .body("$", hasSize(1))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositRequest.getBalance()));
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

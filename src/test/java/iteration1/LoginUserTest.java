@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import requests.skelethon.Endpoint;
 import requests.skelethon.requesters.ValidatedCrudRequester;
 import requests.steps.AdminSteps;
+import requests.steps.UserSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -40,5 +41,7 @@ public class LoginUserTest extends BaseTest {
                 .post(LoginUserRequestModel.builder().username(userRequest.getUsername()).password(userRequest.getPassword()).build());
 
         ModelAssertions.assertThatModels(userRequest, userResponse).match();
+
+        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }
