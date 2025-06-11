@@ -53,9 +53,6 @@ public class ChangeNameUserTest extends BaseTest {
 
         UserSteps.updateProfileWithError(userRequest.getUsername(), userRequest.getPassword(), updateRequest, expectedErrorMessage);
 
-        assertEquals(UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword()),
-                UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword()));
-
         UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

@@ -11,6 +11,7 @@ public class DeleteUserTest extends BaseTest {
     @DisplayName("Admin can delete user with correct data")
     public void adminCanCreateUserWithCorrectDataTest() {
         AdminSteps.createUser();
+
         AdminSteps.deleteUserWithMessage(AdminSteps.getCreatedUserId());
     }
 
