@@ -1,8 +1,10 @@
 package api;
 
+import extensions.UserExtension;
 import models.CreateUserRequestModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,16 +13,13 @@ import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
+@ExtendWith(UserExtension.class)
 public class CreateUserTest extends BaseTest {
 
     @Test
     @DisplayName("Admin can create user with correct data")
-    public void adminCanCreateUserWithCorrectDataTest() {
-        CreateUserRequestModel createUserRequest = AdminSteps.createUser();
-
+    public void adminCanCreateUserWithCorrectDataTest(CreateUserRequestModel createUserRequest, Long userId) {
         UserSteps.verifyUserExists(createUserRequest.getUsername());
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> userInvalidData() {

@@ -1,26 +1,26 @@
 package api;
 
+import extensions.UserExtension;
 import models.*;
 import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
+@ExtendWith(UserExtension.class)
 public class TransferMoneyUserTest extends BaseTest {
     private static final float INITIAL_DEPOSIT = 1000.0f;
     private static final float TRANSFER_AMOUNT = 500.0f;
 
     @Test
     @DisplayName("User can transfer money with correct data")
-    public void userCanTransferMoneyWithCorrectDataTest() {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCanTransferMoneyWithCorrectDataTest(CreateUserRequestModel userRequest, Long userId) {
         AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         AccountsResponseModel targetAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
@@ -44,8 +44,6 @@ public class TransferMoneyUserTest extends BaseTest {
                 depositRequest.getId(), INITIAL_DEPOSIT, TRANSFER_AMOUNT);
 
         ModelAssertions.assertThatModels(transferRequest, transferResponse).match();
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     private static Stream<Arguments> invalidTransferData() {
@@ -57,8 +55,7 @@ public class TransferMoneyUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidTransferData")
     @DisplayName("User can not transfer money with invalid data")
-    public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage) {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
+    public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage, CreateUserRequestModel userRequest, Long userId) {
 
         AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
@@ -78,7 +75,5 @@ public class TransferMoneyUserTest extends BaseTest {
         UserSteps.transferWithError(userRequest.getUsername(), userRequest.getPassword(), transferRequest, errorMessage);
 
         UserSteps.verifyDepositTransaction(userRequest.getUsername(), userRequest.getPassword(), sourceAccount.getId(), INITIAL_DEPOSIT);
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

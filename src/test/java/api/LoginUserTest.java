@@ -1,13 +1,15 @@
 package api;
 
+import extensions.UserExtension;
 import models.CreateUserRequestModel;
 import models.LoginUserResponseModel;
 import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import requests.steps.AdminSteps;
+import org.junit.jupiter.api.extension.ExtendWith;
 import requests.steps.UserSteps;
 
+@ExtendWith(UserExtension.class)
 public class LoginUserTest extends BaseTest {
 
     @Test
@@ -18,13 +20,9 @@ public class LoginUserTest extends BaseTest {
 
     @Test
     @DisplayName("User can generate auth token")
-    public void userCanGenerateAuthTokenTest() {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCanGenerateAuthTokenTest(CreateUserRequestModel userRequest, Long userId) {
         LoginUserResponseModel userResponse = UserSteps.loginAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         ModelAssertions.assertThatModels(userRequest, userResponse).match();
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

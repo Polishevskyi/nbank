@@ -1,27 +1,27 @@
 package api;
 
+import extensions.UserExtension;
 import generators.RandomData;
 import models.CreateUserRequestModel;
 import models.UpdateCustomerProfileRequestModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(UserExtension.class)
 public class ChangeNameUserTest extends BaseTest {
 
     @Test
     @DisplayName("User can change name with valid data")
-    public void userCanChangeNameWithValidDataTest() {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest, Long userId) {
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(RandomData.getUsername() + " " + RandomData.getUsername())
                 .build();
@@ -29,8 +29,6 @@ public class ChangeNameUserTest extends BaseTest {
         UserSteps.updateProfile(userRequest.getUsername(), userRequest.getPassword(), updateRequest);
 
         assertEquals(updateRequest.getName(), UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword()));
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> invalidNameData() {
@@ -44,15 +42,11 @@ public class ChangeNameUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidNameData")
     @DisplayName("User can not change name with invalid data")
-    public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage) {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage, CreateUserRequestModel userRequest, Long userId) {
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(name)
                 .build();
 
         UserSteps.updateProfileWithError(userRequest.getUsername(), userRequest.getPassword(), updateRequest, expectedErrorMessage);
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }

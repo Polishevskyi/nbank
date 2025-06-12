@@ -1,28 +1,28 @@
 package api;
 
+import extensions.UserExtension;
 import models.AccountsResponseModel;
 import models.CreateUserRequestModel;
 import models.DepositRequestModel;
 import models.DepositResponseModel;
 import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import requests.steps.AdminSteps;
 import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
+@ExtendWith(UserExtension.class)
 public class DepositUserTest extends BaseTest {
 
     @ParameterizedTest
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     @DisplayName("User can add deposit with correct data")
-    public void userCanAddDepositWithCorrectDataTest(float balance) {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCanAddDepositWithCorrectDataTest(float balance, CreateUserRequestModel userRequest, Long userId) {
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -33,8 +33,6 @@ public class DepositUserTest extends BaseTest {
         DepositResponseModel depositResponse = UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
 
         ModelAssertions.assertThatModels(depositRequest, depositResponse).match();
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 
     public static Stream<Arguments> userIncorrectData() {
@@ -47,9 +45,7 @@ public class DepositUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userIncorrectData")
     @DisplayName("User can not add deposit with incorrect data")
-    public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage) {
-        CreateUserRequestModel userRequest = AdminSteps.createUser();
-
+    public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage, CreateUserRequestModel userRequest, Long userId) {
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -60,7 +56,5 @@ public class DepositUserTest extends BaseTest {
         UserSteps.depositWithError(userRequest.getUsername(), userRequest.getPassword(), depositRequest, errorMessage);
 
         UserSteps.verifyTransactions(userRequest.getUsername(), userRequest.getPassword(), depositRequest.getId());
-
-        UserSteps.deleteUser(AdminSteps.getCreatedUserId());
     }
 }
