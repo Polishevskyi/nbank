@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 
 @ExtendWith(UserExtension.class)
 public class TransferMoneyUserTest extends BaseTest {
-    private static final float INITIAL_DEPOSIT = 1000.0f;
-    private static final float TRANSFER_AMOUNT = 500.0f;
+    private static final float DEPOSIT_AMOUNT = 5000.0f;
+    private static final float TRANSFER_AMOUNT = 10000.0f;
 
     @Test
     @DisplayName("User can transfer money with correct data")
@@ -27,9 +27,10 @@ public class TransferMoneyUserTest extends BaseTest {
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
-                .balance(INITIAL_DEPOSIT)
+                .balance(DEPOSIT_AMOUNT)
                 .build();
 
+        UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
         UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
 
         TransferMoneyRequestModel transferRequest = TransferMoneyRequestModel.builder()
@@ -41,15 +42,15 @@ public class TransferMoneyUserTest extends BaseTest {
         TransferMoneyResponseModel transferResponse = UserSteps.transfer(userRequest.getUsername(), userRequest.getPassword(), transferRequest);
 
         UserSteps.verifyTransferTransactions(userRequest.getUsername(), userRequest.getPassword(),
-                depositRequest.getId(), INITIAL_DEPOSIT, TRANSFER_AMOUNT);
+                depositRequest.getId(), DEPOSIT_AMOUNT, TRANSFER_AMOUNT);
 
         ModelAssertions.assertThatModels(transferRequest, transferResponse).match();
     }
 
     private static Stream<Arguments> invalidTransferData() {
         return Stream.of(Arguments.of(0.0f, "Invalid transfer: insufficient funds or invalid accounts"),
-                Arguments.of(-50.0f, "Invalid transfer: insufficient funds or invalid accounts"),
-                Arguments.of(999999.0f, "Transfer amount cannot exceed 10000"));
+                Arguments.of(-1.0f, "Invalid transfer: insufficient funds or invalid accounts"),
+                Arguments.of(10001.0f, "Transfer amount cannot exceed 10000"));
     }
 
     @ParameterizedTest
@@ -61,7 +62,7 @@ public class TransferMoneyUserTest extends BaseTest {
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
                 .id(sourceAccount.getId())
-                .balance(INITIAL_DEPOSIT)
+                .balance(DEPOSIT_AMOUNT)
                 .build();
 
         UserSteps.deposit(userRequest.getUsername(), userRequest.getPassword(), depositRequest);
@@ -74,6 +75,6 @@ public class TransferMoneyUserTest extends BaseTest {
 
         UserSteps.transferWithError(userRequest.getUsername(), userRequest.getPassword(), transferRequest, errorMessage);
 
-        UserSteps.verifyDepositTransaction(userRequest.getUsername(), userRequest.getPassword(), sourceAccount.getId(), INITIAL_DEPOSIT);
+        UserSteps.verifyDepositTransaction(userRequest.getUsername(), userRequest.getPassword(), sourceAccount.getId(), DEPOSIT_AMOUNT);
     }
 }

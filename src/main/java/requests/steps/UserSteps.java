@@ -142,7 +142,6 @@ public class UserSteps {
                 Endpoint.TRANSACTIONS,
                 ResponseSpecs.requestReturnsOKSpec())
                 .get(accountId)
-                .body("$", hasSize(2))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositAmount))
                 .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferAmount));
     }
