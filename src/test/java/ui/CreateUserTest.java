@@ -6,6 +6,7 @@ import api.models.CreateUserResponseModel;
 import api.models.comparison.ModelAssertions;
 import api.requests.steps.AdminSteps;
 import com.codeborne.selenide.Condition;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ui.pages.AdminPanel;
 import ui.pages.BankAlert;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CreateUserTest extends BaseUiTest {
 
     @Test
+    @DisplayName("Admin can create user")
     public void adminCanCreateUserTest() {
         // ШАГ 1: админ залогинился в банке
         CreateUserRequestModel admin = CreateUserRequestModel.getAdmin();
@@ -39,6 +41,7 @@ public class CreateUserTest extends BaseUiTest {
     }
 
     @Test
+    @DisplayName("Admin can not create user with invalid data")
     public void adminCannotCreateUserWithInvalidDataTest() {
         // ШАГ 1: админ залогинился в банке
         CreateUserRequestModel admin = CreateUserRequestModel.getAdmin();
