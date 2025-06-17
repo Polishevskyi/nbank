@@ -1,15 +1,15 @@
 package api;
 
-import extensions.UserExtension;
-import models.*;
-import models.comparison.ModelAssertions;
+import api.extensions.UserExtension;
+import api.models.*;
+import api.models.comparison.ModelAssertions;
+import api.requests.steps.UserSteps;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 

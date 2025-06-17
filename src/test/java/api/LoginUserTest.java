@@ -1,13 +1,13 @@
 package api;
 
-import extensions.UserExtension;
-import models.CreateUserRequestModel;
-import models.LoginUserResponseModel;
-import models.comparison.ModelAssertions;
+import api.extensions.UserExtension;
+import api.models.CreateUserRequestModel;
+import api.models.LoginUserResponseModel;
+import api.models.comparison.ModelAssertions;
+import api.requests.steps.UserSteps;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import requests.steps.UserSteps;
 
 @ExtendWith(UserExtension.class)
 public class LoginUserTest extends BaseTest {

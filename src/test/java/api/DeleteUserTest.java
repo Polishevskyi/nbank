@@ -1,9 +1,9 @@
 package api;
 
-import generators.RandomData;
+import api.generators.RandomData;
+import api.requests.steps.AdminSteps;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import requests.steps.AdminSteps;
 
 public class DeleteUserTest extends BaseTest {
 
