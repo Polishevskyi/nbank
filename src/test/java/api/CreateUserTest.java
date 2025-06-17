@@ -18,7 +18,7 @@ public class CreateUserTest extends BaseTest {
 
     @Test
     @DisplayName("Admin can create user with correct data")
-    public void adminCanCreateUserWithCorrectDataTest(CreateUserRequestModel createUserRequest, Long userId) {
+    public void adminCanCreateUserWithCorrectDataTest(CreateUserRequestModel createUserRequest) {
         UserSteps.verifyUserExists(createUserRequest.getUsername());
     }
 

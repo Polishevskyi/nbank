@@ -22,7 +22,7 @@ public class DepositUserTest extends BaseTest {
     @ParameterizedTest
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     @DisplayName("User can add deposit with correct data")
-    public void userCanAddDepositWithCorrectDataTest(float balance, CreateUserRequestModel userRequest, Long userId) {
+    public void userCanAddDepositWithCorrectDataTest(float balance, CreateUserRequestModel userRequest) {
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()
@@ -45,7 +45,7 @@ public class DepositUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userIncorrectData")
     @DisplayName("User can not add deposit with incorrect data")
-    public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage, CreateUserRequestModel userRequest, Long userId) {
+    public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage, CreateUserRequestModel userRequest) {
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         DepositRequestModel depositRequest = DepositRequestModel.builder()

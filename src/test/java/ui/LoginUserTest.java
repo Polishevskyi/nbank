@@ -24,7 +24,7 @@ public class LoginUserTest extends BaseUiTest {
 
     @Test
     @DisplayName("User can login with correct data")
-    public void userCanLoginWithCorrectDataTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanLoginWithCorrectDataTest(CreateUserRequestModel userRequest) {
         new LoginPage().open().login(userRequest.getUsername(), userRequest.getPassword())
                 .getPage(UserDashboard.class).getWelcomeText()
                 .shouldBe(Condition.visible).shouldHave(Condition.text("Welcome, noname!"));

@@ -19,7 +19,7 @@ public class CreateAccountTest extends BaseUiTest {
 
     @Test
     @DisplayName("User can create account")
-    public void userCanCreateAccountTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanCreateAccountTest(CreateUserRequestModel userRequest) {
         authAsUser(userRequest);
 
         new UserDashboard().open().createNewAccount();
@@ -29,8 +29,8 @@ public class CreateAccountTest extends BaseUiTest {
 
         assertThat(createdAccounts).hasSize(1);
 
-        new UserDashboard().checkAlertMessageAndAccept
-                (BankAlert.NEW_ACCOUNT_CREATED.getMessage() + createdAccounts.getFirst().getAccountNumber());
+        new UserDashboard().checkAlertMessageAndAccept(
+                BankAlert.NEW_ACCOUNT_CREATED.getMessage() + createdAccounts.getFirst().getAccountNumber());
 
         assertThat(createdAccounts.getFirst().getBalance()).isZero();
     }

@@ -12,7 +12,7 @@ public class CreateAccountTest extends BaseTest {
 
     @Test
     @DisplayName("User can create account")
-    public void userCanCreateAccountTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanCreateAccountTest(CreateUserRequestModel userRequest) {
         UserSteps.createAccount(userRequest.getUsername(), userRequest.getPassword());
 
         UserSteps.verifyUserExists(userRequest.getUsername());

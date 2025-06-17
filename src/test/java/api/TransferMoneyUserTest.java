@@ -20,7 +20,7 @@ public class TransferMoneyUserTest extends BaseTest {
 
     @Test
     @DisplayName("User can transfer money with correct data")
-    public void userCanTransferMoneyWithCorrectDataTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanTransferMoneyWithCorrectDataTest(CreateUserRequestModel userRequest) {
         AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         AccountsResponseModel targetAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
@@ -56,7 +56,7 @@ public class TransferMoneyUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidTransferData")
     @DisplayName("User can not transfer money with invalid data")
-    public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage, CreateUserRequestModel userRequest, Long userId) {
+    public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage, CreateUserRequestModel userRequest) {
 
         AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 

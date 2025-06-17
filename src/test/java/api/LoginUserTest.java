@@ -20,7 +20,7 @@ public class LoginUserTest extends BaseTest {
 
     @Test
     @DisplayName("User can generate auth token")
-    public void userCanGenerateAuthTokenTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanGenerateAuthTokenTest(CreateUserRequestModel userRequest) {
         LoginUserResponseModel userResponse = UserSteps.loginAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
 
         ModelAssertions.assertThatModels(userRequest, userResponse).match();
