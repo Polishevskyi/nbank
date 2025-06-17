@@ -21,7 +21,7 @@ public class ChangeNameUserTest extends BaseTest {
 
     @Test
     @DisplayName("User can change name with valid data")
-    public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest, Long userId) {
+    public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest) {
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(RandomData.getUsername() + " " + RandomData.getUsername())
                 .build();
@@ -42,7 +42,7 @@ public class ChangeNameUserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("invalidNameData")
     @DisplayName("User can not change name with invalid data")
-    public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage, CreateUserRequestModel userRequest, Long userId) {
+    public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage, CreateUserRequestModel userRequest) {
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
                 .name(name)
                 .build();
