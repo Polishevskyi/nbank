@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 @Getter
 public class AdminPanel extends BasePage<AdminPanel> {
     private SelenideElement adminPanelText = $(Selectors.byText("Admin Panel"));
-    private SelenideElement addUserButton = $(Selectors.byText("Add User"));
+    private SelenideElement addUserBtn = $(Selectors.byText("Add User"));
 
     @Override
     public String url() {
@@ -20,7 +20,7 @@ public class AdminPanel extends BasePage<AdminPanel> {
     public AdminPanel createUser(String username, String password) {
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
-        addUserButton.click();
+        addUserBtn.click();
         return this;
     }
 

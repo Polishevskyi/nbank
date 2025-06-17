@@ -32,4 +32,9 @@ public class UserDashboard extends BasePage<UserDashboard> {
         makeATransfer.click();
         return this;
     }
+
+    public UserDashboard clickUsernameTitle(String username) {
+        $(Selectors.byText(username)).click();
+        return this;
+    }
 }
