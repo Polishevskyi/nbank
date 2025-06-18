@@ -55,7 +55,7 @@ public class ChangeNameUserTest extends BaseUiTest {
                 .clickSaveChanges()
                 .checkAlertMessageAndAccept(BankAlert.NAME_INVALID.getMessage());
 
-        new ProfilePage().open();
+        new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
 
         assertEquals(oldName, new ProfilePage().getProfileNameText());
 
@@ -76,7 +76,7 @@ public class ChangeNameUserTest extends BaseUiTest {
                 .clickSaveChanges()
                 .checkAlertMessageAndAccept(BankAlert.NAME_UPDATED_SUCCESSFULLY.getMessage());
 
-        new ProfilePage().open();
+        new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
 
         new ProfilePage()
                 .enterNewName(newName)
