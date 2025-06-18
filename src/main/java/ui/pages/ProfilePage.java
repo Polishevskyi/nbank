@@ -9,6 +9,7 @@ public class ProfilePage extends BasePage<ProfilePage> {
 
     private SelenideElement newNameInput = $(Selectors.byCssSelector("input[placeholder=\"Enter new name\"]"));
     private SelenideElement saveChangesBtn = $(Selectors.byCssSelector("button.btn.btn-primary.mt-3"));
+    private SelenideElement profileName = $(Selectors.byClassName("user-name"));
 
     @Override
     public String url() {
@@ -23,5 +24,9 @@ public class ProfilePage extends BasePage<ProfilePage> {
     public ProfilePage clickSaveChanges() {
         saveChangesBtn.click();
         return this;
+    }
+
+    public String getProfileNameText() {
+        return profileName.getText();
     }
 }

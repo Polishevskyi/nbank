@@ -24,15 +24,19 @@ public class ChangeNameUserTest extends BaseUiTest {
         new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
 
         String newName = RandomData.getUsername() + " " + RandomData.getUsername();
+
         new ProfilePage()
                 .enterNewName(newName)
                 .clickSaveChanges()
                 .checkAlertMessageAndAccept(BankAlert.NAME_UPDATED_SUCCESSFULLY.getMessage());
 
+        new ProfilePage().open();
+
+        assertEquals(newName, new ProfilePage().getProfileNameText());
+
         String actualProfileName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
 
-        assertEquals(newName.toLowerCase().replace(",", "").trim(),
-                actualProfileName.toLowerCase().replace(",", "").replace("!", "").trim());
+        assertEquals(newName, actualProfileName);
     }
 
     @Test
@@ -42,9 +46,47 @@ public class ChangeNameUserTest extends BaseUiTest {
 
         new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
 
+        String oldName = new ProfilePage().getProfileNameText();
+
+        String invalidName = RandomData.getUsername();
+
         new ProfilePage()
-                .enterNewName(RandomData.getUsername())
+                .enterNewName(invalidName)
                 .clickSaveChanges()
                 .checkAlertMessageAndAccept(BankAlert.NAME_INVALID.getMessage());
+
+        new ProfilePage().open();
+
+        assertEquals(oldName, new ProfilePage().getProfileNameText());
+
+        assertEquals(oldName, "Noname");
+    }
+
+    @Test
+    @DisplayName("User can not change name to the same value")
+    public void userCanNotChangeNameToSameValueTest(CreateUserRequestModel userRequest) {
+        authAsUser(userRequest);
+
+        new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
+
+        String newName = RandomData.getUsername() + " " + RandomData.getUsername();
+
+        new ProfilePage()
+                .enterNewName(newName)
+                .clickSaveChanges()
+                .checkAlertMessageAndAccept(BankAlert.NAME_UPDATED_SUCCESSFULLY.getMessage());
+
+        new ProfilePage().open();
+
+        new ProfilePage()
+                .enterNewName(newName)
+                .clickSaveChanges()
+                .checkAlertMessageAndAccept(BankAlert.NAME_SAME_AS_CURRENT.getMessage());
+
+        assertEquals(newName, new ProfilePage().getProfileNameText());
+
+        String actualProfileName = UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword());
+
+        assertEquals(newName, actualProfileName);
     }
 }

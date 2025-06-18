@@ -12,7 +12,8 @@ public enum BankAlert {
     NAME_UPDATED_SUCCESSFULLY("✅ Name updated successfully!"),
     DEPOSIT_AMOUNT_EXCEEDS_LIMIT("❌ Please deposit less or equal to 5000$."),
     TRANSFER_AMOUNT_EXCEEDS_LIMIT("❌ Error: Transfer amount cannot exceed 10000"),
-    NAME_INVALID("❌ Please enter a valid name.");
+    NAME_INVALID("❌ Please enter a valid name."),
+    NAME_SAME_AS_CURRENT("⚠️ New name is the same as the current one.");
 
     private final String message;
 
