@@ -18,7 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(UserExtension.class)
 public class DepositUserTest extends BaseUiTest {
 
-    private static final float DEPOSIT_AMOUNT = 2000.0F;
+    private static final float DEPOSIT_AMOUNT = 5000.0F;
+    private static final float INVALID_DEPOSIT_AMOUNT = 5001.0F;
 
     @Test
     @DisplayName("User can add deposit with correct data")
@@ -46,5 +47,33 @@ public class DepositUserTest extends BaseUiTest {
                 userRequest.getPassword(), apiDepositRequest);
 
         assertThat(apiDepositResponse.getBalance()).isEqualTo(DEPOSIT_AMOUNT + DEPOSIT_AMOUNT);
+    }
+
+    @Test
+    @DisplayName("User can not add deposit with amount greater than 5000")
+    public void userCanNotAddDepositWithAmountGreaterThanMaxTest(CreateUserRequestModel userRequest) {
+        authAsUser(userRequest.getUsername(), userRequest.getPassword());
+
+        AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(
+                userRequest.getUsername(),
+                userRequest.getPassword());
+
+        new UserDashboard().open().createNewAccount().depositMoney();
+
+        new DepositPage()
+                .selectAccount(String.valueOf(accountsResponse.getId()))
+                .enterAmount(INVALID_DEPOSIT_AMOUNT)
+                .clickDeposit()
+                .checkAlertMessageAndAccept(BankAlert.DEPOSIT_AMOUNT_EXCEEDS_LIMIT.getMessage());
+
+        DepositRequestModel apiDepositRequest = DepositRequestModel.builder()
+                .id(accountsResponse.getId())
+                .balance(DEPOSIT_AMOUNT)
+                .build();
+
+        DepositResponseModel apiDepositResponse = UserSteps.deposit(userRequest.getUsername(),
+                userRequest.getPassword(), apiDepositRequest);
+
+        assertThat(apiDepositResponse.getBalance()).isEqualTo(DEPOSIT_AMOUNT);
     }
 }

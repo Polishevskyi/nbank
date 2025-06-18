@@ -9,7 +9,10 @@ public enum BankAlert {
     NEW_ACCOUNT_CREATED("✅ New Account Created! Account Number: "),
     DEPOSIT_SUCCESSFUL("✅ Successfully deposited "),
     TRANSFER_SUCCESSFUL("Successfully transferred"),
-    NAME_UPDATED_SUCCESSFULLY("✅ Name updated successfully!");
+    NAME_UPDATED_SUCCESSFULLY("✅ Name updated successfully!"),
+    DEPOSIT_AMOUNT_EXCEEDS_LIMIT("❌ Please deposit less or equal to 5000$."),
+    TRANSFER_AMOUNT_EXCEEDS_LIMIT("❌ Error: Transfer amount cannot exceed 10000"),
+    NAME_INVALID("❌ Please enter a valid name.");
 
     private final String message;
 

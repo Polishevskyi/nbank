@@ -34,4 +34,17 @@ public class ChangeNameUserTest extends BaseUiTest {
         assertEquals(newName.toLowerCase().replace(",", "").trim(),
                 actualProfileName.toLowerCase().replace(",", "").replace("!", "").trim());
     }
+
+    @Test
+    @DisplayName("User can not change name to one word")
+    public void userCanNotChangeNameToOneWordTest(CreateUserRequestModel userRequest) {
+        authAsUser(userRequest);
+
+        new UserDashboard().open().clickUsernameTitle(userRequest.getUsername());
+
+        new ProfilePage()
+                .enterNewName(RandomData.getUsername())
+                .clickSaveChanges()
+                .checkAlertMessageAndAccept(BankAlert.NAME_INVALID.getMessage());
+    }
 }
