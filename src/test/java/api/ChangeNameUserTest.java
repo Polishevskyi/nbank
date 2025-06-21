@@ -1,25 +1,24 @@
 package api;
 
-import extensions.UserExtension;
-import generators.RandomData;
-import models.CreateUserRequestModel;
-import models.UpdateCustomerProfileRequestModel;
+import api.generators.RandomData;
+import api.models.CreateUserRequestModel;
+import api.models.UpdateCustomerProfileRequestModel;
+import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(UserExtension.class)
 public class ChangeNameUserTest extends BaseTest {
 
     @Test
+    @UserSession
     @DisplayName("User can change name with valid data")
     public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest) {
         UpdateCustomerProfileRequestModel updateRequest = UpdateCustomerProfileRequestModel.builder()
@@ -40,6 +39,7 @@ public class ChangeNameUserTest extends BaseTest {
     }
 
     @ParameterizedTest
+    @UserSession
     @MethodSource("invalidNameData")
     @DisplayName("User can not change name with invalid data")
     public void userCannotChangeNameWithInvalidDataTest(String name, String expectedErrorMessage, CreateUserRequestModel userRequest) {

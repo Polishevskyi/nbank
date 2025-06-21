@@ -1,22 +1,21 @@
 package api;
 
-import extensions.UserExtension;
-import models.CreateUserRequestModel;
+import api.models.CreateUserRequestModel;
+import api.requests.steps.AdminSteps;
+import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.AdminSteps;
-import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
-@ExtendWith(UserExtension.class)
 public class CreateUserTest extends BaseTest {
 
     @Test
+    @UserSession
     @DisplayName("Admin can create user with correct data")
     public void adminCanCreateUserWithCorrectDataTest(CreateUserRequestModel createUserRequest) {
         UserSteps.verifyUserExists(createUserRequest.getUsername());

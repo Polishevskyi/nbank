@@ -1,24 +1,23 @@
 package api;
 
-import extensions.UserExtension;
-import models.*;
-import models.comparison.ModelAssertions;
+import api.models.*;
+import api.models.comparison.ModelAssertions;
+import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
-@ExtendWith(UserExtension.class)
 public class TransferMoneyUserTest extends BaseTest {
     private static final float DEPOSIT_AMOUNT = 5000.0f;
     private static final float TRANSFER_AMOUNT = 10000.0f;
 
     @Test
+    @UserSession
     @DisplayName("User can transfer money with correct data")
     public void userCanTransferMoneyWithCorrectDataTest(CreateUserRequestModel userRequest) {
         AccountsResponseModel sourceAccount = UserSteps.createAccountAndGetResponse(userRequest.getUsername(), userRequest.getPassword());
@@ -54,6 +53,7 @@ public class TransferMoneyUserTest extends BaseTest {
     }
 
     @ParameterizedTest
+    @UserSession
     @MethodSource("invalidTransferData")
     @DisplayName("User can not transfer money with invalid data")
     public void userCannotTransferMoneyWithInvalidDataTest(Float amount, String errorMessage, CreateUserRequestModel userRequest) {

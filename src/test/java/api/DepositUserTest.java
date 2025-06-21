@@ -1,25 +1,24 @@
 package api;
 
-import extensions.UserExtension;
-import models.AccountsResponseModel;
-import models.CreateUserRequestModel;
-import models.DepositRequestModel;
-import models.DepositResponseModel;
-import models.comparison.ModelAssertions;
+import api.models.AccountsResponseModel;
+import api.models.CreateUserRequestModel;
+import api.models.DepositRequestModel;
+import api.models.DepositResponseModel;
+import api.models.comparison.ModelAssertions;
+import api.requests.steps.UserSteps;
+import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import requests.steps.UserSteps;
 
 import java.util.stream.Stream;
 
-@ExtendWith(UserExtension.class)
 public class DepositUserTest extends BaseTest {
 
     @ParameterizedTest
+    @UserSession
     @ValueSource(floats = {1.0f, 5000.0f, 50.50f})
     @DisplayName("User can add deposit with correct data")
     public void userCanAddDepositWithCorrectDataTest(float balance, CreateUserRequestModel userRequest) {
@@ -43,6 +42,7 @@ public class DepositUserTest extends BaseTest {
     }
 
     @ParameterizedTest
+    @UserSession
     @MethodSource("userIncorrectData")
     @DisplayName("User can not add deposit with incorrect data")
     public void userCanNotAddDepositWithIncorrectDataTest(float balance, String errorMessage, CreateUserRequestModel userRequest) {
