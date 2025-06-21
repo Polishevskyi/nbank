@@ -171,4 +171,13 @@ public class UserSteps {
                 .body("$", hasSize(1))
                 .body("find { it.type == 'DEPOSIT' }.amount", equalTo(depositAmount));
     }
+
+    public static void verifyNoTransferTransactions(String username, String password, Long accountId) {
+        new CrudRequester(
+                RequestSpecs.authAsUserSpec(username, password),
+                Endpoint.TRANSACTIONS,
+                ResponseSpecs.requestReturnsOKSpec())
+                .get(accountId)
+                .body("findAll { it.type == 'TRANSFER_OUT' }", empty());
+    }
 }
