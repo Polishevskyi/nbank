@@ -4,7 +4,11 @@ import api.models.CreateUserRequestModel;
 import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
+import common.storage.SessionStorage;
 import org.junit.jupiter.api.extension.*;
+import ui.pages.BasePage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserSessionExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
     private static final String USER_REQUEST_KEY = "userRequest";
@@ -20,9 +24,13 @@ public class UserSessionExtension implements BeforeEachCallback, AfterEachCallba
         if (annotation == null) {
             return;
         }
+        SessionStorage.clear();
         CreateUserRequestModel userRequest = AdminSteps.createUser();
         Long userId = AdminSteps.getCreatedUserId();
-
+        List<CreateUserRequestModel> users = new ArrayList<>();
+        users.add(userRequest);
+        SessionStorage.addUsers(users);
+        BasePage.authAsUser(userRequest);
         getStore(context).put(USER_REQUEST_KEY, userRequest);
         getStore(context).put(USER_ID_KEY, userId);
     }
