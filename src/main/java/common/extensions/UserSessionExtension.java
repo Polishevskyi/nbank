@@ -30,7 +30,10 @@ public class UserSessionExtension implements BeforeEachCallback, AfterEachCallba
         List<CreateUserRequestModel> users = new ArrayList<>();
         users.add(userRequest);
         SessionStorage.addUsers(users);
-        BasePage.authAsUser(userRequest);
+        String className = context.getRequiredTestClass().getName().toLowerCase();
+        if (className.contains(".ui.") || className.startsWith("ui.") || className.contains(".ui")) {
+            BasePage.authAsUser(userRequest);
+        }
         getStore(context).put(USER_REQUEST_KEY, userRequest);
         getStore(context).put(USER_ID_KEY, userId);
     }
