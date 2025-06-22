@@ -2,78 +2,101 @@ package ui;
 
 import api.models.AccountsResponseModel;
 import api.models.CreateUserRequestModel;
-import api.models.DepositRequestModel;
-import api.models.DepositResponseModel;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ui.pages.BankAlert;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import ui.pages.DepositPage;
 import ui.pages.UserDashboard;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DepositUserTest extends BaseUiTest {
 
-    private static final float DEPOSIT_AMOUNT = 5000.0F;
-    private static final float INVALID_DEPOSIT_AMOUNT = 5001.0F;
+    static Stream<Arguments> validDepositAmounts() {
+        return Stream.of(Arguments.of(1.0f),
+                Arguments.of(100.0f),
+                Arguments.of(4999.99f),
+                Arguments.of(5000.0f));
+    }
 
-    @Test
+    @ParameterizedTest
     @UserSession
-    @DisplayName("User can add deposit with correct data")
-    public void userCanAddDepositWithCorrectDataTest(CreateUserRequestModel userRequest) {
-        authAsUser(userRequest.getUsername(), userRequest.getPassword());
-
+    @MethodSource("validDepositAmounts")
+    @DisplayName("User can add deposit with valid amount (UI + API)")
+    void userCanAddDepositWithValidAmount(float amount, CreateUserRequestModel userRequest) {
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(
                 userRequest.getUsername(),
                 userRequest.getPassword());
 
-        new UserDashboard().open().createNewAccount().depositMoney();
+        UserSteps.depositViaUi(accountsResponse.getId(), amount);
+
+        UserSteps.verifyDepositTransaction(
+                userRequest.getUsername(),
+                userRequest.getPassword(),
+                accountsResponse.getId(),
+                amount);
+    }
+
+    static Stream<Arguments> invalidDepositAmounts() {
+        return Stream.of(
+                Arguments.of(0.0f, "❌ Please enter a valid amount."),
+                Arguments.of(-1.0f, "❌ Please enter a valid amount."),
+                Arguments.of(5000.01f, "❌ Please deposit less or equal to 5000$."),
+                Arguments.of(999999.0f, "❌ Please deposit less or equal to 5000$."));
+    }
+
+    @ParameterizedTest
+    @UserSession
+    @MethodSource("invalidDepositAmounts")
+    @DisplayName("User can not add deposit with invalid amount (UI + API)")
+    void userCanNotAddDepositWithInvalidAmount(Float amount, String expectedUiError, CreateUserRequestModel userRequest) {
+        AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(
+                userRequest.getUsername(),
+                userRequest.getPassword());
+
+        new UserDashboard().open().depositMoney();
 
         new DepositPage()
                 .selectAccount(String.valueOf(accountsResponse.getId()))
-                .enterAmount(DEPOSIT_AMOUNT)
+                .enterAmount(amount)
                 .clickDeposit()
-                .checkAlertMessageAndAccept(BankAlert.DEPOSIT_SUCCESSFUL.getMessage());
+                .checkAlertMessageAndAccept(expectedUiError);
 
-        DepositRequestModel apiDepositRequest = DepositRequestModel.builder()
-                .id(accountsResponse.getId())
-                .balance(DEPOSIT_AMOUNT)
-                .build();
-
-        DepositResponseModel apiDepositResponse = UserSteps.deposit(userRequest.getUsername(),
-                userRequest.getPassword(), apiDepositRequest);
-
-        assertThat(apiDepositResponse.getBalance()).isEqualTo(DEPOSIT_AMOUNT + DEPOSIT_AMOUNT);
+        UserSteps.verifyTransactions(
+                userRequest.getUsername(),
+                userRequest.getPassword(),
+                accountsResponse.getId());
     }
 
     @Test
     @UserSession
-    @DisplayName("User can not add deposit with amount greater than 5000")
-    public void userCanNotAddDepositWithAmountGreaterThanMaxTest(CreateUserRequestModel userRequest) {
-        authAsUser(userRequest.getUsername(), userRequest.getPassword());
+    @DisplayName("User can deposit twice with the same amount and balance is correct (UI + API)")
+    void userCanDepositTwiceWithSameAmountAndBalanceIsCorrect(CreateUserRequestModel userRequest) {
+        float depositAmount = 5000.0f;
 
         AccountsResponseModel accountsResponse = UserSteps.createAccountAndGetResponse(
                 userRequest.getUsername(),
                 userRequest.getPassword());
 
-        new UserDashboard().open().createNewAccount().depositMoney();
+        UserSteps.depositViaUi(accountsResponse.getId(), depositAmount);
+        UserSteps.depositViaUi(accountsResponse.getId(), depositAmount);
 
-        new DepositPage()
-                .selectAccount(String.valueOf(accountsResponse.getId()))
-                .enterAmount(INVALID_DEPOSIT_AMOUNT)
-                .clickDeposit()
-                .checkAlertMessageAndAccept(BankAlert.DEPOSIT_AMOUNT_EXCEEDS_LIMIT.getMessage());
+        List<AccountsResponseModel> accounts = UserSteps.getAllAccounts(
+                userRequest.getUsername(),
+                userRequest.getPassword());
 
-        DepositRequestModel apiDepositRequest = DepositRequestModel.builder()
-                .id(accountsResponse.getId())
-                .balance(DEPOSIT_AMOUNT)
-                .build();
+        AccountsResponseModel updatedAccount = accounts.stream()
+                .filter(acc -> acc.getId().equals(accountsResponse.getId()))
+                .findFirst()
+                .orElseThrow();
 
-        DepositResponseModel apiDepositResponse = UserSteps.deposit(userRequest.getUsername(),
-                userRequest.getPassword(), apiDepositRequest);
-
-        assertThat(apiDepositResponse.getBalance()).isEqualTo(DEPOSIT_AMOUNT);
+        assertThat(updatedAccount.getBalance()).isEqualTo(depositAmount + depositAmount);
     }
 }

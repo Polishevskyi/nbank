@@ -28,6 +28,13 @@ public class UserSteps {
                 ResponseSpecs.requestReturnsOKSpec()).getAll(AccountsResponseModel[].class);
     }
 
+    public static List<AccountsResponseModel> getAllAccounts(String username, String password) {
+        return new ValidatedCrudRequester<AccountsResponseModel>(
+                RequestSpecs.authAsUserSpec(username, password),
+                Endpoint.CUSTOMER_ACCOUNTS,
+                ResponseSpecs.requestReturnsOKSpec()).getAll(AccountsResponseModel[].class);
+    }
+
     public static void deleteUser(Long userId) {
         new CrudRequester(
                 RequestSpecs.adminSpec(),
@@ -40,7 +47,8 @@ public class UserSteps {
                 .asString();
     }
 
-    public static void updateProfile(String username, String password, UpdateCustomerProfileRequestModel updateRequest) {
+    public static void updateProfile(String username, String password,
+                                     UpdateCustomerProfileRequestModel updateRequest) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.PROFILE,
@@ -48,7 +56,8 @@ public class UserSteps {
                 .put(updateRequest);
     }
 
-    public static void updateProfileWithError(String username, String password, UpdateCustomerProfileRequestModel updateRequest, String expectedErrorMessage) {
+    public static void updateProfileWithError(String username, String password,
+                                              UpdateCustomerProfileRequestModel updateRequest, String expectedErrorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.PROFILE,
@@ -82,7 +91,8 @@ public class UserSteps {
                 .post(null);
     }
 
-    public static DepositResponseModel deposit(String username, String password, DepositRequestModel depositRequest) {
+    public static DepositResponseModel deposit(String username, String password,
+                                               DepositRequestModel depositRequest) {
         return new ValidatedCrudRequester<DepositResponseModel>(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.DEPOSIT,
@@ -90,7 +100,8 @@ public class UserSteps {
                 .post(depositRequest);
     }
 
-    public static void depositWithError(String username, String password, DepositRequestModel depositRequest, String errorMessage) {
+    public static void depositWithError(String username, String password, DepositRequestModel depositRequest,
+                                        String errorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.DEPOSIT,
@@ -136,7 +147,8 @@ public class UserSteps {
                         .build());
     }
 
-    public static TransferMoneyResponseModel transfer(String username, String password, TransferMoneyRequestModel transferRequest) {
+    public static TransferMoneyResponseModel transfer(String username, String password,
+                                                      TransferMoneyRequestModel transferRequest) {
         return new ValidatedCrudRequester<TransferMoneyResponseModel>(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSFER,
@@ -144,7 +156,8 @@ public class UserSteps {
                 .post(transferRequest);
     }
 
-    public static void transferWithError(String username, String password, TransferMoneyRequestModel transferRequest, String errorMessage) {
+    public static void transferWithError(String username, String password,
+                                         TransferMoneyRequestModel transferRequest, String errorMessage) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSFER,
@@ -152,7 +165,8 @@ public class UserSteps {
                 .post(transferRequest);
     }
 
-    public static void verifyTransferTransactions(String username, String password, Long accountId, float depositAmount, float transferAmount) {
+    public static void verifyTransferTransactions(String username, String password, Long accountId,
+                                                  float depositAmount, float transferAmount) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSACTIONS,
@@ -162,7 +176,8 @@ public class UserSteps {
                 .body("find { it.type == 'TRANSFER_OUT' }.amount", equalTo(transferAmount));
     }
 
-    public static void verifyDepositTransaction(String username, String password, Long accountId, float depositAmount) {
+    public static void verifyDepositTransaction(String username, String password, Long accountId,
+                                                float depositAmount) {
         new CrudRequester(
                 RequestSpecs.authAsUserSpec(username, password),
                 Endpoint.TRANSACTIONS,
@@ -179,5 +194,14 @@ public class UserSteps {
                 ResponseSpecs.requestReturnsOKSpec())
                 .get(accountId)
                 .body("findAll { it.type == 'TRANSFER_OUT' }", empty());
+    }
+
+    public static void depositViaUi(Long accountId, float amount) {
+        new ui.pages.UserDashboard().open().depositMoney();
+        new ui.pages.DepositPage()
+                .selectAccount(String.valueOf(accountId))
+                .enterAmount(amount)
+                .clickDeposit()
+                .checkAlertMessageAndAccept(ui.pages.BankAlert.DEPOSIT_SUCCESSFUL.getMessage());
     }
 }
