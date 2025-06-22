@@ -8,6 +8,7 @@ import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -203,5 +204,17 @@ public class UserSteps {
                 .enterAmount(amount)
                 .clickDeposit()
                 .checkAlertMessageAndAccept(ui.pages.BankAlert.DEPOSIT_SUCCESSFUL.getMessage());
+    }
+
+    public static List<TransactionsResponseModel> getTransactions(String username, String password, Long accountId) {
+        TransactionsResponseModel[] response = new CrudRequester(
+                RequestSpecs.authAsUserSpec(username, password),
+                Endpoint.TRANSACTIONS,
+                ResponseSpecs.requestReturnsOKSpec())
+                .get(accountId)
+                .extract()
+                .body()
+                .as(TransactionsResponseModel[].class);
+        return Arrays.asList(response);
     }
 }
