@@ -38,4 +38,4 @@ build/
 .DS_Store
 
 # Ignore environment files
-*.env
+*.env.env
