@@ -1,0 +1,22 @@
+Docker image - a template for a future docker container (as a class for an object)
+Docker container - a running container based on the docker image template (as an object for a class)
+
+Steps:
+0) Form a manual algorithm to run tests and report
+1) Create a docker image based on tests (template)
+2) Run tests based on the docker image inside the docker container
+3) Get report on test results from the docker container
+4) Put the result into a special result folder
+
+Why? Use case
+
+QA1 -> develop tests (all tech: java, mvn, etc.)
+QA2 -> develop tests (all tech: java, mvn, etc.)
+DEV1 -> just run a test (without understanding the tech)
+DEV2 -> just run a test (without understanding the tech).
+
+QA1 -> package new version of tests into a "box" (docker)
+QA2 -> package new version of tests into a "box" (docker)
+
+DEV1 -> take and run updated tests from "box" (using docker)
+DEV2 -> take and run updated tests from "box" (using docker)

@@ -20,6 +20,23 @@ public class Config {
     }
 
     public static String getProperty(String key) {
+        // PRIORITY 1 is the baseApiUrl =... system property.
+        String systemValue = System.getProperty(key);
+
+        if (systemValue != null) {
+            return systemValue;
+        }
+
+        // PRIORITY 2 is an environment variable baseApiUrl - BASEAPIURL
+        // admin.username -> ADMIN_USERNAME
+        String envKey = key.toUpperCase().replace('.', '_');
+
+        String envValue = System.getenv(envKey);
+        if (envValue != null) {
+            return envValue;
+        }
+
+        // PRIORITY 3 is config.properties
         return INSTANCE.properties.getProperty(key);
     }
 }
