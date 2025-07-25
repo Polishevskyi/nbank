@@ -1,0 +1,17 @@
+All containers that need to be run:
+
+1) Backend container nobugsme/nbank:with_validation_fix // backend 4111 -> 4111
+
+2) Frontend container nobugsme/nbank-ui:latest // frontend 80
+
+3) Nginx container nginx:latest // nginx 80 -> 80
+
+3) Selenoid container aerokube/selenoid:latest // selenoid 4444 -> 4444
+
+4) Selenoid UI container aerokube/selenoid-ui:latest // selenoid ui 6567 -> 8080
+
+Steps to implement Docker Compose:
+
+1) Create a docker-compose.yaml file
+2) Describe each of the docker containers (image, port, sequence, shared docker network)
+3) Script to bring up all docker containers using Docker Compose
