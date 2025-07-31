@@ -2,6 +2,7 @@ services:
   backend:
     image: nobugsme/nbank:with_username_error_fix
     platform: linux/amd64
+    container_name: backend
     ports:
       - "4111:4111"
     networks:
@@ -9,6 +10,7 @@ services:
 
   frontend:
     image: nobugsme/nbank-ui:with_nginx
+    container_name: frontend
     ports:
       - "3000:80"
     depends_on:
@@ -19,6 +21,7 @@ services:
   selenoid:
     image: aerokube/selenoid:latest
     platform: linux/amd64
+    container_name: selenoid
     ports:
       - "4444:4444"
     volumes:
@@ -33,6 +36,7 @@ services:
   selenoid-ui:
     image: aerokube/selenoid-ui:latest
     platform: linux/amd64
+    container_name: selenoid-ui
     ports:
       - "8080:8080"
     command: [ "--selenoid-uri", "http://selenoid:4444" ]
