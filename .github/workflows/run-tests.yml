@@ -14,7 +14,7 @@ jobs: # аналог этапов
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'corretto'
           java-version: '21'
 
       - name: Cache Maven repository
@@ -28,32 +28,8 @@ jobs: # аналог этапов
       - name: Set up services
         run: cd infra/docker_compose && bash restart_docker.sh && cd ../..
 
-      - name: Force display of initial logs
-        if: always()
-        run: |
-          echo "Waiting a few seconds for services to start and log errors..."
-          sleep 10
-          echo "--- Docker PS (shows all running containers) ---"
-          docker ps -a
-          echo
-          echo "--- Selenoid Logs (the most important part for debugging) ---"
-          docker logs selenoid --tail 500
-          echo
-          echo "--- Frontend Logs ---"
-          docker logs frontend --tail 200
-
-      - name: Wait for services to be ready
-        run: |
-          echo "Waiting for Selenoid..."
-          timeout 60s bash -c 'until curl -s http://localhost:4444/status | jq -e ".value.ready == true"; do echo "Selenoid not ready yet..."; sleep 2; done'
-          echo "Selenoid is ready! Starting tests."
-
       - name: Run tests
-        run: >
-          ./mvnw clean test -q
-          -Dselenide.baseUrl=${UIBASEURL}
-          -Dselenide.remote=${UIREMOTE}
+        run: ./mvnw clean test -q -Dselenide.baseUrl=${UIBASEURL} -Dselenide.remote=http://localhost:4444/wd/hub
         env:
-          UIBASEURL: http://frontend
-          UIREMOTE: http://localhost:4444/wd/hub
           APIBASEURL: http://localhost:4111
+          UIBASEURL: http://frontend
