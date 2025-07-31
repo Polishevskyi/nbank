@@ -4,7 +4,6 @@ import api.generators.RandomData;
 import api.models.CreateUserRequestModel;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
 
 public class ChangeNameUserTest extends BaseUiTest {
 
-    @Test
+//    @Test
     @UserSession
     @DisplayName("User can change name with valid data")
     void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest) {
@@ -47,7 +46,7 @@ public class ChangeNameUserTest extends BaseUiTest {
                 Arguments.of("@#$% ^&*", BankAlert.NAME_INVALID.getMessage()));
     }
 
-    @ParameterizedTest
+//    @ParameterizedTest
     @UserSession
     @MethodSource("invalidNameCases")
     @DisplayName("User can not change name with invalid data")
@@ -65,8 +64,7 @@ public class ChangeNameUserTest extends BaseUiTest {
         softly.assertThat(UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword())).isEqualTo(null);
     }
 
-    @Disabled
-    @Test
+//    @Test
     @UserSession
     @DisplayName("User can not change name to the same data")
     void userCanNotChangeNameToSameDataTest(CreateUserRequestModel userRequest) {

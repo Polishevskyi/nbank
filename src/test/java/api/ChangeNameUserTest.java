@@ -5,7 +5,6 @@ import api.models.CreateUserRequestModel;
 import api.models.UpdateCustomerProfileRequestModel;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,8 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChangeNameUserTest extends BaseTest {
 
-    @Disabled
-    @Test
+//    @Test
     @UserSession
     @DisplayName("User can change name with valid data")
     public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest) {
