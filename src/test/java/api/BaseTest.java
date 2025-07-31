@@ -24,5 +24,3 @@ public class BaseTest {
         softly.assertAll();
     }
 }
-
-//test
