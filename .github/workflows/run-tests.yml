@@ -49,12 +49,9 @@ jobs:
       - name: Build Docker image
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-        run: |
-          docker build . \
-            -t "${DOCKER_USER,,}"/nbank:${{ github.sha }} \
-            -t "${DOCKER_USER,,}"/nbank:latest
+        run: docker build -t "${DOCKER_USER,,}"/nbank:${{ github.sha }} .
 
       - name: Push Docker image
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-        run: docker push --all-tags "${DOCKER_USER,,}"/nbank
+        run: docker push "${DOCKER_USER,,}"/nbank:${{ github.sha }}
