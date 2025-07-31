@@ -1,7 +1,6 @@
 package ui;
 
 import api.BaseTest;
-import api.configs.Config;
 import api.models.CreateUserRequestModel;
 import api.specs.RequestSpecs;
 import com.codeborne.selenide.Configuration;
@@ -14,17 +13,12 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class BaseUiTest extends BaseTest {
     @BeforeAll
-    public static void setupSelenide() {
-        if (System.getProperty("selenide.baseUrl") == null) {
-            Configuration.baseUrl = "http://localhost:3000";
-        }
-        if (System.getProperty("selenide.remote") == null) {
-            Configuration.remote = "http://localhost:4444/wd/hub";
-        }
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1920x1080";
-        Configuration.timeout = 10000;
-        Configuration.pageLoadStrategy = "eager";
+    public static void setupSelenoid() {
+        Configuration.remote = api.configs.Config.getProperty("uiRemote");
+        Configuration.baseUrl = api.configs.Config.getProperty("uiBaseUrl");
+        Configuration.browser = api.configs.Config.getProperty("browser");
+        Configuration.browserSize = api.configs.Config.getProperty("browserSize");
+
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
         );
