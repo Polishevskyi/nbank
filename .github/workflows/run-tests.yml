@@ -54,3 +54,9 @@ jobs:
         env:
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://frontend
+
+      - name: Show surefire reports if tests fail
+        if: failure()
+        run: |
+          echo "--- Surefire reports ---"
+          cat target/surefire-reports/*.txt || true
