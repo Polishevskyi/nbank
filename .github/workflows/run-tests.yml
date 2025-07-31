@@ -28,20 +28,19 @@ jobs: # аналог этапов
       - name: Set up services
         run: cd infra/docker_compose && bash restart_docker.sh && cd ../..
 
-      - name: Wait for services to be ready
+      - name: Force display of initial logs
+        if: always()
         run: |
-          echo "Waiting for Selenoid..."
-          timeout 60s bash -c 'until curl -s http://localhost:4444/status | jq -e ".value.ready == true"; do echo "Selenoid not ready yet..."; sleep 2; done'
-          echo "Selenoid is ready! Starting tests."
-
-      - name: Set up services and show logs
-        run: |
-            cd infra/docker_compose
-            bash restart_docker.sh
-            sleep 5 
-            echo "--- Selenoid initial logs ---"
-            docker logs selenoid
-            cd ../..
+          echo "Waiting a few seconds for services to start and log errors..."
+          sleep 10
+          echo "--- Docker PS (shows all running containers) ---"
+          docker ps -a
+          echo
+          echo "--- Selenoid Logs (the most important part for debugging) ---"
+          docker logs selenoid --tail 500
+          echo
+          echo "--- Frontend Logs ---"
+          docker logs frontend --tail 200
 
       - name: Wait for services to be ready
         run: |
@@ -58,13 +57,3 @@ jobs: # аналог этапов
           UIBASEURL: http://frontend
           UIREMOTE: http://localhost:4444/wd/hub
           APIBASEURL: http://localhost:4111
-
-      - name: Display Docker logs for debugging
-        if: failure()
-        run: |
-            echo "--- Docker PS ---"
-            docker ps -a
-            echo "--- Selenoid Logs ---"
-            docker logs selenoid --tail 200
-            echo "--- Frontend Logs ---"
-            docker logs frontend --tail 200
