@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ toLower(secrets.DOCKER_USERNAME) }}/nbank:${{ github.sha }} .
+        run: docker build -t ${{ toLowerCase(secrets.DOCKER_USERNAME) }}/nbank:${{ github.sha }} .
 
       - name: Push Docker image
-        run: docker push ${{ toLower(secrets.DOCKER_USERNAME) }}/nbank:${{ github.sha }}
+        run: docker push ${{ toLowerCase(secrets.DOCKER_USERNAME) }}/nbank:${{ github.sha }}
