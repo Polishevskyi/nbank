@@ -24,4 +24,4 @@ for image in $images; do
 done
 
 echo ">>> Launching Docker Compose."
-docker compose up
+docker compose up -d
