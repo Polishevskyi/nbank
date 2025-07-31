@@ -15,7 +15,7 @@ jobs: # аналог этапов
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '24'
+          java-version: '21'
 
       - name: Cache Maven repository
         uses: actions/cache@v4
@@ -28,6 +28,12 @@ jobs: # аналог этапов
       - name: Set up services
         run: cd infra/docker_compose && bash restart_docker.sh && cd ../..
 
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for Selenoid..."
+          timeout 60s bash -c 'until curl -s http://localhost:4444/status | jq -e ".value.ready == true"; do echo "Selenoid not ready yet..."; sleep 2; done'
+          echo "Selenoid is ready! Starting tests."
+
       - name: Run tests
         run: >
           ./mvnw clean test -q
@@ -36,3 +42,14 @@ jobs: # аналог этапов
         env:
           UIBASEURL: http://frontend
           UIREMOTE: http://localhost:4444/wd/hub
+          APIBASEURL: http://localhost:4111
+
+      - name: Display Docker logs for debugging
+        if: failure()
+        run: |
+            echo "--- Docker PS ---"
+            docker ps -a
+            echo "--- Selenoid Logs ---"
+            docker logs selenoid --tail 200
+            echo "--- Frontend Logs ---"
+            docker logs frontend --tail 200
