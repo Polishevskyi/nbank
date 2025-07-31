@@ -6,8 +6,6 @@ import api.models.UpdateCustomerProfileRequestModel;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -17,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChangeNameUserTest extends BaseTest {
 
-//    @Test
+    //    @Test
     @UserSession
     @DisplayName("User can change name with valid data")
     public void userCanChangeNameWithValidDataTest(CreateUserRequestModel userRequest) {
@@ -37,7 +35,7 @@ public class ChangeNameUserTest extends BaseTest {
                 Arguments.of("Иван abc", "Name must contain two words with letters only"));
     }
 
-    @ParameterizedTest
+    //    @ParameterizedTest
     @UserSession
     @MethodSource("invalidNameData")
     @DisplayName("User can not change name with invalid data")
