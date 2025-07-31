@@ -27,6 +27,9 @@ RUN mvn dependency:go-offline
 # copy the whole project
 COPY . .
 
+# Run checkstyle check during build
+RUN mvn checkstyle:check
+
 # now there are dependencies inside, the whole project is in place and we are ready to run tests
 
 USER root
@@ -43,4 +46,4 @@ CMD /bin/bash -c " \
     \
     echo '>>> Running surefire-report:report' ; \
     mvn -DskipTests=true surefire-report:report ; \
-   } > /app/logs/run.log 2>&1"
+    } > /app/logs/run.log 2>&1"

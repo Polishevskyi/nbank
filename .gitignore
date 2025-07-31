@@ -39,3 +39,7 @@ build/
 
 # Ignore environment files
 *.env.env
+
+# Checkstyle reports
+checkstyle-result.xml
+checkstyle-report.html
