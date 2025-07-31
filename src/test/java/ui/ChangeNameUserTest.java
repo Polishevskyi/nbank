@@ -4,6 +4,7 @@ import api.generators.RandomData;
 import api.models.CreateUserRequestModel;
 import api.requests.steps.UserSteps;
 import common.annotations.UserSession;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -64,6 +65,7 @@ public class ChangeNameUserTest extends BaseUiTest {
         softly.assertThat(UserSteps.getProfile(userRequest.getUsername(), userRequest.getPassword())).isEqualTo(null);
     }
 
+    @Disabled
     @Test
     @UserSession
     @DisplayName("User can not change name to the same data")

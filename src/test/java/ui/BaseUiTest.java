@@ -21,21 +21,13 @@ public class BaseUiTest extends BaseTest {
         if (System.getProperty("selenide.remote") == null) {
             Configuration.remote = "http://localhost:4444/wd/hub";
         }
-
         Configuration.browser = "chrome";
         Configuration.browserSize = "1920x1080";
         Configuration.timeout = 10000;
         Configuration.pageLoadStrategy = "eager";
-
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
         );
-
-        System.out.println("--- Selenide Configuration Applied ---");
-        System.out.println("Base URL: " + Configuration.baseUrl);
-        System.out.println("Remote URL: " + Configuration.remote);
-        System.out.println("Browser: " + Configuration.browser);
-        System.out.println("------------------------------------");
     }
 
     public void authAsUser(String username, String password) {
