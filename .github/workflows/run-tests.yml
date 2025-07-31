@@ -34,6 +34,21 @@ jobs: # аналог этапов
           timeout 60s bash -c 'until curl -s http://localhost:4444/status | jq -e ".value.ready == true"; do echo "Selenoid not ready yet..."; sleep 2; done'
           echo "Selenoid is ready! Starting tests."
 
+      - name: Set up services and show logs
+        run: |
+            cd infra/docker_compose
+            bash restart_docker.sh
+            sleep 5 
+            echo "--- Selenoid initial logs ---"
+            docker logs selenoid
+            cd ../..
+
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for Selenoid..."
+          timeout 60s bash -c 'until curl -s http://localhost:4444/status | jq -e ".value.ready == true"; do echo "Selenoid not ready yet..."; sleep 2; done'
+          echo "Selenoid is ready! Starting tests."
+
       - name: Run tests
         run: >
           ./mvnw clean test -q
