@@ -5,6 +5,8 @@ import api.models.CreateUserRequestModel;
 import api.specs.RequestSpecs;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Map;
@@ -18,6 +20,10 @@ public class BaseUiTest extends BaseTest {
         Configuration.baseUrl = api.configs.Config.getProperty("uiBaseUrl");
         Configuration.browser = api.configs.Config.getProperty("browser");
         Configuration.browserSize = api.configs.Config.getProperty("browserSize");
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true));
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)

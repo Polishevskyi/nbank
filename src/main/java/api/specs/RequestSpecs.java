@@ -4,6 +4,7 @@ import api.configs.Config;
 import api.models.LoginUserRequestModel;
 import api.requests.skelethon.Endpoint;
 import api.requests.skelethon.requesters.CrudRequester;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -17,14 +18,15 @@ import java.util.Map;
 public class RequestSpecs {
     private static Map<String, String> authHeaders = new HashMap<>(Map.of("admin", "Basic YWRtaW46YWRtaW4="));
 
-    private RequestSpecs(){}
+    private RequestSpecs() {
+    }
 
     private static RequestSpecBuilder defaultRequestBuilder() {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .addFilters( List.of(new RequestLoggingFilter(),
-                        new ResponseLoggingFilter()))
+                .addFilters(List.of(new RequestLoggingFilter(),
+                        new ResponseLoggingFilter(), new AllureRestAssured()))
                 .setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"));
     }
 

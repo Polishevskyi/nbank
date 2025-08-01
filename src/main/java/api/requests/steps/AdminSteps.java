@@ -8,6 +8,7 @@ import api.requests.skelethon.requesters.CrudRequester;
 import api.requests.skelethon.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.helpers.StepLogger;
 import lombok.Getter;
 
 import java.util.List;
@@ -21,21 +22,25 @@ public class AdminSteps {
     public static CreateUserRequestModel createUser() {
         CreateUserRequestModel userRequest = RandomModelGenerator.generate(CreateUserRequestModel.class);
 
-        CreateUserResponseModel response = new ValidatedCrudRequester<CreateUserResponseModel>(
-                RequestSpecs.adminSpec(),
-                Endpoint.ADMIN_USERS,
-                ResponseSpecs.entityWasCreatedSpec())
-                .post(userRequest);
+        return StepLogger.log("Admin creates user " + userRequest.getUsername(), () -> {
+            CreateUserResponseModel response = new ValidatedCrudRequester<CreateUserResponseModel>(
+                    RequestSpecs.adminSpec(),
+                    Endpoint.ADMIN_USERS,
+                    ResponseSpecs.entityWasCreatedSpec())
+                    .post(userRequest);
 
-        createdUserId = response.getId();
-        return userRequest;
+            createdUserId = response.getId();
+            return userRequest;
+        });
     }
 
     public static List<CreateUserResponseModel> getAllUsers() {
-        return new ValidatedCrudRequester<CreateUserResponseModel>(
-                RequestSpecs.adminSpec(),
-                Endpoint.ADMIN_USERS,
-                ResponseSpecs.requestReturnsOKSpec()).getAll(CreateUserResponseModel[].class);
+        return StepLogger.log("Admin gets all users", () -> {
+            return new ValidatedCrudRequester<CreateUserResponseModel>(
+                    RequestSpecs.adminSpec(),
+                    Endpoint.ADMIN_USERS,
+                    ResponseSpecs.requestReturnsOKSpec()).getAll(CreateUserResponseModel[].class);
+        });
     }
 
     public static void createUserWithError(CreateUserRequestModel userRequest, String errorKey, String errorValue) {

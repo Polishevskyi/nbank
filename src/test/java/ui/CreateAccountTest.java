@@ -1,6 +1,5 @@
 package ui;
 
-
 import api.models.AccountsResponseModel;
 import common.annotations.UserSession;
 import common.storage.SessionStorage;

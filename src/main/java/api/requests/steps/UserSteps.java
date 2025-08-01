@@ -6,6 +6,7 @@ import api.requests.skelethon.requesters.CrudRequester;
 import api.requests.skelethon.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.helpers.StepLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,10 +24,12 @@ public class UserSteps {
     }
 
     public List<AccountsResponseModel> getAllAccounts() {
-        return new ValidatedCrudRequester<AccountsResponseModel>(
-                RequestSpecs.authAsUserSpec(username, password),
-                Endpoint.CUSTOMER_ACCOUNTS,
-                ResponseSpecs.requestReturnsOKSpec()).getAll(AccountsResponseModel[].class);
+        return StepLogger.log("User " + username + " get all accounts", () -> {
+            return new ValidatedCrudRequester<AccountsResponseModel>(
+                    RequestSpecs.authAsUserSpec(username, password),
+                    Endpoint.CUSTOMER_ACCOUNTS,
+                    ResponseSpecs.requestReturnsOKSpec()).getAll(AccountsResponseModel[].class);
+        });
     }
 
     public static List<AccountsResponseModel> getAllAccounts(String username, String password) {
