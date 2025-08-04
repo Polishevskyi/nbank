@@ -14,18 +14,29 @@ if [ -f "swagger-coverage-results.json" ]; then
     echo "✅ Swagger coverage results found"
     
     # Parse JSON and extract metrics
-    TOTAL_CONDITIONS=$(jq '.conditionCounter.all' swagger-coverage-results.json)
-    COVERED_CONDITIONS=$(jq '.conditionCounter.covered' swagger-coverage-results.json)
-    TOTAL_ENDPOINTS=$(jq '.coverageOperationMap.counter.all' swagger-coverage-results.json)
-    FULL_ENDPOINTS=$(jq '.coverageOperationMap.counter.full' swagger-coverage-results.json)
-    PARTIAL_ENDPOINTS=$(jq '.coverageOperationMap.counter.party' swagger-coverage-results.json)
-    EMPTY_ENDPOINTS=$(jq '.coverageOperationMap.counter.empty' swagger-coverage-results.json)
+    TOTAL_CONDITIONS=$(jq -r '.conditionCounter.all // 0' swagger-coverage-results.json)
+    COVERED_CONDITIONS=$(jq -r '.conditionCounter.covered // 0' swagger-coverage-results.json)
+    TOTAL_ENDPOINTS=$(jq -r '.coverageOperationMap.counter.all // 0' swagger-coverage-results.json)
+    FULL_ENDPOINTS=$(jq -r '.coverageOperationMap.counter.full // 0' swagger-coverage-results.json)
+    PARTIAL_ENDPOINTS=$(jq -r '.coverageOperationMap.counter.party // 0' swagger-coverage-results.json)
+    EMPTY_ENDPOINTS=$(jq -r '.coverageOperationMap.counter.empty // 0' swagger-coverage-results.json)
     
-    # Calculate percentages
-    CONDITIONS_PERCENTAGE=$(echo "scale=1; $COVERED_CONDITIONS * 100 / $TOTAL_CONDITIONS" | bc)
-    FULL_PERCENTAGE=$(echo "scale=1; $FULL_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
-    PARTIAL_PERCENTAGE=$(echo "scale=1; $PARTIAL_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
-    EMPTY_PERCENTAGE=$(echo "scale=1; $EMPTY_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
+    # Calculate percentages safely
+    if [ "$TOTAL_CONDITIONS" -gt 0 ]; then
+        CONDITIONS_PERCENTAGE=$(echo "scale=1; $COVERED_CONDITIONS * 100 / $TOTAL_CONDITIONS" | bc)
+    else
+        CONDITIONS_PERCENTAGE="0.0"
+    fi
+    
+    if [ "$TOTAL_ENDPOINTS" -gt 0 ]; then  
+        FULL_PERCENTAGE=$(echo "scale=1; $FULL_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
+        PARTIAL_PERCENTAGE=$(echo "scale=1; $PARTIAL_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
+        EMPTY_PERCENTAGE=$(echo "scale=1; $EMPTY_ENDPOINTS * 100 / $TOTAL_ENDPOINTS" | bc)
+    else
+        FULL_PERCENTAGE="0.0"
+        PARTIAL_PERCENTAGE="0.0"
+        EMPTY_PERCENTAGE="0.0"
+    fi
     
     echo "📈 API Coverage Summary:"
     echo "   Total Conditions: $COVERED_CONDITIONS/$TOTAL_CONDITIONS ($CONDITIONS_PERCENTAGE%)"
@@ -58,9 +69,12 @@ EOF
     cp swagger-coverage-report.html target/allure-results/ 2>/dev/null || true
     cp swagger-coverage-results.json target/allure-results/ 2>/dev/null || true
     
-    # Create synthetic test result for API Coverage Dashboard
+    # Create synthetic test result for API Coverage Dashboard  
     UUID=$(uuidgen 2>/dev/null || echo "api-coverage-$(date +%s)")
-    cat > "target/allure-results/${UUID}-result.json" << EOF
+    TEST_FILE="target/allure-results/${UUID}-result.json"
+    echo "🗂️ Creating API Coverage Dashboard test: $TEST_FILE"
+    
+    cat > "$TEST_FILE" << EOF
 {
   "uuid": "$UUID",
   "historyId": "api-coverage-dashboard",
@@ -114,10 +128,17 @@ EOF
 }
 EOF
     
+    # Verify synthetic test was created
+    if [ -f "$TEST_FILE" ]; then
+        echo "✅ API Coverage Dashboard test created successfully"
+        echo "📄 File size: $(wc -c < "$TEST_FILE") bytes"
+    else
+        echo "❌ Failed to create API Coverage Dashboard test"
+    fi
+    
     echo "✅ API Coverage data integrated with Allure"
-    echo "📋 Environment properties updated"
+    echo "📋 Environment properties updated" 
     echo "📊 HTML report copied to Allure results"
-    echo "🗂️ API Coverage Dashboard test created"
     
 else
     echo "❌ Swagger coverage results not found!"
