@@ -200,8 +200,16 @@ jobs:
 
       - name: Check API coverage quality gate
         if: always()
-        continue-on-error: false
-        run: ./check-api-coverage.sh
+        continue-on-error: true
+        run: |
+          echo "Running API coverage quality gate check..."
+          if ./check-api-coverage.sh; then
+            echo "COVERAGE_GATE_STATUS=passed" >> $GITHUB_ENV
+            echo "✅ Quality gate passed"
+          else
+            echo "COVERAGE_GATE_STATUS=failed" >> $GITHUB_ENV
+            echo "❌ Quality gate failed, will check at end of pipeline"
+          fi
 
       - name: Integrate API coverage with Allure
         if: always()
@@ -283,11 +291,12 @@ jobs:
           publish_dir: allure-history
 
       - name: Fail on low coverage
-        if: env.COVERAGE_STATUS == 'failure'
+        if: env.COVERAGE_GATE_STATUS == 'failed'
         continue-on-error: false
         run: |
           echo "❌ Build failed: API coverage below 50% threshold"
-          echo "💡 Current coverage status: ${{ env.COVERAGE_STATUS }}"
+          echo "💡 Current coverage gate status: ${{ env.COVERAGE_GATE_STATUS }}"
+          echo "💡 Quality gate check completed but coverage requirements not met"
           exit 1
 
       - name: Clean up services
