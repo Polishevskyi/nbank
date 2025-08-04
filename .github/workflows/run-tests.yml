@@ -27,10 +27,22 @@ jobs:
       - name: Setup Swagger Coverage
         continue-on-error: true
         run: |
-          if [ ! -d ".swagger-coverage-commandline" ]; then
+          if [ ! -f ".swagger-coverage-commandline/bin/swagger-coverage-commandline" ]; then
             echo "Downloading swagger-coverage..."
             wget -O swagger-coverage.zip https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip
-            unzip swagger-coverage.zip
+            echo "Extracting archive..."
+            unzip swagger-coverage.zip -d .
+            echo "Archive contents:"
+            ls -la
+            if [ -d "swagger-coverage-commandline-1.5.0" ]; then
+              mv swagger-coverage-commandline-1.5.0 .swagger-coverage-commandline
+            elif [ -d "swagger-coverage-commandline" ]; then
+              mv swagger-coverage-commandline .swagger-coverage-commandline
+            else
+              echo "Unexpected archive structure, using fallback"
+              mkdir -p .swagger-coverage-commandline/bin
+              find . -name "swagger-coverage-commandline" -type f -exec cp {} .swagger-coverage-commandline/bin/ \;
+            fi
             chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
             rm swagger-coverage.zip
             echo "Swagger coverage installed"
