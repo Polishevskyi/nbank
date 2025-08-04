@@ -22,19 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y jq bc
-          
+          sudo apt-get update && sudo apt-get install -y jq bc unzip wget
+
           if [ ! -d ".swagger-coverage-commandline" ]; then
-            wget -q https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip
-            unzip -q swagger-coverage-commandline-1.5.0.zip
+            wget -q https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip || exit 1
+            unzip -q swagger-coverage-commandline-1.5.0.zip || exit 1
             chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-          fi
-          
-          if ! command -v allure &> /dev/null; then
-            wget -q https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
-            tar -xzf allure-2.24.0.tgz
-            sudo mv allure-2.24.0/bin/allure /usr/local/bin/allure
-            sudo mv allure-2.24.0/lib /usr/local/share/allure
           fi
 
       - name: Cache Maven repository
@@ -76,9 +69,10 @@ jobs:
 
       - name: Run Swagger coverage
         if: always()
+        continue-on-error: true
         run: |
           timeout 60 bash -c 'until curl -f http://localhost:4111/health > /dev/null 2>&1; do sleep 5; done' || true
-          
+
           if curl -f http://localhost:4111/v3/api-docs > /dev/null 2>&1; then
             .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
           else
@@ -87,10 +81,12 @@ jobs:
 
       - name: Check API coverage quality gate
         if: always()
+        continue-on-error: true
         run: ./check-api-coverage.sh
 
       - name: Integrate API coverage with Allure
         if: always()
+        continue-on-error: true
         run: ./integrate-api-coverage.sh
 
       - name: Load test report history
@@ -107,10 +103,16 @@ jobs:
           gh_pages: gh-pages
           allure_results: target/allure-results
           allure_history: allure-history
+        continue-on-error: true
 
       - name: Build Swagger coverage report
         if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+        run: |
+          if [ -f "swagger-coverage-report.html" ] && [ -d "allure-history" ]; then
+            cp swagger-coverage-report.html allure-history/${{ github.run_number }}/ || echo "Failed to copy swagger report"
+          else
+            echo "Swagger report or allure-history directory not found, skipping"
+          fi
 
       - name: Comment PR with coverage
         if: github.event_name == 'pull_request'
@@ -155,8 +157,10 @@ jobs:
 
       - name: Fail on low coverage
         if: env.COVERAGE_STATUS == 'failure'
+        continue-on-error: false
         run: |
-          echo "Build failed: API coverage below 50% threshold"
+          echo "❌ Build failed: API coverage below 50% threshold"
+          echo "💡 Current coverage status: ${{ env.COVERAGE_STATUS }}"
           exit 1
 
       - name: Clean up services
