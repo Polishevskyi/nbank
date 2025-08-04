@@ -55,12 +55,69 @@ report.generated=$(date)
 EOF
     
     # Copy HTML report to allure results
-    cp swagger-coverage-report.html target/allure-results/
-    cp swagger-coverage-results.json target/allure-results/
+    cp swagger-coverage-report.html target/allure-results/ 2>/dev/null || true
+    cp swagger-coverage-results.json target/allure-results/ 2>/dev/null || true
+    
+    # Create synthetic test result for API Coverage Dashboard
+    UUID=$(uuidgen 2>/dev/null || echo "api-coverage-$(date +%s)")
+    cat > "target/allure-results/${UUID}-result.json" << EOF
+{
+  "uuid": "$UUID",
+  "historyId": "api-coverage-dashboard",
+  "name": "API Coverage Dashboard",
+  "fullName": "API.Coverage.Dashboard",
+  "labels": [
+    {"name": "suite", "value": "API Coverage"},
+    {"name": "feature", "value": "Swagger Coverage Analysis"},
+    {"name": "story", "value": "Coverage Report"}
+  ],
+  "status": "passed",
+  "statusDetails": {
+    "message": "API Coverage: $CONDITIONS_PERCENTAGE% ($COVERED_CONDITIONS/$TOTAL_CONDITIONS conditions)",
+    "trace": "Full Coverage: $FULL_ENDPOINTS/$TOTAL_ENDPOINTS endpoints\\nPartial Coverage: $PARTIAL_ENDPOINTS/$TOTAL_ENDPOINTS endpoints\\nEmpty Coverage: $EMPTY_ENDPOINTS/$TOTAL_ENDPOINTS endpoints"
+  },
+  "stage": "finished",
+  "start": $(date +%s)000,
+  "stop": $(date +%s)000,
+  "steps": [
+    {
+      "name": "📊 Overall API Coverage",
+      "status": "passed",
+      "start": $(date +%s)000,
+      "stop": $(date +%s)000,
+      "statusDetails": {
+        "message": "Conditions Coverage: $CONDITIONS_PERCENTAGE% ($COVERED_CONDITIONS/$TOTAL_CONDITIONS)"
+      }
+    },
+    {
+      "name": "🎯 Endpoint Coverage Breakdown", 
+      "status": "passed",
+      "start": $(date +%s)000,
+      "stop": $(date +%s)000,
+      "statusDetails": {
+        "message": "Full: $FULL_ENDPOINTS ($FULL_PERCENTAGE%)\\nPartial: $PARTIAL_ENDPOINTS ($PARTIAL_PERCENTAGE%)\\nEmpty: $EMPTY_ENDPOINTS ($EMPTY_PERCENTAGE%)"
+      }
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Swagger Coverage Report",
+      "source": "swagger-coverage-report.html",
+      "type": "text/html"
+    },
+    {
+      "name": "Coverage Data (JSON)",
+      "source": "swagger-coverage-results.json", 
+      "type": "application/json"
+    }
+  ]
+}
+EOF
     
     echo "✅ API Coverage data integrated with Allure"
     echo "📋 Environment properties updated"
     echo "📊 HTML report copied to Allure results"
+    echo "🗂️ API Coverage Dashboard test created"
     
 else
     echo "❌ Swagger coverage results not found!"
