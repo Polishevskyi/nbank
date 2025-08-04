@@ -20,6 +20,9 @@ jobs:
           distribution: "corretto"
           java-version: "21"
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq bc
+
       - name: Cache Maven repository
         uses: actions/cache@v4
         with:
@@ -61,6 +64,14 @@ jobs:
         if: always()
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
 
+      - name: Check API coverage quality gate
+        if: always()
+        run: ./check-api-coverage.sh
+
+      - name: Integrate API coverage with Allure
+        if: always()
+        run: ./integrate-api-coverage.sh
+
       - name: Load test report history
         uses: actions/checkout@v2
         if: always()
@@ -80,6 +91,39 @@ jobs:
         if: always()
         run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
 
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const data = JSON.parse(fs.readFileSync('swagger-coverage-results.json', 'utf8'));
+              const coverage = ((data.conditionCounter.covered / data.conditionCounter.all) * 100).toFixed(1);
+              const status = coverage >= 50 ? 'PASSED' : 'FAILED';
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## API Coverage: ${coverage}% (${status})\n\nThreshold: 50%`
+              });
+            } catch (error) {
+              console.log('Could not read coverage data:', error.message);
+            }
+
+      - name: Set coverage status
+        if: always()
+        run: |
+          if [ -f "swagger-coverage-results.json" ]; then
+            COVERAGE=$(jq -r '.conditionCounter.covered / .conditionCounter.all * 100' swagger-coverage-results.json | cut -d. -f1)
+            if [ "$COVERAGE" -ge 50 ]; then
+              echo "COVERAGE_STATUS=success" >> $GITHUB_ENV
+            else
+              echo "COVERAGE_STATUS=failure" >> $GITHUB_ENV
+            fi
+          fi
+
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
@@ -87,6 +131,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+      - name: Fail on low coverage
+        if: env.COVERAGE_STATUS == 'failure'
+        run: |
+          echo "Build failed: API coverage below 50% threshold"
+          exit 1
 
       - name: Clean up services
         if: always()

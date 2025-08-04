@@ -41,4 +41,11 @@ public class CreateUserTest extends BaseTest {
 
         AdminSteps.createUserWithError(createUserRequest, errorKey, errorValue);
     }
+
+    @Test
+    @DisplayName("Admin can create user and get successful response")
+    public void adminCanCreateUserAndGetSuccessfulResponseTest() {
+        CreateUserRequestModel createUserRequest = AdminSteps.createUser();
+        UserSteps.verifyUserExists(createUserRequest.getUsername());
+    }
 }
