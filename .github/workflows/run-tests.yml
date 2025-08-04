@@ -21,119 +21,17 @@ jobs:
           java-version: "21"
 
       - name: Install dependencies
-        run: |
-          echo "Updating package lists..."
-          sudo apt-get update
-          echo "Installing dependencies..."
-          sudo apt-get install -y jq bc unzip wget curl
-          echo "Verifying installations..."
-          jq --version
-          bc --version | head -1
-          unzip -h | head -1
-          wget --version | head -1
-          curl --version | head -1
-          echo "All dependencies installed successfully"
+        run: sudo apt-get update && sudo apt-get install -y jq bc unzip wget curl
 
       - name: Setup Swagger Coverage
         continue-on-error: true
         run: |
-          # Clean start - remove any partial installations
-          if [ -d ".swagger-coverage-commandline" ] && [ ! -f ".swagger-coverage-commandline/bin/swagger-coverage-commandline" ]; then
-            echo "Found incomplete installation, cleaning up..."
-            rm -rf .swagger-coverage-commandline
-          fi
-
           if [ ! -f ".swagger-coverage-commandline/bin/swagger-coverage-commandline" ]; then
-            echo "=== Starting Swagger Coverage setup ==="
-            
-            echo "Step 1: Downloading swagger-coverage..."
-            if ! wget -O swagger-coverage.zip https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip; then
-              echo "❌ wget failed, creating fallback setup"
-              mkdir -p .swagger-coverage-commandline/bin
-              echo '#!/bin/bash' > .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              echo 'echo "Swagger coverage tool not available, skipping..."' >> .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              echo "✅ Fallback setup created"
-              exit 0
-            fi
-            echo "✅ Download successful"
-            
-            echo "Step 2: Extracting archive..."
-            if ! unzip swagger-coverage.zip -d .; then
-              echo "❌ unzip failed, creating fallback setup"
-              mkdir -p .swagger-coverage-commandline/bin
-              echo '#!/bin/bash' > .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              echo 'echo "Swagger coverage tool not available, skipping..."' >> .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              rm -f swagger-coverage.zip
-              echo "✅ Fallback setup created"
-              exit 0
-            fi
-            echo "✅ Extraction successful"
-            
-            echo "Step 3: Checking archive contents:"
-            ls -la
-            
-            echo "Step 4: Moving extracted directory..."
-            if [ -d "swagger-coverage-commandline-1.5.0" ]; then
-              echo "Found swagger-coverage-commandline-1.5.0 directory"
-              
-              # Check if target directory already exists
-              if [ -d ".swagger-coverage-commandline" ]; then
-                echo "Target directory .swagger-coverage-commandline already exists, removing it first"
-                if ! rm -rf .swagger-coverage-commandline; then
-                  echo "❌ Failed to remove existing .swagger-coverage-commandline directory, creating fallback"
-                  mkdir -p .swagger-coverage-commandline/bin
-                  echo '#!/bin/bash' > .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                  echo 'echo "Swagger coverage tool not available, skipping..."' >> .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                  chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                  echo "✅ Fallback setup created"
-                  exit 0
-                fi
-              fi
-              
-              echo "Moving swagger-coverage-commandline-1.5.0 to .swagger-coverage-commandline"
-              if ! mv swagger-coverage-commandline-1.5.0 .swagger-coverage-commandline; then
-                echo "❌ mv failed, creating fallback setup"
-                echo "Source directory contents:"
-                ls -la swagger-coverage-commandline-1.5.0/ || echo "Cannot list source directory"
-                echo "Current directory permissions:"
-                ls -la | head -10
-                mkdir -p .swagger-coverage-commandline/bin
-                echo '#!/bin/bash' > .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                echo 'echo "Swagger coverage tool not available, skipping..."' >> .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-                echo "✅ Fallback setup created"
-                exit 0
-              fi
-            else
-              echo "❌ Expected directory swagger-coverage-commandline-1.5.0 not found"
-              echo "Available directories:"
-              ls -la | grep "^d"
-              echo "Creating fallback setup..."
-              mkdir -p .swagger-coverage-commandline/bin
-              echo '#!/bin/bash' > .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              echo 'echo "Swagger coverage tool not available, skipping..."' >> .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-              echo "✅ Fallback setup created"
-              exit 0
-            fi
-            echo "✅ Directory moved successfully"
-            
-            echo "Step 5: Setting permissions..."
-            if ! chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline; then
-              echo "❌ chmod failed, but tool may still work"
-              echo "Checking if file exists and is readable:"
-              ls -la .swagger-coverage-commandline/bin/swagger-coverage-commandline || echo "File not found"
-            fi
-            echo "✅ Permissions set successfully"
-            
-            echo "Step 6: Cleaning up..."
-            rm swagger-coverage.zip || echo "Warning: failed to remove zip file"
-            
-            echo "✅ Swagger coverage installed successfully"
-          else
-            echo "Swagger coverage already exists, skipping installation"  
+            wget -O swagger-coverage.zip https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip || exit 0
+            unzip swagger-coverage.zip -d . || exit 0
+            mv swagger-coverage-commandline-1.5.0 .swagger-coverage-commandline || exit 0
+            chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline || exit 0
+            rm swagger-coverage.zip || true
           fi
 
       - name: Cache Maven repository
@@ -145,18 +43,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set up services
-        run: |
-          echo "Checking dependencies..."
-          which jq || (echo "jq not found in PATH" && exit 1)
-          which docker || (echo "docker not found in PATH" && exit 1)
-          docker --version
-          docker compose version
-          echo "Dependencies OK, starting services..."
-          cd infra/docker_compose 
-          echo "Current directory: $(pwd)"
-          ls -la
-          bash restart_docker.sh
-          cd ../..
+        run: cd infra/docker_compose && bash restart_docker.sh
 
       - name: Run Checkstyle
         run: ./mvnw checkstyle:check
@@ -202,13 +89,10 @@ jobs:
         if: always()
         continue-on-error: true
         run: |
-          echo "Running API coverage quality gate check..."
           if ./check-api-coverage.sh; then
             echo "COVERAGE_GATE_STATUS=passed" >> $GITHUB_ENV
-            echo "✅ Quality gate passed"
           else
             echo "COVERAGE_GATE_STATUS=failed" >> $GITHUB_ENV
-            echo "❌ Quality gate failed, will check at end of pipeline"
           fi
 
       - name: Integrate API coverage with Allure
@@ -241,47 +125,6 @@ jobs:
             echo "Swagger report or allure-history directory not found, skipping"
           fi
 
-      - name: Comment PR with coverage
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            try {
-              const data = JSON.parse(fs.readFileSync('swagger-coverage-results.json', 'utf8'));
-              const coverage = ((data.conditionCounter.covered / data.conditionCounter.all) * 100).toFixed(1);
-              const status = coverage >= 50 ? 'PASSED' : 'FAILED';
-              
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `## API Coverage: ${coverage}% (${status})\n\nThreshold: 50%`
-              });
-            } catch (error) {
-              console.log('Could not read coverage data:', error.message);
-            }
-
-      - name: Set coverage status
-        if: always()
-        run: |
-          if [ -f "swagger-coverage-results.json" ]; then
-            COVERED=$(jq -r '.conditionCounter.covered // 0' swagger-coverage-results.json)
-            TOTAL=$(jq -r '.conditionCounter.all // 1' swagger-coverage-results.json)
-            COVERAGE=$(echo "scale=0; $COVERED * 100 / $TOTAL" | bc -l)
-            echo "Coverage: ${COVERAGE}%"
-            if [ "$COVERAGE" -ge 50 ]; then
-              echo "COVERAGE_STATUS=success" >> $GITHUB_ENV
-              echo "COVERAGE_DESCRIPTION=API Coverage: ${COVERAGE}% (≥50%)" >> $GITHUB_ENV
-            else
-              echo "COVERAGE_STATUS=failure" >> $GITHUB_ENV
-              echo "COVERAGE_DESCRIPTION=API Coverage: ${COVERAGE}% (<50%)" >> $GITHUB_ENV
-            fi
-          else
-            echo "COVERAGE_STATUS=error" >> $GITHUB_ENV
-            echo "COVERAGE_DESCRIPTION=No coverage data available" >> $GITHUB_ENV
-          fi
-
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
@@ -292,12 +135,7 @@ jobs:
 
       - name: Fail on low coverage
         if: env.COVERAGE_GATE_STATUS == 'failed'
-        continue-on-error: false
-        run: |
-          echo "❌ Build failed: API coverage below 50% threshold"
-          echo "💡 Current coverage gate status: ${{ env.COVERAGE_GATE_STATUS }}"
-          echo "💡 Quality gate check completed but coverage requirements not met"
-          exit 1
+        run: exit 1
 
       - name: Clean up services
         if: always()
