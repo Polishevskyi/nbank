@@ -38,26 +38,53 @@ jobs:
         continue-on-error: true
         run: |
           if [ ! -f ".swagger-coverage-commandline/bin/swagger-coverage-commandline" ]; then
-            echo "Downloading swagger-coverage..."
-            wget -O swagger-coverage.zip https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip
-            echo "Extracting archive..."
-            unzip swagger-coverage.zip -d .
-            echo "Archive contents:"
+            echo "=== Starting Swagger Coverage setup ==="
+            
+            echo "Step 1: Downloading swagger-coverage..."
+            wget -O swagger-coverage.zip https://github.com/viclovsky/swagger-coverage/releases/download/1.5.0/swagger-coverage-commandline-1.5.0.zip || {
+              echo "❌ wget failed with exit code $?"
+              exit 1
+            }
+            echo "✅ Download successful"
+            
+            echo "Step 2: Extracting archive..."
+            unzip swagger-coverage.zip -d . || {
+              echo "❌ unzip failed with exit code $?"
+              exit 1
+            }
+            echo "✅ Extraction successful"
+            
+            echo "Step 3: Checking archive contents:"
             ls -la
+            
+            echo "Step 4: Moving extracted directory..."
             if [ -d "swagger-coverage-commandline-1.5.0" ]; then
-              mv swagger-coverage-commandline-1.5.0 .swagger-coverage-commandline
-            elif [ -d "swagger-coverage-commandline" ]; then
-              mv swagger-coverage-commandline .swagger-coverage-commandline
+              echo "Found swagger-coverage-commandline-1.5.0 directory"
+              mv swagger-coverage-commandline-1.5.0 .swagger-coverage-commandline || {
+                echo "❌ mv failed with exit code $?"
+                exit 1
+              }
             else
-              echo "Unexpected archive structure, using fallback"
-              mkdir -p .swagger-coverage-commandline/bin
-              find . -name "swagger-coverage-commandline" -type f -exec cp {} .swagger-coverage-commandline/bin/ \;
+              echo "❌ Expected directory swagger-coverage-commandline-1.5.0 not found"
+              echo "Available directories:"
+              ls -la | grep "^d"
+              exit 1
             fi
-            chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline
-            rm swagger-coverage.zip
-            echo "Swagger coverage installed"
+            echo "✅ Directory moved successfully"
+            
+            echo "Step 5: Setting permissions..."
+            chmod +x .swagger-coverage-commandline/bin/swagger-coverage-commandline || {
+              echo "❌ chmod failed with exit code $?"
+              exit 1
+            }
+            echo "✅ Permissions set successfully"
+            
+            echo "Step 6: Cleaning up..."
+            rm swagger-coverage.zip || echo "Warning: failed to remove zip file"
+            
+            echo "✅ Swagger coverage installed successfully"
           else
-            echo "Swagger coverage already exists"  
+            echo "Swagger coverage already exists, skipping installation"  
           fi
 
       - name: Cache Maven repository
