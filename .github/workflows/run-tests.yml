@@ -22,7 +22,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y jq bc unzip wget curl
+          echo "Updating package lists..."
+          sudo apt-get update
+          echo "Installing dependencies..."
+          sudo apt-get install -y jq bc unzip wget curl
+          echo "Verifying installations..."
+          jq --version
+          bc --version | head -1
+          unzip -h | head -1
+          wget --version | head -1
+          curl --version | head -1
+          echo "All dependencies installed successfully"
 
       - name: Setup Swagger Coverage
         continue-on-error: true
@@ -59,7 +69,18 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set up services
-        run: cd infra/docker_compose && bash restart_docker.sh && cd ../..
+        run: |
+          echo "Checking dependencies..."
+          which jq || (echo "jq not found in PATH" && exit 1)
+          which docker || (echo "docker not found in PATH" && exit 1)
+          docker --version
+          docker compose version
+          echo "Dependencies OK, starting services..."
+          cd infra/docker_compose 
+          echo "Current directory: $(pwd)"
+          ls -la
+          bash restart_docker.sh
+          cd ../..
 
       - name: Run Checkstyle
         run: ./mvnw checkstyle:check
