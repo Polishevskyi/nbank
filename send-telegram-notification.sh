@@ -68,8 +68,8 @@ MESSAGE="🚀 *CI/CD Pipeline Completed!*
 
 📊 *Test Statistics:*
 • Total tests: $TOTAL_TESTS
-• Passed: $PASSED_TESTS tests ✅
-• Failed: $FAILED_TESTS tests ❌
+• $PASSED_TESTS ✅ Passed tests
+• $FAILED_TESTS ❌ Failed tests
 • Success rate: ${SUCCESS_RATE}%
 • API coverage: ${API_PERCENT}%
 
@@ -79,7 +79,7 @@ MESSAGE="🚀 *CI/CD Pipeline Completed!*
 • Report: https://$GITHUB_REPOSITORY_OWNER.github.io/$GITHUB_EVENT_REPOSITORY_NAME/
 
 📦 *Docker Hub:*
-• https://hub.docker.com/r/$DOCKER_USERNAME/nbank
+• Repository: https://hub.docker.com/r/$DOCKER_USERNAME/nbank/tags
 • Tag: $GITHUB_SHA
 
 $STATUS_COLOR *Status:* $STATUS_TEXT"
