@@ -64,27 +64,25 @@ else
 fi
 
 # Build message with proper escaping
-MESSAGE="🚀 *CI/CD Pipeline Completed!*
+MESSAGE="🚀 <b>CI/CD Pipeline Completed!</b>
 
-📊 *Test Statistics:*
+📊 <b>Test Statistics:</b>
 • Total tests: $TOTAL_TESTS
 • Passed: $PASSED_TESTS ✅
 • Failed: $FAILED_TESTS ❌
-• Broken: $BROKEN_TESTS ⚠️
-• Skipped: $SKIPPED_TESTS ⏭️
 • Success rate: ${SUCCESS_RATE}%
 • API coverage: ${API_PERCENT}%
 
-🔗 *Links:*
+🔗 <b>Links:</b>
 • Repository: https://github.com/$GITHUB_REPOSITORY
 • Commit: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA
 • Report: https://$GITHUB_REPOSITORY_OWNER.github.io/$GITHUB_EVENT_REPOSITORY_NAME/
 
-📦 *Docker Hub:*
-• https://hub.docker.com/r/$DOCKER_USERNAME/nbank/tags
-• Image: $DOCKER_USERNAME/nbank:$GITHUB_SHA
+📦 <b>Docker Hub:</b>
+• https://hub.docker.com/r/$DOCKER_USERNAME/nbank
+• Tag: $GITHUB_SHA
 
-$STATUS_COLOR *Status:* $STATUS_TEXT"
+$STATUS_COLOR <b>Status:</b> $STATUS_TEXT"
 
 # Send to Telegram
 curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
@@ -92,6 +90,6 @@ curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
   -d "{
     \"chat_id\": \"$TELEGRAM_CHAT_ID\",
     \"text\": \"$MESSAGE\",
-    \"parse_mode\": \"Markdown\"
+    \"parse_mode\": \"\"
   }"
  
