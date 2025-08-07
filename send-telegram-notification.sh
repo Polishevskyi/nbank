@@ -2,11 +2,17 @@
 
 # Get test results from Allure
 if [ -d "target/allure-results" ]; then
-    TOTAL_TESTS=$(find target/allure-results -name "*.json" | wc -l)
+    # Count only actual test result files
+    TOTAL_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -v "^$" | wc -l)
     PASSED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "passed" || echo "0")
     FAILED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "failed" || echo "0")
     BROKEN_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "broken" || echo "0")
     SKIPPED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "skipped" || echo "0")
+    
+    # Ensure we don't count empty or invalid results
+    if [ "$TOTAL_TESTS" -eq 0 ]; then
+        TOTAL_TESTS=$(find target/allure-results -name "*.json" | wc -l)
+    fi
 else
     TOTAL_TESTS=0
     PASSED_TESTS=0
@@ -28,10 +34,21 @@ else
     API_PERCENT=0
 fi
 
-# Calculate success rate
+# Calculate success rate and validate statistics
 if [ "$TOTAL_TESTS" -gt 0 ]; then
     SUCCESS_RATE=$((PASSED_TESTS * 100 / TOTAL_TESTS))
 else
+    SUCCESS_RATE=0
+fi
+
+# Validate and fix statistics if needed
+if [ "$TOTAL_TESTS" -eq 0 ] && [ "$PASSED_TESTS" -gt 0 ]; then
+    TOTAL_TESTS=$((PASSED_TESTS + FAILED_TESTS + BROKEN_TESTS + SKIPPED_TESTS))
+fi
+
+# Ensure we have at least some tests
+if [ "$TOTAL_TESTS" -eq 0 ]; then
+    TOTAL_TESTS=1
     SUCCESS_RATE=0
 fi
 
@@ -64,8 +81,8 @@ MESSAGE="🚀 *CI/CD Pipeline Completed!*
 • Report: https://$GITHUB_REPOSITORY_OWNER.github.io/$GITHUB_EVENT_REPOSITORY_NAME/
 
 📦 *Docker Hub:*
-• docker.io/$DOCKER_USERNAME/nbank:$GITHUB_SHA
-• docker.io/$DOCKER_USERNAME/nbank:latest
+• https://hub.docker.com/r/$DOCKER_USERNAME/nbank/tags
+• Image: $DOCKER_USERNAME/nbank:$GITHUB_SHA
 
 $STATUS_COLOR *Status:* $STATUS_TEXT"
 
@@ -77,3 +94,4 @@ curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
     \"text\": \"$MESSAGE\",
     \"parse_mode\": \"Markdown\"
   }"
+ 
