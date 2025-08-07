@@ -67,9 +67,9 @@ fi
 MESSAGE="🚀 *CI/CD Pipeline Completed!*
 
 📊 *Test Statistics:*
-• Total tests: $TOTAL_TESTS
-• $PASSED_TESTS ✅ Passed tests
-• $FAILED_TESTS ❌ Failed tests
+• Total tests: $([ "$TOTAL_TESTS" -eq 0 ] && echo "No tests found" || echo "$TOTAL_TESTS")
+• Passed: $([ "$PASSED_TESTS" -eq 0 ] && echo "No tests passed" || echo "$PASSED_TESTS") ✅
+• Failed: $([ "$FAILED_TESTS" -eq 0 ] && echo "No failures" || echo "$FAILED_TESTS") ❌
 • Success rate: ${SUCCESS_RATE}%
 • API coverage: ${API_PERCENT}%
 
