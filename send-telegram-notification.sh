@@ -2,24 +2,19 @@
 
 # Get test results from Allure
 if [ -d "target/allure-results" ]; then
-    # Count only actual test result files
     TOTAL_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -v "^$" | wc -l)
     PASSED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "passed" || echo "0")
     FAILED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "failed" || echo "0")
-    BROKEN_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "broken" || echo "0")
-    SKIPPED_TESTS=$(find target/allure-results -name "*.json" -exec jq -r '.status // empty' {} \; | grep -c "skipped" || echo "0")
-    
-    # Ensure we don't count empty or invalid results
-    if [ "$TOTAL_TESTS" -eq 0 ]; then
-        TOTAL_TESTS=$(find target/allure-results -name "*.json" | wc -l)
-    fi
 else
     TOTAL_TESTS=0
     PASSED_TESTS=0
     FAILED_TESTS=0
-    BROKEN_TESTS=0
-    SKIPPED_TESTS=0
 fi
+
+# Ensure variables are numbers
+TOTAL_TESTS=$(echo "${TOTAL_TESTS:-0}" | tr -d '\n' | xargs)
+PASSED_TESTS=$(echo "${PASSED_TESTS:-0}" | tr -d '\n' | xargs)
+FAILED_TESTS=$(echo "${FAILED_TESTS:-0}" | tr -d '\n' | xargs)
 
 # Get API coverage
 if [ -f "swagger-coverage-results.json" ]; then
@@ -34,33 +29,20 @@ else
     API_PERCENT=0
 fi
 
-# Calculate success rate and validate statistics
+# Calculate success rate
 if [ "$TOTAL_TESTS" -gt 0 ]; then
     SUCCESS_RATE=$((PASSED_TESTS * 100 / TOTAL_TESTS))
 else
     SUCCESS_RATE=0
 fi
 
-# Validate and fix statistics if needed
-if [ "$TOTAL_TESTS" -eq 0 ] && [ "$PASSED_TESTS" -gt 0 ]; then
-    TOTAL_TESTS=$((PASSED_TESTS + FAILED_TESTS + BROKEN_TESTS + SKIPPED_TESTS))
-fi
-
-# Ensure we have at least some tests
-if [ "$TOTAL_TESTS" -eq 0 ]; then
-    TOTAL_TESTS=1
-    SUCCESS_RATE=0
-fi
-
-# Determine status emoji and color
+# Determine status
 if [ "$JOB_STATUS" == "success" ]; then
-    STATUS_EMOJI="✅"
-    STATUS_TEXT="SUCCESS"
     STATUS_COLOR="🟢"
+    STATUS_TEXT="SUCCESS"
 else
-    STATUS_EMOJI="❌"
-    STATUS_TEXT="FAILED"
     STATUS_COLOR="🔴"
+    STATUS_TEXT="FAILED"
 fi
 
 # Create descriptive text for zero values
@@ -82,7 +64,7 @@ else
     FAILED_TESTS_TEXT="$FAILED_TESTS"
 fi
 
-# Build message with proper escaping
+# Build message
 MESSAGE="🚀 *CI/CD Pipeline Completed!*
 
 📊 *Test Statistics:*
