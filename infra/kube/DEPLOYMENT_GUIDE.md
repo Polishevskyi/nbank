@@ -1,12 +1,18 @@
-# 🚀 NBank Deployment in Kubernetes with Helm
+# 🚀 NBank Deployment in Kubernetes with Monitoring Stack
 
 ## 📋 Task Description
 
-Deployment and management of services in Kubernetes using Helm Chart for NBank application, which consists of 4 services: backend, frontend, selenoid, selenoid-ui.
+Complete deployment and management of NBank application in Kubernetes using Helm Chart with integrated monitoring and logging stack. The system includes:
+
+- **Core Application**: backend, frontend, selenoid, selenoid-ui
+- **Monitoring Stack**: Prometheus + Grafana for metrics
+- **Logging Stack**: Elasticsearch + Kibana for logs analysis
 
 ## 🏗️ Application Architecture
 
 ### Services and their ports:
+
+### Core Application:
 
 | Service         | Internal Port | External Port (NodePort) | Local Access          |
 | --------------- | ------------- | ------------------------ | --------------------- |
@@ -15,39 +21,47 @@ Deployment and management of services in Kubernetes using Helm Chart for NBank a
 | **Selenoid**    | 4444          | 30444                    | http://localhost:4444 |
 | **Selenoid UI** | 8080          | 30808                    | http://localhost:8080 |
 
+### Monitoring & Logging Stack:
+
+| Service           | Internal Port | Local Access          | Credentials   |
+| ----------------- | ------------- | --------------------- | ------------- |
+| **Prometheus**    | 9090          | http://localhost:9090 | No auth       |
+| **Grafana**       | 80            | http://localhost:3001 | admin / admin |
+| **Elasticsearch** | 9200          | http://localhost:9200 | No auth       |
+| **Kibana**        | 5601          | http://localhost:5601 | No auth       |
+
 ## 🚀 Quick Start
 
-### 1. Run entire application with one command:
+### 1. Deploy complete stack with monitoring:
 
 ```bash
-cd infra/kube
+cd infra/kube/scripts
 chmod +x restart_kube.sh
 ./restart_kube.sh
 ```
 
 This script automatically:
 
-- Starts Minikube cluster
-- Deploys all services via Helm
-- Shows information about services and pods
-- Displays logs of all services
-- Shows commands for port forwarding
+- Starts Minikube cluster with enhanced resources
+- Deploys NBank application via Helm
+- Installs Prometheus + Grafana monitoring stack
+- Deploys Elasticsearch + Kibana logging stack
+- Configures ServiceMonitor for Spring Boot metrics
+- Sets up Filebeat for log collection
+- Configures port forwarding for all services
 
-### 2. Port forwarding for service access:
+### 2. Alternative: Port forwarding script:
 
 ```bash
-# Frontend
-kubectl port-forward svc/frontend 3000:80 &
-
-# Backend
-kubectl port-forward svc/backend 4111:4111 &
-
-# Selenoid
-kubectl port-forward svc/selenoid 4444:4444 &
-
-# Selenoid UI
-kubectl port-forward svc/selenoid-ui 8080:8080 &
+cd infra/kube/scripts
+./port_forward.sh
 ```
+
+This sets up port forwarding for all services:
+
+- **NBank Application**: Backend, Frontend, Selenoid, Selenoid UI
+- **Monitoring**: Prometheus, Grafana
+- **Logging**: Elasticsearch, Kibana
 
 ## 📊 Detailed Task Information
 
