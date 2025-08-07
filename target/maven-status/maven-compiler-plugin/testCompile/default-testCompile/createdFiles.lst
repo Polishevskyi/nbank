@@ -1,0 +1,15 @@
+api/ChangeNameUserTest.class
+api/CreateAccountTest.class
+ui/ChangeNameUserTest.class
+api/BaseTest.class
+ui/TransferMoneyUserTest.class
+ui/BaseUiTest.class
+api/DeleteUserTest.class
+api/DepositUserTest.class
+ui/CreateAccountTest.class
+ui/CreateUserTest.class
+api/LoginUserTest.class
+ui/LoginUserTest.class
+api/CreateUserTest.class
+api/TransferMoneyUserTest.class
+ui/DepositUserTest.class

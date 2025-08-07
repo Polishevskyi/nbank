@@ -1,0 +1,1 @@
+{"uuid":"863906c7-8bfa-4c22-90e4-69ee3431333b","name":"[10] amount=10000.0, recipientName=User, recipientAccountNumber=UserAccountNumber, expectedUiError=❌ Error: Invalid transfer: insufficient funds or invalid accounts","children":["cb18c61a-54c0-41e8-9989-f72e83f60c99"],"befores":[],"afters":[],"start":1754589224454,"stop":1754589291244}

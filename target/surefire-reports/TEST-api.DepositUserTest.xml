@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="api.DepositUserTest" time="22.003" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/serhiipolishevskyi/IdeaProjects/nbank/target/test-classes:/Users/serhiipolishevskyi/IdeaProjects/nbank/target/classes:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/rest-assured/5.5.1/rest-assured-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy/4.0.22/groovy-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy-xml/4.0.22/groovy-xml-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/Users/serhiipolishevskyi/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/serhiipolishevskyi/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpmime/4.5.13/httpmime-4.5.13.jar:/Users/serhiipolishevskyi/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/json-path/5.5.1/json-path-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy-json/4.0.22/groovy-json-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/rest-assured-common/5.5.1/rest-assured-common-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/xml-path/5.5.1/xml-path-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.0/jackson-databind-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.0/jackson-annotations-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.0/jackson-core-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/Users/serhiipolishevskyi/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/curious-odd-man/rgxgen/1.3/rgxgen-1.3.jar:/Users/serhiipolishevskyi/.m2/repository/com/codeborne/selenide/7.9.1/selenide-7.9.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-java/4.31.0/selenium-java-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-api/4.31.0/selenium-api-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.31.0/selenium-chrome-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.31.0/selenium-chromium-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-json/4.31.0/selenium-json-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.31.0/selenium-manager-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v133/4.31.0/selenium-devtools-v133-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v134/4.31.0/selenium-devtools-v134-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v135/4.31.0/selenium-devtools-v135-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.31.0/selenium-edge-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.31.0/selenium-firefox-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-http/4.31.0/selenium-http-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.31.0/selenium-ie-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.31.0/selenium-remote-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-api/1.48.0/opentelemetry-api-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-context/1.48.0/opentelemetry-context-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.48.0/opentelemetry-exporter-logging-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.48.0/opentelemetry-sdk-common-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.48.0/opentelemetry-sdk-extension-autoconfigure-spi-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.48.0/opentelemetry-sdk-extension-autoconfigure-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.48.0/opentelemetry-sdk-trace-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.48.0/opentelemetry-sdk-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.48.0/opentelemetry-sdk-metrics-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.48.0/opentelemetry-sdk-logs-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-os/4.31.0/selenium-os-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/commons/commons-exec/1.4.0/commons-exec-1.4.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.31.0/selenium-safari-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-support/4.31.0/selenium-support-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/serhiipolishevskyi/.m2/repository/com/codeborne/selenide-core/7.9.1/selenide-core-7.9.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.4.3/httpclient5-5.4.3.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.3.4/httpcore5-5.3.4.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.3.4/httpcore5-h2-5.3.4.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/valfirst/browserup-proxy/browserup-proxy-core/3.2.0/browserup-proxy-core-3.2.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/errorprone/error_prone_annotations/2.38.0/error_prone_annotations-2.38.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/serhiipolishevskyi/.m2/repository/commons-io/commons-io/2.19.0/commons-io-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/guava/guava/20.0/guava-20.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-junit5/2.29.1/allure-junit5-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-junit-platform/2.29.1/allure-junit-platform-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-test-filter/2.29.1/allure-test-filter-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-rest-assured/2.29.1/allure-rest-assured-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-attachments/2.29.1/allure-attachments-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/freemarker/freemarker/2.3.33/freemarker-2.3.33.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-selenide/2.29.1/allure-selenide-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-java-commons/2.29.1/allure-java-commons-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-model/2.29.1/allure-model-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-assertj/2.29.1/allure-assertj-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/viclovsky/swagger-coverage-rest-assured/1.5.0/swagger-coverage-rest-assured-1.5.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/viclovsky/swagger-coverage-commons/1.5.0/swagger-coverage-commons-1.5.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-core/2.1.10/swagger-core-2.1.10.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/activation/jakarta.activation-api/1.2.1/jakarta.activation-api-1.2.1.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.12.1/jackson-datatype-jsr310-2.12.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-annotations/2.1.10/swagger-annotations-2.1.10.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/validation/jakarta.validation-api/2.0.2/jakarta.validation-api-2.0.2.jar:/Users/serhiipolishevskyi/.m2/repository/ch/qos/logback/logback-classic/1.2.10/logback-classic-1.2.10.jar:/Users/serhiipolishevskyi/.m2/repository/ch/qos/logback/logback-core/1.2.10/logback-core-1.2.10.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.10.1/jackson-dataformat-yaml-2.10.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/yaml/snakeyaml/1.24/snakeyaml-1.24.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/swagger-models/1.6.2/swagger-models-1.6.2.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/swagger-annotations/1.6.2/swagger-annotations-1.6.2.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-models/2.1.10/swagger-models-2.1.10.jar:"/>
+    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="user.timezone" value="Europe/Kiev"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/Users/serhiipolishevskyi/.sdkman/candidates/java/21.0.4-amzn/lib"/>
+    <property name="sun.java.command" value="/Users/serhiipolishevskyi/IdeaProjects/nbank/target/surefire/surefirebooter-20250807205334487_3.jar /Users/serhiipolishevskyi/IdeaProjects/nbank/target/surefire 2025-08-07T20-53-34_451-jvmRun1 surefire-20250807205334487_1tmp surefire_0-20250807205334487_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/serhiipolishevskyi/IdeaProjects/nbank/target/test-classes:/Users/serhiipolishevskyi/IdeaProjects/nbank/target/classes:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/rest-assured/5.5.1/rest-assured-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy/4.0.22/groovy-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy-xml/4.0.22/groovy-xml-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/Users/serhiipolishevskyi/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/serhiipolishevskyi/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/httpmime/4.5.13/httpmime-4.5.13.jar:/Users/serhiipolishevskyi/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/json-path/5.5.1/json-path-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/groovy/groovy-json/4.0.22/groovy-json-4.0.22.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/rest-assured-common/5.5.1/rest-assured-common-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/rest-assured/xml-path/5.5.1/xml-path-5.5.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.0/jackson-databind-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.0/jackson-annotations-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.0/jackson-core-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/Users/serhiipolishevskyi/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/curious-odd-man/rgxgen/1.3/rgxgen-1.3.jar:/Users/serhiipolishevskyi/.m2/repository/com/codeborne/selenide/7.9.1/selenide-7.9.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-java/4.31.0/selenium-java-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-api/4.31.0/selenium-api-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.31.0/selenium-chrome-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.31.0/selenium-chromium-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-json/4.31.0/selenium-json-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.31.0/selenium-manager-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v133/4.31.0/selenium-devtools-v133-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v134/4.31.0/selenium-devtools-v134-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v135/4.31.0/selenium-devtools-v135-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.31.0/selenium-edge-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.31.0/selenium-firefox-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-http/4.31.0/selenium-http-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.31.0/selenium-ie-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.31.0/selenium-remote-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-api/1.48.0/opentelemetry-api-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-context/1.48.0/opentelemetry-context-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.48.0/opentelemetry-exporter-logging-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.48.0/opentelemetry-sdk-common-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.48.0/opentelemetry-sdk-extension-autoconfigure-spi-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.48.0/opentelemetry-sdk-extension-autoconfigure-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.48.0/opentelemetry-sdk-trace-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.48.0/opentelemetry-sdk-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.48.0/opentelemetry-sdk-metrics-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.48.0/opentelemetry-sdk-logs-1.48.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-os/4.31.0/selenium-os-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/commons/commons-exec/1.4.0/commons-exec-1.4.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.31.0/selenium-safari-driver-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/seleniumhq/selenium/selenium-support/4.31.0/selenium-support-4.31.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/serhiipolishevskyi/.m2/repository/com/codeborne/selenide-core/7.9.1/selenide-core-7.9.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.4.3/httpclient5-5.4.3.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.3.4/httpcore5-5.3.4.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.3.4/httpcore5-h2-5.3.4.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/valfirst/browserup-proxy/browserup-proxy-core/3.2.0/browserup-proxy-core-3.2.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/errorprone/error_prone_annotations/2.38.0/error_prone_annotations-2.38.0.jar:/Users/serhiipolishevskyi/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/serhiipolishevskyi/.m2/repository/commons-io/commons-io/2.19.0/commons-io-2.19.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/google/guava/guava/20.0/guava-20.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-junit5/2.29.1/allure-junit5-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-junit-platform/2.29.1/allure-junit-platform-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-test-filter/2.29.1/allure-test-filter-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-rest-assured/2.29.1/allure-rest-assured-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-attachments/2.29.1/allure-attachments-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/freemarker/freemarker/2.3.33/freemarker-2.3.33.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-selenide/2.29.1/allure-selenide-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-java-commons/2.29.1/allure-java-commons-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-model/2.29.1/allure-model-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/qameta/allure/allure-assertj/2.29.1/allure-assertj-2.29.1.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/viclovsky/swagger-coverage-rest-assured/1.5.0/swagger-coverage-rest-assured-1.5.0.jar:/Users/serhiipolishevskyi/.m2/repository/com/github/viclovsky/swagger-coverage-commons/1.5.0/swagger-coverage-commons-1.5.0.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-core/2.1.10/swagger-core-2.1.10.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/activation/jakarta.activation-api/1.2.1/jakarta.activation-api-1.2.1.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.12.1/jackson-datatype-jsr310-2.12.1.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-annotations/2.1.10/swagger-annotations-2.1.10.jar:/Users/serhiipolishevskyi/.m2/repository/jakarta/validation/jakarta.validation-api/2.0.2/jakarta.validation-api-2.0.2.jar:/Users/serhiipolishevskyi/.m2/repository/ch/qos/logback/logback-classic/1.2.10/logback-classic-1.2.10.jar:/Users/serhiipolishevskyi/.m2/repository/ch/qos/logback/logback-core/1.2.10/logback-core-1.2.10.jar:/Users/serhiipolishevskyi/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.10.1/jackson-dataformat-yaml-2.10.1.jar:/Users/serhiipolishevskyi/.m2/repository/org/yaml/snakeyaml/1.24/snakeyaml-1.24.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/swagger-models/1.6.2/swagger-models-1.6.2.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/swagger-annotations/1.6.2/swagger-annotations-1.6.2.jar:/Users/serhiipolishevskyi/.m2/repository/io/swagger/core/v3/swagger-models/2.1.10/swagger-models-2.1.10.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/serhiipolishevskyi"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-07-16"/>
+    <property name="java.home" value="/Users/serhiipolishevskyi/.sdkman/candidates/java/21.0.4-amzn"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/serhiipolishevskyi/IdeaProjects/nbank"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/serhiipolishevskyi/IdeaProjects/nbank/target/surefire/surefirebooter-20250807205334487_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="21.0.4+7-LTS"/>
+    <property name="user.name" value="serhiipolishevskyi"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Corretto-21.0.4.7.1"/>
+    <property name="localRepository" value="/Users/serhiipolishevskyi/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-21/issues/"/>
+    <property name="java.io.tmpdir" value="/var/folders/ty/27k9ks3n5m9fbh_j5z92c8zc0000gn/T/"/>
+    <property name="java.version" value="21.0.4"/>
+    <property name="user.dir" value="/Users/serhiipolishevskyi/IdeaProjects/nbank"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/serhiipolishevskyi/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Amazon.com Inc."/>
+    <property name="java.vm.version" value="21.0.4+7-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="userCannotTransferMoneyWithInvalidData(Float, String, String, String, CreateUserRequestModel)[4]" classname="ui.TransferMoneyUserTest" time="14.576">
+    <system-out><![CDATA[Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "AIFtw1",
+    "password": "SLNeuey190$$"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "uRwm1nGoR",
+    "password": "FSOovbt406%%"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic QUlGdHcxOlNMTmV1ZXkxOTAkJA==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "AIFtw1"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "xGj9z",
+    "password": "VUAaaug119%$"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic dVJ3bTFuR29SOkZTT292YnQ0MDYlJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "uRwm1nGoR"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "Vd6JdD6uDqTwj",
+    "password": "PCBllwx153$%"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dVJ3bTFuR29SOkZTT292YnQ0MDYlJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "eFdoo7SZ4JG4R",
+    "password": "YLKfpfq595&&"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "1Y1f04d9K",
+    "password": "MCPoccf521%$"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic QUlGdHcxOlNMTmV1ZXkxOTAkJA==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "GhOCcI5ej9kfeid",
+    "password": "RNWvntj243%%"
+}
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/144/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic cDN6MUYzcVp4OklEWXVsdGgwOTUmJA==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic eEdqOXo6VlVBYWF1ZzExOSUk
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "xGj9z"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 148,
+    "accountNumber": "ACC148",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic VmQ2SmRENnVEcVR3ajpQQ0JsbHd4MTUzJCU=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "Vd6JdD6uDqTwj"
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/auth/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "username": "Qb3jU0DM5Mj",
+    "password": "NWMyhdr520%%"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic ZUZkb283U1o0Skc0UjpZTEtmcGZxNTk1JiY=
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "eFdoo7SZ4JG4R"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic MVkxZjA0ZDlLOk1DUG9jY2Y1MjElJA==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "1Y1f04d9K"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic R2hPQ2NJNWVqOWtmZWlkOlJOV3ZudGoyNDMlJQ==
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "GhOCcI5ej9kfeid"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 149,
+    "accountNumber": "ACC149",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic eEdqOXo6VlVBYWF1ZzExOSUk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic VmQ2SmRENnVEcVR3ajpQQ0JsbHd4MTUzJCU=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/216
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic ZUZkb283U1o0Skc0UjpZTEtmcGZxNTk1JiY=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic MVkxZjA0ZDlLOk1DUG9jY2Y1MjElJA==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic R2hPQ2NJNWVqOWtmZWlkOlJOV3ZudGoyNDMlJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Basic UWIzalUwRE01TWo6TldNeWhkcjUyMCUl
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "role": "USER",
+    "username": "Qb3jU0DM5Mj"
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 150,
+    "accountNumber": "ACC150",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 216 deleted successfully.
+]]></system-out>
+    <system-err><![CDATA[Aug 07, 2025 8:53:50 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:50 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:51 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:51 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:51 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:52 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:52 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:52 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+Aug 07, 2025 8:53:52 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 138, returning the closest version; found: 135; Please update to a Selenium version that supports CDP version 138
+]]></system-err>
+  </testcase>
+  <testcase name="userCannotTransferMoneyWithInvalidData(Float, String, String, String, CreateUserRequestModel)[7]" classname="ui.TransferMoneyUserTest" time="12.627">
+    <system-out><![CDATA[HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/224
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 229 deleted successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="userCanTransferMoneyWithCorrectDataTest(CreateUserRequestModel)" classname="ui.TransferMoneyUserTest" time="18.05">
+    <system-out><![CDATA[HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 213 deleted successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="userCanDepositTwiceWithSameAmountAndBalanceIsCorrect(CreateUserRequestModel)" classname="ui.DepositUserTest" time="17.835">
+    <system-out><![CDATA[HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 151,
+    "accountNumber": "ACC151",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 152,
+    "accountNumber": "ACC152",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic UWIzalUwRE01TWo6TldNeWhkcjUyMCUl
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 153,
+    "accountNumber": "ACC153",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 154,
+    "accountNumber": "ACC154",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+Request method:	POST
+Request URI:	http://localhost:4111/api/v1/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic R2hPQ2NJNWVqOWtmZWlkOlJOV3ZudGoyNDMlJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 155,
+    "accountNumber": "ACC155",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:53 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+    "id": 156,
+    "accountNumber": "ACC156",
+    "balance": 0.0,
+    "transactions": [
+        
+    ]
+}
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/customer/accounts
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic V2ljOXB5Qmg2cjNyOkNDS2d0c3UzNjYlJA==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 145,
+        "accountNumber": "ACC145",
+        "balance": 10000.0,
+        "transactions": [
+            {
+                "id": 84,
+                "amount": 5000.0,
+                "type": "DEPOSIT",
+                "timestamp": "Thu Aug 07 17:53:55 UTC 2025",
+                "relatedAccountId": 145
+            },
+            {
+                "id": 83,
+                "amount": 5000.0,
+                "type": "DEPOSIT",
+                "timestamp": "Thu Aug 07 17:53:52 UTC 2025",
+                "relatedAccountId": 145
+            }
+        ]
+    }
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/212
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/146/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic djZEMHg6T0NNdmJlYzYxNiUk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/150/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic VmQ2SmRENnVEcVR3ajpQQ0JsbHd4MTUzJCU=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/148/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic dVJ3bTFuR29SOkZTT292YnQ0MDYlJQ==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/152/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic ZUZkb283U1o0Skc0UjpZTEtmcGZxNTk1JiY=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 212 deleted successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="userCanNotAddDepositWithInvalidAmount(Float, String, CreateUserRequestModel)[1]" classname="ui.DepositUserTest" time="13.264">
+    <system-out><![CDATA[HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 85,
+        "amount": 10000.0,
+        "type": "TRANSFER_OUT",
+        "timestamp": "Thu Aug 07 17:53:55 UTC 2025",
+        "relatedAccountId": 147
+    },
+    {
+        "id": 81,
+        "amount": 5000.0,
+        "type": "DEPOSIT",
+        "timestamp": "Thu Aug 07 17:53:49 UTC 2025",
+        "relatedAccountId": 146
+    },
+    {
+        "id": 82,
+        "amount": 5000.0,
+        "type": "DEPOSIT",
+        "timestamp": "Thu Aug 07 17:53:50 UTC 2025",
+        "relatedAccountId": 146
+    }
+]
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/146/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic djZEMHg6T0NNdmJlYzYxNiUk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/222
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/151/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic eEdqOXo6VlVBYWF1ZzExOSUk
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/220
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	GET
+Request URI:	http://localhost:4111/api/v1/accounts/153/transactions
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic MVkxZjA0ZDlLOk1DUG9jY2Y1MjElJA==
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    {
+        "id": 85,
+        "amount": 10000.0,
+        "type": "TRANSFER_OUT",
+        "timestamp": "Thu Aug 07 17:53:55 UTC 2025",
+        "relatedAccountId": 147
+    },
+    {
+        "id": 81,
+        "amount": 5000.0,
+        "type": "DEPOSIT",
+        "timestamp": "Thu Aug 07 17:53:49 UTC 2025",
+        "relatedAccountId": 146
+    },
+    {
+        "id": 82,
+        "amount": 5000.0,
+        "type": "DEPOSIT",
+        "timestamp": "Thu Aug 07 17:53:50 UTC 2025",
+        "relatedAccountId": 146
+    }
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/229
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/213
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:55 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 222 deleted successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="userCanNotAddDepositWithInvalidAmount(Float, String, CreateUserRequestModel)[2]" classname="ui.DepositUserTest" time="13.315">
+    <system-out><![CDATA[HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 07 Aug 2025 17:53:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+[
+    
+]
+Request method:	DELETE
+Request URI:	http://localhost:4111/api/v1/admin/users/230
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json, application/javascript, text/javascript, text/json
+				Authorization=Basic YWRtaW46YWRtaW4=
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 38
+Date: Thu, 07 Aug 2025 17:53:56 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+User with ID 220 deleted successfully.
+]]></system-out>
+  </testcase>
+</testsuite>

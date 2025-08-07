@@ -1,0 +1,15 @@
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/BaseTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/ChangeNameUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/CreateAccountTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/CreateUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/DeleteUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/DepositUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/LoginUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/api/TransferMoneyUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/BaseUiTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/ChangeNameUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/CreateAccountTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/CreateUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/DepositUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/LoginUserTest.java
+/Users/serhiipolishevskyi/IdeaProjects/nbank/src/test/java/ui/TransferMoneyUserTest.java

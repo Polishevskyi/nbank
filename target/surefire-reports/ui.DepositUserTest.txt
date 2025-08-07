@@ -1,0 +1,38 @@
+-------------------------------------------------------------------------------
+Test set: ui.DepositUserTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 74.56 s <<< FAILURE! -- in ui.DepositUserTest
+ui.DepositUserTest.userCanAddDepositWithValidAmount(float, CreateUserRequestModel)[4] -- Time elapsed: 74.33 s <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <404>.
+
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:108)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:512)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure$validate$9.call(Unknown Source)
+	at io.restassured.internal.ResponseSpecificationImpl.validate(ResponseSpecificationImpl.groovy:101)
+	at io.restassured.internal.ValidatableResponseOptionsImpl.spec(ValidatableResponseOptionsImpl.java:288)
+	at api.requests.skelethon.requesters.CrudRequester.delete(CrudRequester.java:79)
+	at api.requests.steps.UserSteps.deleteUser(UserSteps.java:47)
+	at common.extensions.UserSessionExtension.afterEach(UserSessionExtension.java:49)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.tryRemoveAndExec(ForkJoinPool.java:1351)
+	at java.base/java.util.concurrent.ForkJoinTask.awaitDone(ForkJoinTask.java:422)
+	at java.base/java.util.concurrent.ForkJoinTask.get(ForkJoinTask.java:991)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.tryRemoveAndExec(ForkJoinPool.java:1351)
+	at java.base/java.util.concurrent.ForkJoinTask.awaitDone(ForkJoinTask.java:422)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:651)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+
