@@ -11,6 +11,19 @@ swagger-coverage-*.zip
 
 # IDE
 .idea/
+.vscode/
 *.iml
 *.ipr
 *.iws
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build directories
+build/
