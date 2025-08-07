@@ -63,13 +63,32 @@ else
     STATUS_COLOR="🔴"
 fi
 
+# Create descriptive text for zero values
+if [ "$TOTAL_TESTS" -eq 0 ]; then
+    TOTAL_TESTS_TEXT="No tests found"
+else
+    TOTAL_TESTS_TEXT="$TOTAL_TESTS"
+fi
+
+if [ "$PASSED_TESTS" -eq 0 ]; then
+    PASSED_TESTS_TEXT="No tests passed"
+else
+    PASSED_TESTS_TEXT="$PASSED_TESTS"
+fi
+
+if [ "$FAILED_TESTS" -eq 0 ]; then
+    FAILED_TESTS_TEXT="No failures"
+else
+    FAILED_TESTS_TEXT="$FAILED_TESTS"
+fi
+
 # Build message with proper escaping
 MESSAGE="🚀 *CI/CD Pipeline Completed!*
 
 📊 *Test Statistics:*
-• Total tests: $([ "$TOTAL_TESTS" -eq 0 ] && echo "No tests found" || echo "$TOTAL_TESTS")
-• Passed: $([ "$PASSED_TESTS" -eq 0 ] && echo "No tests passed" || echo "$PASSED_TESTS") ✅
-• Failed: $([ "$FAILED_TESTS" -eq 0 ] && echo "No failures" || echo "$FAILED_TESTS") ❌
+• Total tests: $TOTAL_TESTS_TEXT
+• Passed: $PASSED_TESTS_TEXT ✅
+• Failed: $FAILED_TESTS_TEXT ❌
 • Success rate: ${SUCCESS_RATE}%
 • API coverage: ${API_PERCENT}%
 
