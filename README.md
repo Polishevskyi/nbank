@@ -25,24 +25,13 @@
 
 A comprehensive set of API and UI automated tests for a banking application. Tests can be run locally, in Docker, and with infrastructure (Docker Compose/Kubernetes). Includes integrations with Allure and Swagger Coverage, scripts for full pipeline and Telegram notifications.
 
-### Table of Contents
-
-- Requirements and Installation
-- Configuration
-- Running Tests (locally, in Docker, with Docker Compose, full pipeline)
-- Reports (Allure, Swagger Coverage)
-- Scripts
-- Programming Patterns (API and UI)
-- Kubernetes Helm Chart (overview)
-- Extension Guidelines
-
----
-
 ### Requirements and Installation
 
 - Java 21, Maven 3.9+
 - Docker, Docker Compose
-- Optional: Allure CLI (`brew install allure` or npm `allure-commandline`), `jq`, `wget`, `unzip` (for Swagger Coverage CLI)
+- Optional: Allure CLI (`brew install allure`), `jq`, `wget`, `unzip` (for Swagger Coverage CLI)
+
+---
 
 ### Configuration
 
@@ -77,13 +66,13 @@ browserSize=1920x1080
 ./run-tests-local.sh api   # or ui
 ```
 
-#### In Docker (container with Maven/Java inside)
+#### In Docker (a container with Maven/Java inside)
 
 ```bash
 ./run-tests.sh api   # or ui
 ```
 
-Logs, results and HTML reports will be mounted to `./test-output/<timestamp>/`.
+Logs, results, and HTML reports will be mounted to `./test-output/<timestamp>/`.
 
 #### With Docker Compose (backend, frontend, Selenoid)
 
@@ -91,7 +80,7 @@ Logs, results and HTML reports will be mounted to `./test-output/<timestamp>/`.
 ./run-tests-with-docker-compose.sh
 ```
 
-The script starts infrastructure from `infra/docker_compose/docker-compose.yml`, runs tests in the `nbank-network` and properly stops everything.
+The script starts the infrastructure from `infra/docker_compose/docker-compose.yml`, runs tests in the `nbank-network`, and properly stops everything.
 
 #### Full Local Pipeline with Quality Gate
 
@@ -117,7 +106,7 @@ Requires Swagger Coverage CLI. If not available, the script will show how to dow
 ### Scripts
 
 - `run-tests-local.sh` — local test execution with API Coverage integration and Allure generation.
-- `run-tests.sh` — Docker image build and test execution in container; exports logs/reports.
+- `run-tests.sh` — Docker image build and test execution in a container; exports logs/reports.
 - `run-tests-with-docker-compose.sh` — start backend/frontend/selenoid and run tests in one network.
 - `run-full-pipeline.sh` — full pipeline: clean, build, API tests, Swagger Coverage, Quality Gate, Allure integration, report generation.
 - `integrate-api-coverage.sh` — run Swagger Coverage CLI, aggregate metrics in Allure, add HTML/JSON to attachments.
@@ -125,35 +114,11 @@ Requires Swagger Coverage CLI. If not available, the script will show how to dow
 - `push-tests.sh` — tag and push Docker image with tests. Requires `.env` with `DOCKERHUB_TOKEN`.
 - `send-telegram-notification.sh` — send summary to Telegram (expects environment variables).
 
+---
+
 ### Environment Variables and Secrets
 
-#### For Docker Hub Push
-
-Create `.env` file or set environment variables:
-
-```bash
-DOCKER_USERNAME=your_username
-DOCKER_PASSWORD=your_password
-# or use DOCKERHUB_TOKEN instead of password
-```
-
-#### For Telegram Notifications
-
-Required environment variables:
-
-```bash
-TELEGRAM_BOT_TOKEN=your_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
-# Optional for CI/CD links (auto-substituted in GitHub Actions)
-GITHUB_REPOSITORY=owner/repo
-GITHUB_SHA=<commit_sha>
-GITHUB_REPOSITORY_OWNER=owner
-GITHUB_EVENT_REPOSITORY_NAME=repo
-```
-
 #### GitHub Secrets Setup
-
-Add these secrets in your GitHub repository settings:
 
 **Docker Hub Secrets:**
 
@@ -165,26 +130,7 @@ Add these secrets in your GitHub repository settings:
 - `TELEGRAM_BOT_TOKEN` - Telegram bot token (get from @BotFather)
 - `TELEGRAM_CHAT_ID` - Telegram chat ID for notifications (can be user ID or group ID)
 
-**How to get Telegram Bot Token:**
-
-1. Message @BotFather on Telegram
-2. Send `/newbot` command
-3. Follow instructions to create bot
-4. Copy the token provided
-
-**How to get Chat ID:**
-
-1. Add your bot to the target chat/group
-2. Send a message to the chat
-3. Visit: `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
-4. Find `chat.id` in the response
-
-**How to get Docker Hub Access Token:**
-
-1. Go to Docker Hub → Account Settings → Security
-2. Click "New Access Token"
-3. Give it a name and copy the token
-4. Use token as `DOCKER_PASSWORD` in secrets
+---
 
 ### Docker Compose Setup
 
@@ -213,10 +159,52 @@ docker compose down
 ```bash
 docker compose logs -f [service_name]
 ```
+---
+
+### Programming Patterns
+
+#### API
+
+- Request/Response Specifications:
+  - `api.specs.RequestSpecs` — single constructor for `RequestSpecification`: JSON, logging, Allure, SwaggerCoverage, `baseUri` from config. Caching of user authorization header (`getUserAuthHeader`).
+  - `api.specs.ResponseSpecs` — set of ready `ResponseSpecification` (OK/CREATED/BAD_REQUEST/NOT_FOUND) with matchers.
+- Resource Description:
+  - `api.requests.skelethon.Endpoint` — `enum` with resource path and request/response DTO types (centralized API map).
+- Request Level:
+  - `CrudRequester` — low-level CRUD, returns `ValidatableResponse` for flexible checks and status codes.
+  - `ValidatedCrudRequester<T>` — generic wrapper that deserializes the body into typed models (`T`) and simplifies positive scenarios.
+- Step Level (use-cases):
+  - `api.requests.steps.AdminSteps`, `UserSteps` — business steps with logging through `StepLogger`, encapsulate creation/deletion/queries, reused in tests.
+- Data Generation:
+  - `RandomModelGenerator` + `@GeneratingRule(regex=...)` — reflective DTO population (strings/numbers/lists/date) or by regex.
+  - `RandomData` — utilities for usernames/passwords/IDs.
+- DTO Comparison (request vs response):
+  - `ModelAssertions.assertThatModels(req, res).match()` — reads rules from `model-comparison.properties` and verifies fields through `ModelComparator`.
+
+Why this way: layering (Specs → Requesters → Steps) isolates Rest-Assured infrastructure, makes steps stable and reusable; `Endpoint` ensures a single source of truth for URL/DTO; data generation and configuration-based comparison simplify maintenance.
+
+#### UI
+
+- Page Object:
+  - Base `ui.pages.BasePage` — page URL, opening via `Selenide.open`, common fields (`usernameInput`, `passwordInput`), helper `checkAlertMessageAndAccept`, `generatePageElements` for mapping `ElementsCollection → List<BaseElement>`.
+  - Pages: `LoginPage`, `UserDashboard`, `ProfilePage`, `DepositPage`, `TransferPage` — only user actions and minimal logic.
+- Elements:
+  - `ui.elements.BaseElement` + `UserBage` — encapsulation of complex widgets and parsing their state.
+- Sessions and Authentication:
+  - `BasePage.authAsUser(...)` — UI login via `authToken` record in `localStorage` (token taken from API via `RequestSpecs`).
+  - JUnit extensions: `@AdminSession`, `@UserSession` + `AdminSessionExtension`, `UserSessionExtension` — user creation before test, cleanup after, automatic UI authorization.
+- Reliability and Execution Control:
+  - `@Browsers` + `BrowserMatchExtension` — test execution condition depending on browser.
+  - `@RetryOnFailure` + `RetryOnFailureExtension` — short retries for flaky tests.
+  - `TimingExtension` — test timing collection.
+
+Why this way: Page Object minimizes duplication; element wrappers simplify work with complex blocks; JUnit extensions make tests isolated (fresh users), fast (authorization without UI) and stable.
+
+---
 
 ### GitHub Actions Workflow
 
-The project includes CI/CD pipeline with the following flow:
+The project includes a CI/CD pipeline with the following flow:
 
 #### Pipeline Steps
 
@@ -228,7 +216,7 @@ The project includes CI/CD pipeline with the following flow:
 6. **Quality Gate Check** - Verify coverage meets threshold (50%) using `check-api-coverage.sh`
 7. **Generate Allure Report** - Create interactive test reports with screenshots and logs
 8. **Upload Artifacts** - Store test results, reports, and coverage data
-9. **Build Docker Image** - Create test container image with Maven and Java
+9. **Build Docker Image** - Create a test container image with Maven and Java
 10. **Push to Docker Hub** - Upload image to registry with proper tagging
 11. **Send Telegram Notification** - Report results to Telegram with links and statistics
 
@@ -253,62 +241,10 @@ The project includes CI/CD pipeline with the following flow:
 
 ---
 
-### Programming Patterns
-
-#### API
-
-- Request/Response Specifications:
-  - `api.specs.RequestSpecs` — single constructor for `RequestSpecification`: JSON, logging, Allure, SwaggerCoverage, `baseUri` from config. Caching of user authorization header (`getUserAuthHeader`).
-  - `api.specs.ResponseSpecs` — set of ready `ResponseSpecification` (OK/CREATED/BAD_REQUEST/NOT_FOUND) with matchers.
-- Resource Description:
-  - `api.requests.skelethon.Endpoint` — `enum` with resource path and request/response DTO types (centralized API map).
-- Request Level:
-  - `CrudRequester` — low-level CRUD, returns `ValidatableResponse` for flexible checks and status codes.
-  - `ValidatedCrudRequester<T>` — generic wrapper that deserializes body into typed models (`T`) and simplifies positive scenarios.
-- Step Level (use-cases):
-  - `api.requests.steps.AdminSteps`, `UserSteps` — business steps with logging through `StepLogger`, encapsulate creation/deletion/queries, reused in tests.
-- Data Generation:
-  - `RandomModelGenerator` + `@GeneratingRule(regex=...)` — reflective DTO population (strings/numbers/lists/date) or by regex.
-  - `RandomData` — utilities for usernames/passwords/IDs.
-- DTO Comparison (request vs response):
-  - `ModelAssertions.assertThatModels(req, res).match()` — reads rules from `model-comparison.properties` and verifies fields through `ModelComparator`.
-
-Why this way: layering (Specs → Requesters → Steps) isolates Rest-Assured infrastructure, makes steps stable and reusable; `Endpoint` ensures single source of truth for URL/DTO; data generation and configuration-based comparison simplify maintenance.
-
-#### UI
-
-- Page Object:
-  - Base `ui.pages.BasePage` — page URL, opening via `Selenide.open`, common fields (`usernameInput`, `passwordInput`), helper `checkAlertMessageAndAccept`, `generatePageElements` for mapping `ElementsCollection → List<BaseElement>`.
-  - Pages: `LoginPage`, `UserDashboard`, `ProfilePage`, `DepositPage`, `TransferPage` — only user actions and minimal logic.
-- Elements:
-  - `ui.elements.BaseElement` + `UserBage` — encapsulation of complex widgets and parsing their state.
-- Sessions and Authentication:
-  - `BasePage.authAsUser(...)` — UI login via `authToken` record in `localStorage` (token taken from API via `RequestSpecs`).
-  - JUnit extensions: `@AdminSession`, `@UserSession` + `AdminSessionExtension`, `UserSessionExtension` — user creation before test, cleanup after, automatic UI authorization.
-- Reliability and Execution Control:
-  - `@Browsers` + `BrowserMatchExtension` — test execution condition depending on browser.
-  - `@RetryOnFailure` + `RetryOnFailureExtension` — short retries for flaky tests.
-  - `TimingExtension` — test timing collection.
-
-Why this way: Page Object minimizes duplication; element wrappers simplify work with complex blocks; JUnit extensions make tests isolated (fresh users), fast (authorization without UI) and stable.
-
----
-
 ### Kubernetes Helm Chart (overview)
 
 - Path: `infra/kube/nbank-chart`. In `values.yaml` configured images and NodePort services for backend/frontend/selenoid/selenoid-ui.
 - Additional manifests for monitoring and logging in `infra/kube/monitoring` and `infra/kube/logging`.
-
----
-
-### Extension Guidelines
-
-- Add new REST endpoint:
-  1. Add constant to `Endpoint` (path + DTO types).
-  2. Use `CrudRequester`/`ValidatedCrudRequester` in `*Steps`.
-  3. Add comparison to `model-comparison.properties` if needed.
-- Add new UI page: create class inherited from `BasePage`, implement `url()` and actions; for complex blocks add element to `ui.elements`.
-- Check style: `mvn checkstyle:check`.
 
 ---
 
