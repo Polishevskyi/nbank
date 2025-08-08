@@ -212,7 +212,7 @@ The project includes a CI/CD pipeline with the following flow:
 1. **Checkout** - Clone repository with full history
 2. **Setup Java** - Install Java 21 and Maven 3.9+
 3. **Cache Dependencies** - Cache Maven dependencies for faster builds
-4. **Run API Tests** - Execute API tests with profile `api` using JUnit 5
+4. **Run Tests** - Execute tests using JUnit 5
 5. **Generate Swagger Coverage** - Analyze API coverage using swagger-coverage-rest-assured
 6. **Quality Gate Check** - Verify coverage meets threshold (50%) using `check-api-coverage.sh`
 7. **Generate Allure Report** - Create interactive test reports with screenshots and logs
@@ -251,13 +251,11 @@ The project includes a CI/CD pipeline with the following flow:
 
 ### Screenshots and Examples
 
-#### Monitoring and Observability
-
 **Prometheus Dashboard**
 
 ![Prometheus Memory Usage](./wiki/Prometheus_Memory_Usage.png)
 
-Container memory usage monitoring in Prometheus showing resource utilization over time
+Container memory usage monitoring in Prometheus shows resource utilization over time
 
 **Grafana Kubernetes Dashboard**
 
