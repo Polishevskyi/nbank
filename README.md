@@ -254,31 +254,42 @@ The project includes a CI/CD pipeline with the following flow:
 #### Monitoring and Observability
 
 **Prometheus Dashboard**
-![Prometheus Memory Usage](https://github.com/prometheus/prometheus/raw/main/prometheus.png)
-_Container memory usage monitoring in Prometheus showing resource utilization over time_
+
+![Prometheus Memory Usage](./wiki/Prometheus_Memory_Usage.png)
+
+Container memory usage monitoring in Prometheus showing resource utilization over time
 
 **Grafana Kubernetes Dashboard**
-![Grafana K8s Dashboard](https://github.com/grafana/grafana/raw/main/docs/sources/grafana/assets/grafana_icon.svg)
-_Comprehensive Kubernetes cluster monitoring with resource metrics, pod status, and performance indicators_
+
+![Grafana K8s Dashboard](./wiki/Grafana_K8s_Dashboard.png)
+
+Comprehensive Kubernetes cluster monitoring with resource metrics, pod status, and performance indicators
 
 **Elasticsearch Dev Tools**
-![Elasticsearch Console](https://github.com/elastic/elasticsearch/raw/main/docs/src/main/resources/static/images/logo-elasticsearch-32-color.svg)
-_Elasticsearch cluster health monitoring showing green status and cluster statistics_
+
+![Elasticsearch Console](./wiki/Elasticsearch_Console.png)
+
+Elasticsearch cluster health monitoring showing green status and cluster statistics
 
 #### Test Results and Reports
 
 **Allure Test Report**
-![Allure Report](https://github.com/allure-framework/allure2/raw/master/allure-report/src/main/resources/static/logo.svg)
-_Interactive test report showing 46 test cases with 100% pass rate, detailed test suites breakdown_
+
+![Allure Report](./wiki/Allure_Report.png)
+
+Interactive test report showing 46 test cases with 100% pass rate, detailed test suites breakdown
 
 **CI/CD Pipeline Notification**
-![Telegram Notification](https://ibb.co/qY9nWFR3)
-_Automated Telegram notification with test statistics, coverage metrics, and deployment links_
+
+![Telegram Notification](./wiki/Telegram_Notification.jpeg)
+
+Automated Telegram notification with test statistics, coverage metrics, and deployment links
 
 ---
 
 ### Useful Links
 
+- **Online Reports**: [https://polishevskyi.github.io/nbank/](https://polishevskyi.github.io/nbank/) - Live test reports and coverage analysis
 - Docker Compose config: `infra/docker_compose/docker-compose.yml` (ports: backend 4111, frontend 3000, selenoid 4444, selenoid-ui 8080)
 - Kubernetes configs: `infra/kube/nbank-chart/values.yaml`
 - Maven profiles: `pom.xml` → `api`, `ui`
