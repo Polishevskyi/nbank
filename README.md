@@ -159,6 +159,7 @@ docker compose down
 ```bash
 docker compose logs -f [service_name]
 ```
+
 ---
 
 ### Programming Patterns
@@ -245,6 +246,34 @@ The project includes a CI/CD pipeline with the following flow:
 
 - Path: `infra/kube/nbank-chart`. In `values.yaml` configured images and NodePort services for backend/frontend/selenoid/selenoid-ui.
 - Additional manifests for monitoring and logging in `infra/kube/monitoring` and `infra/kube/logging`.
+
+---
+
+### Screenshots and Examples
+
+#### Monitoring and Observability
+
+**Prometheus Dashboard**
+![Prometheus Memory Usage](https://github.com/prometheus/prometheus/raw/main/prometheus.png)
+_Container memory usage monitoring in Prometheus showing resource utilization over time_
+
+**Grafana Kubernetes Dashboard**
+![Grafana K8s Dashboard](https://github.com/grafana/grafana/raw/main/docs/sources/grafana/assets/grafana_icon.svg)
+_Comprehensive Kubernetes cluster monitoring with resource metrics, pod status, and performance indicators_
+
+**Elasticsearch Dev Tools**
+![Elasticsearch Console](https://github.com/elastic/elasticsearch/raw/main/docs/src/main/resources/static/images/logo-elasticsearch-32-color.svg)
+_Elasticsearch cluster health monitoring showing green status and cluster statistics_
+
+#### Test Results and Reports
+
+**Allure Test Report**
+![Allure Report](https://github.com/allure-framework/allure2/raw/master/allure-report/src/main/resources/static/logo.svg)
+_Interactive test report showing 46 test cases with 100% pass rate, detailed test suites breakdown_
+
+**CI/CD Pipeline Notification**
+![Telegram Notification](https://ibb.co/qY9nWFR3)
+_Automated Telegram notification with test statistics, coverage metrics, and deployment links_
 
 ---
 
