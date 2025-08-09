@@ -20,14 +20,14 @@ public class BaseUiTest extends BaseTest {
         Configuration.baseUrl = api.configs.Config.getProperty("uiBaseUrl");
         Configuration.browser = api.configs.Config.getProperty("browser");
         Configuration.browserSize = api.configs.Config.getProperty("browserSize");
+        Configuration.timeout = 10000;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
-                Map.of("enableVNC", true, "enableLog", true)
-        );
+                Map.of("enableVNC", true, "enableLog", true));
     }
 
     public void authAsUser(String username, String password) {
