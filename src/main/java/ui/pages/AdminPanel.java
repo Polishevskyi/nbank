@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 @Getter
 public class AdminPanel extends BasePage<AdminPanel> {
-    private SelenideElement adminPanelText = $(Selectors.byText("Admin Panel"));
+    private SelenideElement adminPanelContainer = $(Selectors.byCssSelector("div[class='container-center'] h1"));
     private SelenideElement addUserButton = $(Selectors.byText("Add User"));
 
     @Override

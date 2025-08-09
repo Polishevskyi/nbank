@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 @Getter
 public class UserDashboard extends BasePage<UserDashboard> {
-    private SelenideElement welcomeText = $(Selectors.byClassName("welcome-text"));
+    private SelenideElement welcomeText = $(Selectors.byCssSelector(".welcome-text"));
     private SelenideElement createNewAccount = $(Selectors.byText("➕ Create New Account"));
     private SelenideElement depositMoney = $(Selectors.byText("💰 Deposit Money"));
     private SelenideElement makeATransfer = $(Selectors.byText("🔄 Make a Transfer"));
