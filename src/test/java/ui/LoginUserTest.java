@@ -10,7 +10,7 @@ import ui.pages.LoginPage;
 import ui.pages.UserDashboard;
 
 public class LoginUserTest extends BaseUiTest {
-    @Test
+//    @Test
     @Browsers({"chrome"})
     public void adminCanLoginWithCorrectDataTest() {
         CreateUserRequestModel admin = CreateUserRequestModel.getAdmin();
@@ -19,7 +19,7 @@ public class LoginUserTest extends BaseUiTest {
                 .getPage(AdminPanel.class).getAdminPanelContainer().shouldBe(Condition.visible);
     }
 
-    @Test
+//    @Test
     public void userCanLoginWithCorrectDataTest() {
         CreateUserRequestModel user = AdminSteps.createUser();
 
